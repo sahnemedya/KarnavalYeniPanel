@@ -1,0 +1,305 @@
+/* ===== Page Videos Section (extra.blade içinde) ===== */
+.page-videos-section {
+    margin-top: 24px;
+}
+
+.page-videos-section .section-header {
+    background: #f1f5f9;
+    padding: 12px 16px;
+    border-radius: 6px 6px 0 0;
+    font-weight: 600;
+    color: #1e293b;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.page-videos-section .section-body {
+    background: #0f1216;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+}
+
+/* ===== Video Listesi ===== */
+.video-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+}
+
+.video-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    transition: background 0.15s;
+}
+
+.video-item:hover {
+    background: #f1f5f9;
+}
+
+.video-item.is-dragging {
+    opacity: 0.5;
+}
+
+.video-item__handle {
+    color: #94a3b8;
+    cursor: grab;
+    font-size: 20px;
+    user-select: none;
+    padding: 0 4px;
+}
+
+.video-item__handle:active {
+    cursor: grabbing;
+}
+
+.video-item__cover {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #e2e8f0;
+    flex-shrink: 0;
+}
+
+.video-item__cover--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.video-item__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.video-item__title {
+    font-weight: 500;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.video-item__meta {
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.video-item__badge {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.video-item__badge--youtube {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.video-item__badge--local {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.video-item__badge--inactive {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.video-item__actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.video-item__btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+}
+
+.video-item__btn--edit   { background: #3b82f6; }
+.video-item__btn--edit:hover { background: #2563eb; }
+.video-item__btn--delete { background: #ef4444; }
+.video-item__btn--delete:hover { background: #dc2626; }
+
+.video-empty {
+    padding: 24px;
+    text-align: center;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* ===== Video Form (Modal/Inline) ===== */
+.video-form {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.video-form__title {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #1e293b;
+}
+
+.video-form__row {
+    margin-bottom: 12px;
+}
+
+.video-form__row label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #475569;
+}
+
+.video-form__row input[type="text"],
+.video-form__row select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* ===== Source Tabs ===== */
+.source-tabs {
+    display: flex;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 12px;
+}
+
+.source-tab {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: #64748b;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+}
+
+.source-tab:hover { color: #334155; }
+
+.source-tab.is-active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+
+.source-panel { display: none; }
+.source-panel.is-active { display: block; }
+
+/* ===== Drop Zone ===== */
+.video-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 6px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #f8fafc;
+}
+
+.video-dropzone:hover,
+.video-dropzone.is-dragover {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+.video-dropzone__icon {
+    font-size: 36px;
+    opacity: 0.4;
+    margin-bottom: 8px;
+}
+
+.video-dropzone__text {
+    color: #475569;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.video-dropzone__hint {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.video-dropzone input[type="file"] {
+    display: none;
+}
+
+/* ===== Upload Progress (mevcut tasarımla uyumlu) ===== */
+.video-upload-status {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+}
+
+.video-upload-status__filename {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    word-break: break-all;
+}
+
+.video-upload-status__bar {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.video-upload-status__fill {
+    height: 100%;
+    background: #10b981;
+    width: 0;
+    transition: width 0.2s;
+}
+
+.video-upload-status__fill.is-error    { background: #ef4444; }
+.video-upload-status__fill.is-complete { background: #10b981; }
+
+.video-upload-status__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.video-uploaded-preview {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #d1fae5;
+    border: 1px solid #10b981;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #065f46;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

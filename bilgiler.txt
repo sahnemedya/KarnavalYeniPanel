@@ -1,0 +1,109 @@
+compSistem Bilgisi:
+- Laravel 12.0
+- Php 8.3
+
+Proje Çalıştırma:
+
+- Github'dan indirildikten sonra .env dosyası hazırlanmalı
+- composer install komutu çalıştırılmalı
+- npm install komutu çalıştırılmalı
+- gerekli ise composer dump-autoload çalıştırılabilir
+- php artisan migrate --seed ile veritabanı tabloları oluşturulur
+- php artisan serve ile sistem ayağa kaldırılır.
+- npm run build ile css ve js dosyaları derlenir. Eğer sitede css işlememişse npm run dev kullanabilirsiniz (çalıştıktan sonra terminali kapatmayın).
+- domain.com/cms sayfasından panele ulaşabilirsiniz.
+
+Proje içerisinde kullanılan birçok kütüphane (dropzone, datetimepicker,jquery vs.) npm ile kurulmustur
+ve css ve js dosyalarının içerisinde import edilmiştir.
+
+
+Özel Commadlar
+- php artisan logs:clear-all => Bu kod ile log dosyaları temizlenir
+
+
+gerekli olabilecek
+npm run build
+php artisan storage:link -------storage link slider algılması için
+
+npm run dev her projeyi açtığında çalıştır
+  PACKAGE.JSON DA BURASI BÖYLE DEĞİLSE  DÜZELT
+"scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+
+  ENV EKLE
+    VITE_DEV_SERVER_HOST=localhost
+    VITE_DEV_SERVER_PORT=5173
+
+------------------------------------
+# Local development
+chmod -R 775 storage bootstrap/cache
+
+# Production server
+chmod -R 755 storage bootstrap/cache public
+
+
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+----------------------------------------------------
+online sunucuya gecirdikten sonra değişmesi gerekenler
+# 1. TEMEL AYARLAR
+APP_NAME="Firma Adı"
+APP_ENV=production          # ← local'den production'a
+APP_DEBUG=false            # ← true'dan false'a (GÜVENLİK)
+APP_URL=https://www.firmaadi.com  # ← localhost'tan gerçek domain'e
+
+# 2. DATABASE (cPanel bilgileri)
+DB_CONNECTION=mysql
+DB_HOST=localhost          # Çoğu hosting'de localhost
+DB_PORT=3306              # Standart MySQL port
+DB_DATABASE=cpanel_username_dbname   # cPanel'de oluşturduğun database
+DB_USERNAME=cpanel_username_dbuser   # cPanel database user
+DB_PASSWORD=cpanel_db_password       # cPanel database şifresi
+
+# 3. CACHE & SESSION (Shared Hosting için)
+CACHE_DRIVER=file         # Redis yoksa file kullan
+SESSION_DRIVER=file       # Database yerine file
+QUEUE_CONNECTION=sync     # Hosting queue desteklemiyorsa sync
+
+# 4. LOG AYARLARI
+LOG_CHANNEL=single        # daily yerine single (disk tasarrufu)
+LOG_LEVEL=error          # debug yerine error (performans)
+LOG_DEPRECATIONS_CHANNEL=null  # Deprecation log'ları kapat
+
+# 5. GÜVENLİK
+APP_KEY=base64:....       # Mevcut key'ini koru, değiştirme!
+-------------------------Güvenlik Ayarları:
+# MAIL (İletişim formu için)
+MAIL_MAILER=smtp
+MAIL_HOST=mail.firmaadi.com    # Hosting mail server
+MAIL_PORT=587                  # veya 465 (SSL)
+MAIL_USERNAME=info@firmaadi.com
+MAIL_PASSWORD=mail_password
+MAIL_ENCRYPTION=tls           # veya ssl
+MAIL_FROM_ADDRESS=info@firmaadi.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+# BROADCASTING (Gereksizse kapat)
+BROADCAST_DRIVER=log
+
+# FILESYSTEM (Public uploads için)
+FILESYSTEM_DISK=public
+--------------------------------
+
+
+# Panel Bilgileri 
+
+- Panelde bulunan Kullanıcı bazlı form verilerine yeni mailler eklenecekse App/Http/Controllers/Cms/IndexController içinde bulunan $formVerileri kısmına yeni mailler eklenmeli (Örnek için ortadoğunun dosyalarına bakabilirsin)
+
+- Panelde mevcut olan blade dosyaları: Normal, İnsan Kaynakları, Sertifikalar, Blog,Blog Detay,Video,İletişim,Online Randevu Al lazım olmayanlar silinebilir sistemden. 
+
+- Migration dosyalarından gerekli olanlar eklendi lazım değilse formları düzeltip silebilirsiniz. 
+
+- Yeni bir alan ekleneceği vakit izlenecek yol: Model > Services > Controllers > View > Route şeklinde ilerlenecek 
+
+- Yüklenen resimler gelmiyorsa php artisan storage:link yaparak public dosyası içerisine storage klasörü oluşturuluyor (Not: Elle oluşturma kendi oluşturuyor zaten bir resim yükleyip dene) 

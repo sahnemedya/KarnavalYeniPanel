@@ -1,0 +1,6 @@
+Contact: mailto:info@sahnemedya.com
+Contact: tel:+90-322-262-15-05
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: tr, en
+Canonical: https://www.sahnemedya.com/.well-known/security.txt
+Policy: https://www.sahnemedya.com/guvenlik-politikasi

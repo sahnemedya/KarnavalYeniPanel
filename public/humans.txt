@@ -1,0 +1,20 @@
+/* TEAM */
+    Developer: Sahne Medya Ekibi
+    Contact: info@sahnemedya.com
+    Location: Adana, Turkey
+
+/* SITE */
+    Last update: 2024/01/01
+    Language: Turkish / English
+    Doctype: HTML5
+    IDE: Visual Studio Code
+
+/* COMPONENTS */
+    Framework: Laravel 12
+    CSS: SCSS, TailwindCSS
+    JavaScript: Vanilla JS, Alpine.js
+    Database: MySQL
+
+/* THANKS */
+    Laravel Community
+    Open Source Contributors

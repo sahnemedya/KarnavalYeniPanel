@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /user/
+Disallow: /.env
+Disallow: /storage/
+Disallow: /vendor/
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.sahnemedya.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
