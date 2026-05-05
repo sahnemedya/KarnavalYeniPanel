@@ -111,28 +111,6 @@
                         </li>
 
                         <li class="header-bulten"><a href="@if(app()->getLocale() == 'en') carnival-bulletin @else karnaval-bulteni @endif">@lang('ortakMetinler.bulten_aboneligi')</a></li>
-
-                        <li class="web-none">
-                            <a href="/randevu-al" class="teklifal-btn "><img
-                                    src="{{asset("images/site/icons/beyaz/note.svg")}}" alt="" class="web-none">Randevu
-                                Al</a>
-                        </li>
-
-
-                        <li class="main-li web-none header-iletisim">
-                            <img src="{{asset("images/site/icons/beyaz/pin.svg")}}" alt="" width="16px">
-                            <a href="https://maps.app.goo.gl/2jBHbnT1PD3mPBYS8" target="_blank"
-                               style="white-space: normal !important;">
-                                {{ $contacts->address }} {{$contacts->state }} / {{$contacts->city}}
-                            </a>
-                        </li>
-                        <li class="main-li web-none header-iletisim">
-                            <img src="{{asset("images/site/icons/beyaz/pin.svg")}}" alt="" width="16px">
-                            <a href="https://maps.app.goo.gl/2jBHbnT1PD3mPBYS8" target="_blank"
-                               style="white-space: normal !important;">
-                                Yol Tarifi Alın
-                            </a>
-                        </li>
                     </ul>
                 </div>
 
