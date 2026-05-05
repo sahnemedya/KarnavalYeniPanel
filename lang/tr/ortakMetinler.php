@@ -2,6 +2,7 @@
 
 return [
     // Genel Butonlar ve Linkler
+    'anasayfa' => 'Anasayfa',
     'kurumsal' => 'Kurumsal',
     'hizmetlerimiz' => 'Hizmetlerimiz',
     'iletisim' => 'İletişim',
@@ -14,6 +15,8 @@ return [
     'copyright' => 'Copyright',
     'guncelleniyor' => 'Güncelleniyor...',
     'foto_galeri' => 'Foto Galeri',
+    'bulten_aboneligi' => 'Ücretsiz Bülten Aboneliği',
+    'sponsorluk_buton' => 'SPONSORLUK',
     'butonlar' => [
         'detayli_incele' => 'Detaylı İncele',
         'tumunu_incele' => 'Tümünü İncele',
@@ -282,5 +285,54 @@ return [
         'adana_hiltonsa' => 'Adana Hiltonsa',
         'sheraton_grand_adana_hotel' => 'Sheraton Grand Adana Hotel',
     ],
+
+    'bulten' => [
+        'ad_soyad' => 'Adınız Soyadınız (*)',
+        'email' => 'E-posta Adresiniz (*)',
+        'telefon' => 'Telefon Numarası',
+        'ulke_kodu' => 'Ülke Kodu',
+        'kvkk_link' => 'Kişisel Verilerin Korunması Kanunu (KVKK) Aydınlatma Metni\'ni',
+        'kvkk_onay' => 'okudum ve onaylıyorum.',
+        'yasal_uyari' => 'Aşağıda yer alan "ÜCRETSİZ ABONE OL" butonunu tıklayarak, KVKK Aydınlatma Metni\'ni incelediğimi ve paylaştığım tüm kişisel verilerimin doğru, güncel ve tam olduğunu beyan ve taahhüt ediyor; işbu formdaki ad-soyad, e-posta ve telefon bilgilerimin işlenmesine, saklanmasına ve bülten aboneliği kapsamında tarafıma ticari elektronik ileti ve sms gönderilmesine onay veriyorum.',
+        'buton' => 'ÜCRETSİZ ABONE OL',
+        'zorunlu_alanlar' => 'Zorunlu alanlar yıldız işareti ( * ) ile işaretlenmiştir.'
+    ],
+
+    'kvkk' => [
+        'baslik' => 'Bilgilendirme ve Aydınlatma Metni',
+        'alt_baslik' => 'İletişim İzni Hakkında KVKK Açık Rıza Metnine İlişkin Bilgilendirme',
+        'metin' => 'İşbu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu 5/1 maddesi kapsamında; Nisan’da Adana’da Turizm Kültür Sanat Vakfı ve Vakfa ait iktisadi işletmeler tarafından sunulan ürün ve hizmetler hakkında genel/özel imkanların duyurulmasına, sponsorluk işlemlerinin teşviki kapsamında bilgilendirme ve hatırlatma yapılmasına, sunulan hizmetlere ilişkin memnuniyet anketi yapılabilmesine, güncel gelişmelere dair bilginin aktarılmasına, taziye/kutlama amaçlı genel/özel iletiler gönderilmesine, sunum ve bülten gibi içeriklerin paylaşılmasına, tanıtım ve reklamın yapılması için ilgili mevzuata uygun olarak ticari elektronik ileti gönderilmesine, iletişim bilgilerimin, kimlik bilgilerimin, iletişim faaliyetlerinin yürütülmesi, reklam ve tanıtım faaliyetlerinin yürütülmesi, sosyal sorumluluk ve sivil toplum faaliyetlerinin yürütülmesi adına bu amaçlar ile alındığını ve seçmiş olduğum iletişim kanalı kapsamında elektronik posta ve/veya SMS yolu ile tarafıma iletiler gönderileceğini, hiçbir gerekçe göstermeksizin tarafıma gelen iletilerde belirtilen işlemi reddederek iletişimi durdurabileceğimi, bu kapsamda Nisan’da Adana’da Turizm Kültür Sanat Vakfı tarafından ticari elektronik ileti gönderilebilmesi amacıyla kişisel verilerimin işlenmesine ve işbu süreç için gerekli bilgilerin iş ortaklarına aktarılmasına ilişkin onayımı içermektedir.',
+        'buton' => 'Okudum, Anladım',
+    ],
+
+    'sponsorluk' => [
+        'iletisim_baslik' => 'SPONSORLUK İÇİN İLETİŞİME GEÇİN',
+        'iletisim_aciklama' => 'Sponsor olmak için ve detaylı bilgi almak için aşağıda bulunan iletişim yöntemlerini kullanabilirsiniz.',
+
+        'telefon' => 'Telefon',
+        'email' => 'E-posta',
+        'whatsapp' => 'Whatsapp',
+
+        'dosya_2026_baslik' => '2026 KARNAVAL SPONSORLUK DOSYASI',
+        'dosya_2026_buton' => 'KARNAVAL SPONSORLUK DOSYASI',
+
+        'pr_raporu_baslik' => '2025 PR RAPORU',
+        'pr_raporu_buton' => 'PR RAPORU',
+
+        'tanitim_baslik' => '2025 KARNAVAL TANITIM FİLMİ',
+        'tanitim_buton' => 'KARNAVAL TANITIM FİLMİ',
+
+        'sponsorlar_2025_baslik' => '2025 Resmi Destekçi ve Sponsorlarımız',
+        'sponsorlar_2025_buton' => '2025 Resmi Destekçi ve Sponsorlarımız',
+
+        'ajanslar_baslik' => 'Ulusal ve Bölgesel Sponsorluk Satışı ve Pazarlaması\'ndan Sorumlu Yetkili Ajanslar',
+        'ajanslar_buton' => 'Yetkili Ajanslar',
+    ],
+
+    'ajanslar' => [
+        'ulusal_baslik' => 'Ulusal Sponsorluk Satışı ve Pazarlaması\'ndan Sorumlu Yetkili Ajans',
+        'bolgesel_baslik' => 'Bölgesel Sponsorluk Satışı ve Pazarlaması\'ndan Sorumlu Yetkili Ajanslar',
+    ],
+
 
 ];

@@ -10,7 +10,7 @@ class References extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $fillable = ['name', 'sezon_id', 'image', 'type_id', 'url', 'hit', 'published','show_homepage', 'lang_id'];
+    protected $fillable = ['name', 'sezon_id', 'image', 'type_id', 'url', 'hit', 'published','show_homepage', 'lang_id','translation_of'];
 
     public function image()
     {

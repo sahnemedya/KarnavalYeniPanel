@@ -13,21 +13,29 @@
                 @endif
 
                 <div class="resmi-destekciler">
-                    @foreach ($sponsorlar as $tur => $grup)
-                        <div class="destekci-turu">
-                            <h2>{{ $tur }}</h2>
-                            <div class="destekciler">
-                                @foreach ($grup as $sponsor)
-                                    <div class="destekci">
-                                        <figure>
-                                            <img src="{{ $sponsor->image() }}"
-                                                alt="{{ $sponsor->name }} - {{ $tur }}">
-                                        </figure>
-                                    </div>
-                                @endforeach
+                    @forelse ($sponsorlar as $yil => $turler)
+                        @if($sponsorlar->count() > 1)
+                            <h2 class="sezon-yili">{{ $yil }}</h2>
+                        @endif
+
+                        @foreach ($turler as $tur => $grup)
+                            <div class="destekci-turu">
+                                <h2>{{ $tur }}</h2>
+                                <div class="destekciler">
+                                    @foreach ($grup as $sponsor)
+                                        <div class="destekci">
+                                            <figure>
+                                                <img src="{{ $sponsor->image() }}"
+                                                     alt="{{ $sponsor->name }} - {{ $tur }}">
+                                            </figure>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @empty
+                        <p>Henüz sponsor bilgisi eklenmemiştir.</p>
+                    @endforelse
                 </div>
 
 

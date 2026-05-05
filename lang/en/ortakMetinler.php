@@ -15,6 +15,8 @@ return [
     'copyright' => 'All Rights Reserved.',
     'guncelleniyor' => 'Updating...',
     'foto_galeri' => 'Photo Gallery',
+    'bulten_aboneligi' => 'Free Newsletter Subscription',
+    'sponsorluk_buton' => 'Sponsorship',
     'butonlar' => [
         'detayli_incele' => 'View Details',
         'tumunu_incele' => 'View All',
@@ -280,5 +282,53 @@ return [
         'divan_adana_hotel' => 'Divan Adana Hotel',
         'adana_hiltonsa' => 'Adana Hiltonsa',
         'sheraton_grand_adana_hotel' => 'Sheraton Grand Adana Hotel',
+    ],
+
+    'bulten' => [
+        'ad_soyad' => 'Full Name (*)',
+        'email' => 'Email Address (*)',
+        'telefon' => 'Phone Number',
+        'ulke_kodu' => 'Country Code',
+        'kvkk_link' => 'Personal Data Protection Law (KVKK) Information Text',
+        'kvkk_onay' => 'I have read and approve.',
+        'yasal_uyari' => 'By clicking the "SUBSCRIBE FOR FREE" button below, I declare that I have reviewed the KVKK Information Text and that all personal data I have provided is accurate, up-to-date, and complete. I also consent to the processing, storage, and use of my name, email, and phone information for newsletter subscription purposes, including receiving commercial electronic messages and SMS.',
+        'buton' => 'SUBSCRIBE FOR FREE',
+        'zorunlu_alanlar' => 'Required fields are marked with an asterisk (*).'
+    ],
+
+    'kvkk' => [
+        'baslik' => 'Information and Clarification Text',
+        'alt_baslik' => 'Information Regarding Explicit Consent for Communication Permission under KVKK',
+        'metin' => 'This text, within the scope of Article 5/1 of the Personal Data Protection Law No. 6698, covers the processing of personal data for purposes such as informing about products and services, promoting sponsorship activities, conducting satisfaction surveys, sharing updates, sending celebration/condolence messages, and delivering promotional and newsletter content. It also includes sending commercial electronic messages via email and/or SMS in accordance with the relevant legislation. I acknowledge that my personal data may be processed and shared with business partners for these purposes and that I can opt out of communications at any time without providing any reason.',
+        'buton' => 'I have read and understood',
+    ],
+
+    'sponsorluk' => [
+        'iletisim_baslik' => 'CONTACT US FOR SPONSORSHIP',
+        'iletisim_aciklama' => 'You can use the contact methods below to become a sponsor and get detailed information.',
+
+        'telefon' => 'Phone',
+        'email' => 'Email',
+        'whatsapp' => 'WhatsApp',
+
+        'dosya_2026_baslik' => '2026 CARNIVAL SPONSORSHIP FILE',
+        'dosya_2026_buton' => 'CARNIVAL SPONSORSHIP FILE',
+
+        'pr_raporu_baslik' => '2025 PR REPORT',
+        'pr_raporu_buton' => 'PR REPORT',
+
+        'tanitim_baslik' => '2025 CARNIVAL PROMOTIONAL FILM',
+        'tanitim_buton' => 'CARNIVAL PROMOTIONAL FILM',
+
+        'sponsorlar_2025_baslik' => '2025 Official Supporters and Sponsors',
+        'sponsorlar_2025_buton' => '2025 Official Supporters and Sponsors',
+
+        'ajanslar_baslik' => 'Authorized Agencies Responsible for National and Regional Sponsorship Sales and Marketing',
+        'ajanslar_buton' => 'Authorized Agencies',
+    ],
+
+    'ajanslar' => [
+        'ulusal_baslik' => 'Authorized Agency Responsible for National Sponsorship Sales and Marketing',
+        'bolgesel_baslik' => 'Authorized Agencies Responsible for Regional Sponsorship Sales and Marketing',
     ],
 ];

@@ -19,7 +19,9 @@ use App\Models\Contacts;
 use App\Models\FAQ;
 use App\Models\Gallery;
 use App\Models\HumanResourceForm;
+use App\Models\KarnavalSezonu;
 use App\Models\PortakalliLezzetler;
+use App\Models\References;
 use App\Models\SiteSettings;
 use App\Models\Slider;
 use App\Services\AntiSpamService;
@@ -424,8 +426,8 @@ class UIndexController extends Controller
         // Aktif dil Türkçe ise aynı ID'ler, değilse çevirilerinin ID'leri kullanılır.
         // ----------------------------------------------------------
         $turkceIzinliKategoriIdler = [1, 5];
-        $turkceAdanaKategoriId     = 4;
-        $turkceHaricKategoriIdler  = [4]; // 8 zaten 4'ün İngilizce çevirisi
+        $turkceAdanaKategoriId = 4;
+        $turkceHaricKategoriIdler = [4]; // 8 zaten 4'ün İngilizce çevirisi
 
         // İzinli kategorilerin aktif dildeki ID'leri
         $izinliKategoriIdler = Category::where('lang_id', $activeLangId)
@@ -577,14 +579,31 @@ class UIndexController extends Controller
 
         $relatedNews = $this->getRelatedNews($page);
 
-        $sponsorlar = $page->references()
-            ->with('type')
+        $effectiveSezonId = $page->id;
+        if ($page->translation_of) {
+            $hasOwnReferences = References::where('sezon_id', $page->id)->exists();
+            if (!$hasOwnReferences) {
+                $effectiveSezonId = $page->translation_of;
+            }
+        }
+
+        $sponsorsQuery = $page->effectiveReferences()
+            ->with(['type.translations', 'karnavalSezonus'])
             ->join('reference_types', 'references.type_id', '=', 'reference_types.id')
-            ->orderBy('reference_types.hit', 'asc')   // Önce tür sırasına göre
-            ->orderBy('references.hit', 'asc')        // Sonra referansın kendi sırası
-            ->select('references.*')                   // join sonrası ID çakışmasını önle
-            ->get()
-            ->groupBy(fn($ref) => $ref->type->name ?? 'Diğer');
+            ->join('karnaval_sezonus', 'references.sezon_id', '=', 'karnaval_sezonus.id')
+            ->orderBy('karnaval_sezonus.karnaval_yili', 'desc')  // en yeni yıl üstte
+            ->orderBy('reference_types.hit', 'asc')
+            ->orderBy('references.hit', 'asc')
+            ->select('references.*');
+
+        $sponsorlar = $sponsorsQuery->get()
+            // Önce yıla, sonra tür adına göre nested gruplama
+            ->groupBy(fn($ref) => $ref->karnavalSezonus?->karnaval_yili ?? 'Diğer')
+            ->map(function ($refsInYear) use ($activeLangId) {
+                return $refsInYear->groupBy(
+                    fn($ref) => $ref->type?->localizedName($activeLangId) ?? 'Diğer'
+                );
+            });
         //
         //        $relatedDuyurular = $this->getRelatedDuyurular($page);
 
@@ -601,6 +620,7 @@ class UIndexController extends Controller
         // Bu metod render() döndürdüğü için içindeki JSON'u ayıklayıp ana graph'a eklemek en temizi
         // Ancak yapıyı bozmamak için senin kullandığın yöntemle birleştiriyorum:
         $schemaScriptsHtml = PageSchemasService::render($graph);
+
 
         if ($page->pageSchema && $page->pageSchema->is_active) {
             $schemaScriptsHtml = PageSchemasService::generate($page, 'aesthetic');

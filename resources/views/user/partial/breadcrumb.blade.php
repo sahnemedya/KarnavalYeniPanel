@@ -3,6 +3,8 @@
         <div class="breadcrumb-list">
             {{-- 'url('/')' helper'ı kullanıldı --}}
 
+            <a href="{{ url('/') }}">@lang('ortakMetinler.anasayfa')</a>
+
             @php
                 $breadcrumbs = null;
 

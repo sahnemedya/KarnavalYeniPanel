@@ -12,8 +12,8 @@ class Page extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['hit','sezon_id', 'title','inside_title',  'slug', 'link','link2','link3', 'heyzen', 'content','location','video','ses', 'spotify', 'image', 'icon', 'file',
-        'is_main', 'blade_id', 'category_id',  'translation_of', 'parent_page',  'lang_id', 'form_active', 'published',  'show_homepage', 'show_footer','show_sponsorluk','show_menu'];
+    protected $fillable = ['hit', 'sezon_id', 'title', 'inside_title', 'slug', 'link', 'link2', 'link3', 'heyzen', 'content', 'location', 'video', 'ses', 'spotify', 'image', 'icon', 'file',
+        'is_main', 'blade_id', 'category_id', 'translation_of', 'parent_page', 'lang_id', 'form_active', 'published', 'show_homepage', 'show_footer', 'show_sponsorluk', 'show_menu'];
 
     /**
      * Sayfa resimlerinin bulunduğu klasör yolunu getirir.
@@ -35,6 +35,7 @@ class Page extends Model
         }
         return false;
     }
+
     public function icon()
     {
         if ($this->icon) {
@@ -43,21 +44,23 @@ class Page extends Model
         return false;
     }
 
-   public function file()
+    public function file()
     {
         if ($this->file) {
             return asset("storage/" . config('constants.file_path') . "/" . $this->file); // Resmin tam URL'sini döndürüyor
         }
         return false;
     }
-   public function link()
+
+    public function link()
     {
         if ($this->link) {
             return asset("storage/" . config('constants.file_path') . "/" . $this->link); // Resmin tam URL'sini döndürüyor
         }
         return false;
     }
-   public function ses()
+
+    public function ses()
     {
         if ($this->ses) {
             return asset("storage/" . config('constants.voice_path') . "/" . $this->ses); // Resmin tam URL'sini döndürüyor
@@ -270,7 +273,7 @@ class Page extends Model
      */
     public function allChildren()
     {
-        return $this->children()->with('allChildren')->orderBy('id','asc');
+        return $this->children()->with('allChildren')->orderBy('id', 'asc');
     }
 
     public function karnavalSezonus()
@@ -290,10 +293,34 @@ class Page extends Model
         );
     }
 
+    public function effectiveReferences()
+    {
+        // Etkin sezon_id'yi belirle: önce kendi, sonra parent'tan miras
+        $effectiveSezonId = $this->sezon_id;
+
+        if (is_null($effectiveSezonId) && $this->translation_of) {
+            $parent = static::find($this->translation_of);
+            if ($parent && ! is_null($parent->sezon_id)) {
+                $effectiveSezonId = $parent->sezon_id;
+            }
+        }
+
+        // Etkin sezon varsa: sadece o sezonun referansları
+        if (! is_null($effectiveSezonId)) {
+            return \App\Models\References::query()
+                ->where('references.sezon_id', $effectiveSezonId)
+                ->where('references.published', 1);
+        }
+
+        // Ne kendinde ne parent'ta sezon var → "Tüm Sponsorlar" sayfası senaryosu
+        return \App\Models\References::query()->where('references.published', 1);
+    }
+
     public function allChildrenBlog()
     {
-        return $this->children()->with('allChildren')->where('published',1)->orderBy('id', 'desc');
+        return $this->children()->with('allChildren')->where('published', 1)->orderBy('id', 'desc');
     }
+
     /**
      * Hedef dil ID'sine göre bu sayfanın çevirisini bulur.
      * @param int $targetLangId
@@ -457,10 +484,10 @@ class Page extends Model
             };
 
             $deleteIfNotShared('image', 'constants.page_path');
-            $deleteIfNotShared('icon',  'constants.page_path');
-            $deleteIfNotShared('file',  'constants.file_path');
-            $deleteIfNotShared('link',  'constants.file_path');
-            $deleteIfNotShared('ses',   'constants.voice_path');
+            $deleteIfNotShared('icon', 'constants.page_path');
+            $deleteIfNotShared('file', 'constants.file_path');
+            $deleteIfNotShared('link', 'constants.file_path');
+            $deleteIfNotShared('ses', 'constants.voice_path');
         });
     }
 }

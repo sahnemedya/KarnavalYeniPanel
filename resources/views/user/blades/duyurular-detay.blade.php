@@ -1,116 +1,81 @@
 @extends('user.partial.master')
 @section('content')
     <style>
-        .onay-konteynir {
-            margin: 20px 0;
-            padding: 10px;
-            background: #fdfdfd;
-            border-radius: 5px;
+        form {
+            margin-top: 20px;
+            justify-content: start;
         }
 
-        .onay-satiri {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-
-        .onay-satiri input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            margin-top: 2px;
-            cursor: pointer;
-        }
-
-        .onay-satiri label a {
-            color: #d93025;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        /* Modal Genel Stili */
-        .yarisma-modal {
-            display: none;
+        /* Arka plan karartması */
+        .modal-overlay {
+            display: none; /* Varsayılan olarak gizli */
             position: fixed;
             z-index: 9999;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); /* Siyah transparan */
         }
 
-        .modal-icerik {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 0;
-            width: 85%;
-            max-width: 750px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            animation: slideIn 0.3s;
+        /* Modal Kutusu */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* Üstten %10 boşluk ve ortala */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Mobil uyumlu genişlik */
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
-        .modal-baslik {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f8f9fa;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .modal-baslik h3 {
-            font-size: 16px;
-            color: #333;
-            margin: 0;
-        }
-
-        .modal-govde {
-            padding: 25px;
-            max-height: 450px;
-            overflow-y: auto;
-            color: #555;
-            font-size: 14px;
-            line-height: 1.6;
-            text-align: justify;
-        }
-
-        .kapat {
+        /* Kapatma (X) Butonu */
+        .close-btn {
+            color: #aaa;
+            float: right;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            color: #aaa;
         }
 
-        .kapat:hover {
-            color: #000;
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
+        /* İçerik Kaydırma Alanı */
+        .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        /* Alt buton */
+        .modal-ok-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .abone-ol-btn {
+            margin: 0 !important;
+        }
+
+        @media(max-width: 768px){
+            .abone-ol-btn{
+                max-width: 100% !important;
             }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .yonerge {
-            background-color: #e28337;
-            padding: 5px 20px;
-            border-radius: 14.5px;
-            color: #FFFFFF;
-        }
-
-        .yonerge:hover {
-            background-color: rgba(255, 121, 12, 1)
         }
     </style>
 
@@ -133,51 +98,36 @@
                 {!! $page->content !!}
 
 
-                @if ($page->title == 'Adana Karnavalda Sizinle Güzelleşiyor!')
-                    <div class="balkon-vitrin-container">
 
-                        {{-- Üst Bilgilendirme Notu --}}
+                @if ($page->slug == 'karnaval-bulteni' || $page->slug == 'carnival-bulletin')
+                    <ul style="padding-left: 17px;">
+                        <li style="list-style: disc;">
+                            @lang('ortakMetinler.bulten.zorunlu_alanlar')
+                        </li>
+                    </ul>
 
-                        {{--  --}}
-                        <form class="iletisim-formu" action="{{ route('yarismaBasvuruPost') }}" method="post"
-                              enctype="multipart/form-data">
+                    {{-- ABONELİK FORMU ALANI --}}
+                    <div class="contact-form-container">
+
+                        <form class="iletisim-formu" action="{{route("bultenPost")}}" method="post">
                             @csrf
                             <input type="hidden" name="g_recaptcha_response" id="securitytoken" value="">
 
-                            {{-- Kategori Seçimi - Tam Genişlik --}}
-                            <div class="form-group section-bg item100">
-                                <label class="section-label">Başvuru Türü Seçiniz (*)</label>
-                                <div class="radio-group">
-                                    <label class="radio-item">
-                                        <input type="radio" name="tur" value="vitrin" id="type_vitrin"
-                                               onclick="toggleFields()" required>
-                                        <span>Vitrin Yarışması</span>
-                                    </label>
-                                    <label class="radio-item">
-                                        <input type="radio" name="tur" value="balkon" id="type_balkon"
-                                               onclick="toggleFields()" required>
-                                        <span>Balkon Yarışması</span>
-                                    </label>
-                                </div>
-                            </div>
+                            {{-- Gizli Alanlar (Backend hatası almamak için) --}}
+                            <input type="hidden" name="konu" value="@lang('ortakMetinler.bulten.konu')">
+                            <input type="hidden" name="mesaj" value="@lang('ortakMetinler.bulten.mesaj')">
 
-                            {{-- Vitrin Özel Alan - Tam Genişlik --}}
-                            <div id="vitrin_fields" class="conditional-field item100" style="display: none;">
-                                <input class="item100" type="text" name="isletme_adi"
-                                       placeholder="Mağaza / İşletme Adı (*)">
-                            </div>
+                            <input class="item" type="text" name="adSoyad"
+                                   placeholder="@lang('ortakMetinler.bulten.ad_soyad')" required>
 
-                            {{-- Ad Soyad ve E-posta - Yan Yana (%50) --}}
-                            <input class="item" type="text" name="adSoyad" id="person_label"
-                                   placeholder="Adınız Soyadınız (*)" required>
-                            <input class="item" type="email" name="email" placeholder="E-posta Adresiniz (*)"
-                                   required>
+                            {{-- 2. Email --}}
+                            <input class="item" type="email" name="email"
+                                   placeholder="@lang('ortakMetinler.bulten.email')" required>
 
-                            <select class="item" name="ulkeKodu" id=""
-                                    @if ($errors->first('ulkeKodu')) style="border:4px solid red"
-                                    @endif required="required">
-                                <option data-countryCode="TR" disabled>Ülke Kodu</option>
-                                <option data-countryCode="TR" value="90">Türkiye (+90)</option>
+                            {{-- 3. Telefon (İsteğe Bağlı) --}}
+                            <select class="item" name="ulkeKodu" required="required">
+                                <option disabled>@lang('ortakMetinler.bulten.ulke_kodu')</option>
+                                <option data-countryCode="TR" value="90" selected>Türkiye (+90)*</option>
                                 <option data-countryCode="DZ" value="213">Algeria (+213)</option>
                                 <option data-countryCode="AD" value="376">Andorra (+376)</option>
                                 <option data-countryCode="AO" value="244">Angola (+244)</option>
@@ -392,295 +342,46 @@
                                 <option data-countryCode="ZM" value="260">Zambia (+260)</option>
                                 <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
                             </select>
-                            <input class="item" type="tel" name="telefon" id=""
-                                   placeholder="Telefon Numarası">
+                            <input class="item" type="tel" name="telefon"
+                                   placeholder="@lang('ortakMetinler.bulten.telefon')">
 
-
-                            {{-- Grid/Flex Dengesi için Boşluk veya Ek Alan (Eğer 2. alan yoksa adres zaten aşağı kayar) --}}
-                            <div class="item hide-mobile"></div>
-
-                            {{-- Adres - Tam Genişlik (%100) --}}
-                            <textarea class="item100" name="adres" placeholder="Tam Adresiniz (*)" rows="3"
-                                      required></textarea>
-
-                            {{-- Fotoğraf Yükleme Alanı - Tam Genişlik --}}
-                            <div class="form-group photo-upload-zone item100">
-                                <label class="section-label">Süsleme Fotoğrafları (En fazla 5 adet) (*)</label>
-                                <input type="file" name="fotograflar[]" class="file-input" multiple accept="image/*"
-                                       required>
-                                <small class="helper-text">Birden fazla fotoğraf seçmek için Ctrl tuşuna basılı tutarak
-                                    seçim yapınız.</small>
+                            {{-- 4. KVKK Onayı --}}
+                            <div class="bilgilendirme" style="margin-top: 15px; margin-bottom: 15px;">
+                                <input type="checkbox" name="kvkk" value="1" id="kvkk" required>
+                                <label for="kvkk">
+                                    <a href="javascript:void(0)" onclick="openModal()"
+                                       style="text-decoration: underline; color: #0056b3;">
+                                        @lang('ortakMetinler.bulten.kvkk_link')
+                                    </a>
+                                    @lang('ortakMetinler.bulten.kvkk_onay')
+                                </label>
                             </div>
 
-                            {{-- Yaş ve Belge Alanı - Tam Genişlik --}}
-                            <div id="age_control_container" class="age-control-wrapper item100">
-                                <div class="checkbox-group">
-                                    <input type="checkbox" name="resit_mi" id="resit_mi" value="1" checked
-                                           onclick="toggleFileField()">
-                                    <label for="resit_mi">18 yaşından büyüğüm.</label>
-                                </div>
+                            <p class="yasal-uyari">
+                                @lang('ortakMetinler.bulten.yasal_uyari')
+                            </p>
 
-                                <div id="veli_belgesi_alani" class="conditional-field"
-                                     style="display: none; margin-top: 15px;">
-                                    <div class="alert-box">
-                                        <i class="fa fa-warning"></i>
-                                        <span>Balkon yarışması başvurularında 18 yaşını doldurmuş bireyler doğrudan
-                                            katılabilirler. 18 yaşından küçük bireyler ise ancak <strong>velisinin yazılı
-                                                onayı ve imzalı veli izin belgesini </strong> başvuru formuna eklemek
-                                            şartıyla katılabilirler. </span>
-                                    </div>
-                                    <label class="input-label">Veli İzin Belgesi Yükle (PDF/JPG/PNG) (*)</label>
-                                    <input type="file" name="veli_izin_belgesi" id="veli_izin_input" class="item100">
-                                </div>
-                            </div>
+                            {{-- 5. Buton --}}
+                            <input type="submit" value="@lang('ortakMetinler.bulten.buton')" class="submit-btn">
 
-                            {{-- Onay Belgeleri ve Checkboxlar --}}
-                            <div class="onay-konteynir item100">
 
-                                {{-- 1. KVKK Alanı --}}
-                                <div class="onay-satiri">
-                                    <input type="checkbox" name="kvkk_onay" id="kvkk_onay" required>
-                                    <label for="kvkk_onay">
-                                        <a href="javascript:void(0)" onclick="openModal('modal_kvkk')">KVKK AYDINLATMA
-                                            METNİ</a>'ni okudum ve onaylıyorum. (*)
-                                    </label>
-                                </div>
-
-                                {{-- 2. Taahhütname Alanı --}}
-                                <div class="onay-satiri">
-                                    <input type="checkbox" name="taahhutname_onay" id="taahhutname_onay" required>
-                                    <label for="taahhutname_onay">
-                                        <a href="javascript:void(0)" onclick="openModal('modal_taahhut')">VİTRİN VE
-                                            BALKON
-                                            SÜSLEME YARIŞMASI KATILIMCI TAAHHÜTNAMESİ</a>'ni okudum ve onaylıyorum. (*)
-                                    </label>
-                                </div>
-
-                                {{-- MODALLAR (Popup İçerikleri) --}}
-                                <div id="modal_kvkk" class="yarisma-modal">
-                                    <div class="modal-icerik">
-                                        <div class="modal-baslik">
-                                            <h3>KİŞİSEL VERİLERİN KORUNMASINA İLİŞKİN AÇIK RIZA METNİ</h3>
-                                            <span class="kapat" onclick="closeModal('modal_kvkk')">&times;</span>
-                                        </div>
-                                        <div class="modal-govde">
-
-                                            <p>6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) kapsamında, veri
-                                                sorumlusu sıfatıyla hareket eden <strong>Nisan’da Adana’da Turizm Kültür
-                                                    ve
-                                                    Sanat Vakfı</strong> tarafından aşağıdaki hususlarda
-                                                bilgilendirildim.
-                                            </p>
-
-                                            <p><strong>İşlenen Kişisel Veriler</strong></p>
-
-                                            <ul>
-                                                <li>Ad, soyad</li>
-                                                <li>İletişim bilgileri</li>
-                                                <li>İşletme bilgileri</li>
-                                                <li>Görsel ve işitsel kayıtlar</li>
-                                            </ul>
-
-                                            <ul>
-                                                <li>Fotoğraf ve video görüntüleri</li>
-                                            </ul>
-
-                                            <p><strong>İşleme Amaçları</strong></p>
-
-                                            <ul>
-                                                <li>Yarışma başvuru sürecinin yürütülmesi</li>
-                                                <li>Jüri değerlendirme sürecinin gerçekleştirilmesi</li>
-                                                <li>Organizasyon planlaması</li>
-                                                <li>Tanıtım ve iletişim faaliyetleri</li>
-                                                <li>Kurumsal arşiv oluşturulması</li>
-                                            </ul>
-
-                                            <ul>
-                                                <li>Gelecek yıllarda referans kullanımı</li>
-                                            </ul>
-
-                                            <p><strong>Açık Rıza Beyanı</strong></p>
-
-                                            <ul>
-                                                <li>Yukarıda belirtilen kişisel verilerimin;</li>
-                                                <li>Fotoğraf ve video kayıtlarının alınmasına,</li>
-                                                <li>Bu kayıtların dijital ve basılı mecralarda yayımlanmasına,</li>
-                                                <li>Sosyal medya platformlarında paylaşılmasına,</li>
-                                                <li>Tanıtım ve reklam materyallerinde kullanılmasına,</li>
-                                            </ul>
-
-                                            <ul>
-                                                <li>Süresiz olarak arşivlenmesine</li>
-                                            </ul>
-
-                                            <p>açık rıza gösterdiğimi kabul ve beyan ederim.</p>
-
-                                            <p>Verilerimin üçüncü kişilerle yalnızca organizasyon kapsamında
-                                                paylaşılabileceğini ve KVKK hükümleri doğrultusunda korunacağını
-                                                biliyorum.
-                                            </p>
-
-                                            <p>Dilediğim zaman yazılı başvuru ile açık rızamı geri çekme hakkım
-                                                bulunduğu
-                                                konusunda bilgilendirildim.</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="modal_taahhut" class="yarisma-modal">
-                                    <div class="modal-icerik">
-                                        <div class="modal-baslik">
-
-                                            <span class="kapat" onclick="closeModal('modal_taahhut')">&times;</span>
-                                        </div>
-                                        <div class="modal-govde">
-                                            <p><strong>VİTRİN VE BALKON SÜSLEME YARIŞMASI KATILIMCI
-                                                    TAAHHÜTNAMESİ</strong>
-                                            </p>
-                                            <p><strong>Nisan’da Adana’da Turizm Kültür ve Sanat Vakfı’na</strong></p>
-
-                                            <p>Nisan’da Adana’da Uluslararası Portakal Çiçeği Karnavalı kapsamında
-                                                düzenlenen <strong>Vitrin ve Balkon Süsleme Yarışması</strong>’na
-                                                katılım
-                                                sağladığımı beyan ederim.</p>
-
-                                            <p>Aşağıdaki hususları kabul, beyan ve taahhüt ederim:</p>
-
-                                            <p><strong>1. Yarışma Kurallarına Uyum</strong></p>
-
-                                            <p>Yarışma yönergesini okuduğumu, anladığımı ve tüm hükümlerine uygun
-                                                hareket
-                                                edeceğimi kabul ederim.</p>
-
-                                            <p><strong>2. Fikri ve Sınai Haklar</strong></p>
-
-                                            <p>Yarışma kapsamında hazırladığım vitrin/balkon tasarımında;</p>
-
-                                            <ul>
-                                                <li>Üçüncü kişilere ait marka, logo, tasarım, görsel veya telifli
-                                                    unsurları
-                                                    izinsiz kullanmadığımı,
-                                                </li>
-                                                <li>Kullanmış olmam halinde gerekli izinleri aldığımı,</li>
-                                            </ul>
-
-                                            <ul>
-                                                <li>Aksi durumda doğabilecek tüm hukuki ve cezai sorumluluğun tarafıma
-                                                    ait
-                                                    olduğunu
-                                                </li>
-                                            </ul>
-
-                                            <p>kabul ederim.</p>
-
-                                            <p><strong>3. Görüntüleme ve Yayın İzni</strong></p>
-
-                                            <p>Vitrinimin/balkonumun fotoğraf ve video kaydının alınmasına ve bu
-                                                kayıtların;
-                                            </p>
-
-                                            <ul>
-                                                <li>Basılı ve dijital mecralarda,</li>
-                                                <li>Sosyal medya platformlarında,</li>
-                                                <li>Kurumsal rapor ve sunumlarda,</li>
-                                            </ul>
-
-                                            <ul>
-                                                <li>Gelecek yıllara ait tanıtımlarda</li>
-                                            </ul>
-
-                                            <p>süre, yer ve mecra sınırlaması olmaksızın kullanılmasına izin verdiğimi
-                                                kabul
-                                                ederim.</p>
-
-                                            <p><strong>4. Üçüncü Kişi Hakları</strong></p>
-
-                                            <p>Süsleme alanımda yer alan kişiler, figürler, görseller veya objeler
-                                                nedeniyle
-                                                doğabilecek üçüncü kişi taleplerinden Vakfın ve hizmet sağlayıcıların
-                                                sorumlu tutulamayacağını kabul ederim.</p>
-
-                                            <p><strong>5. Değerlendirme Yetkisi</strong></p>
-
-                                            <p>Jüri değerlendirmesinin nihai olduğunu ve itiraz hakkım bulunmadığını
-                                                kabul
-                                                ederim.</p>
-
-                                            <p><strong>6. Beyan</strong></p>
-
-                                            <p>Yarışmaya e-posta başvuru kanalı aracılığıyla başvurmam halinde, işbu
-                                                Katılımcı Taahhütnamesi hükümlerini elektronik ortamda okuduğumu,
-                                                anladığımı
-                                                ve kabul ettiğimi; e-posta yoluyla yapılan başvurunun tarafımı bağlayan
-                                                yazılı irade beyanı niteliğinde olduğunu kabul, beyan ve taahhüt
-                                                ederim.</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            {{-- Buton - Tam Genişlik --}}
-                            <button type="submit" class="submit-btn item100 balkon-btn">BAŞVURUYU TAMAMLA</button>
                         </form>
                     </div>
 
-                    <script>
-                        function toggleFields() {
-                            const isVitrin = document.getElementById('type_vitrin').checked;
-                            const vitrinFields = document.getElementById('vitrin_fields');
-                            const personLabel = document.getElementById('person_label');
+                    <div id="kvkkModal" class="modal-overlay">
+                        <div class="modal-content">
+                            <span class="close-btn" onclick="closeModal()">&times;</span>
+                            <h2>@lang('ortakMetinler.kvkk.baslik')</h2>
+                            <div class="modal-body">
+                                <h3>@lang('ortakMetinler.kvkk.alt_baslik')</h3>
+                                <p>@lang('ortakMetinler.kvkk.metin')</p>
 
-                            if (isVitrin) {
-                                vitrinFields.style.display = 'block';
-                                personLabel.placeholder = "Sorumlu Kişi Adı Soyadı (*)";
-                            } else {
-                                vitrinFields.style.display = 'none';
-                                personLabel.placeholder = "Yarışmacı Adı Soyadı (*)";
-                            }
-                        }
 
-                        function toggleFileField() {
-                            const isResit = document.getElementById('resit_mi').checked;
-                            const fileArea = document.getElementById('veli_belgesi_alani');
-                            const fileInput = document.getElementById('veli_izin_input');
-                            const container = document.getElementById('age_control_container');
+                            </div>
+                            <button class="modal-ok-btn" onclick="closeModal()">@lang('ortakMetinler.kvkk.buton')</button>
+                        </div>
+                    </div>
 
-                            if (isResit) {
-                                fileArea.style.display = 'none';
-                                fileInput.required = false;
-                                container.style.backgroundColor = '#f9f9f9';
-                                container.style.borderColor = '#ddd';
-                            } else {
-                                fileArea.style.display = 'block';
-                                fileInput.required = true;
-                                container.style.backgroundColor = '#fff5f5';
-                                container.style.borderColor = '#ffbcbc';
-                            }
-                        }
-                    </script>
-
-                    <script>
-                        function openModal(modalId) {
-                            document.getElementById(modalId).style.display = 'block';
-                            document.body.style.overflow = 'hidden';
-                        }
-
-                        function closeModal(modalId) {
-                            document.getElementById(modalId).style.display = 'none';
-                            document.body.style.overflow = 'auto';
-                        }
-
-                        // Modal dışına tıklandığında kapanma özelliği
-                        window.onclick = function (event) {
-                            if (event.target.className === 'yarisma-modal') {
-                                event.target.style.display = 'none';
-                                document.body.style.overflow = 'auto';
-                            }
-                        }
-                    </script>
                     <script>
                         setTimeout(function () {
                             var head = document.getElementsByTagName('head')[0];
@@ -699,6 +400,27 @@
                             script.src = "https://www.google.com/recaptcha/api.js?render=6Lc4vNsiAAAAAOBOiaP_tlygKCu3I3G_D2RTWhgt";
                             head.appendChild(script);
                         }, 3000);
+                    </script>
+                    <script>
+                        // Modalı açan fonksiyon
+                        function openModal() {
+                            document.getElementById("kvkkModal").style.display = "block";
+                            document.body.style.overflow = "hidden"; // Arka plan kaymasını engelle
+                        }
+
+                        // Modalı kapatan fonksiyon
+                        function closeModal() {
+                            document.getElementById("kvkkModal").style.display = "none";
+                            document.body.style.overflow = "auto"; // Kaydırmayı geri aç
+                        }
+
+                        // Kullanıcı modal dışına (siyah alana) tıklarsa kapat
+                        window.onclick = function (event) {
+                            var modal = document.getElementById("kvkkModal");
+                            if (event.target == modal) {
+                                closeModal();
+                            }
+                        }
                     </script>
                 @endif
 

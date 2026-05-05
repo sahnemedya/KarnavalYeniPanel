@@ -48,7 +48,7 @@
                             </li>
                         @endforeach
 
-                        <li class="header-sponsorluk"><a href="sponsorluk">SPONSORLUK</a></li>
+                        <li class="header-sponsorluk"><a href="@if(app()->getLocale() == 'en') sponsorship @else sponsorluk @endif">@lang('ortakMetinler.sponsorluk_buton')</a></li>
 
 
                         <li class="social-media mobil-none" id="wpinsta" style="margin-left: -15px;">
@@ -110,7 +110,7 @@
                             </div>
                         </li>
 
-                        <li class="header-bulten"><a href="karnaval-bulteni">Ücretsiz Bülten Aboneliği</a></li>
+                        <li class="header-bulten"><a href="@if(app()->getLocale() == 'en') carnival-bulletin @else karnaval-bulteni @endif">@lang('ortakMetinler.bulten_aboneligi')</a></li>
 
                         <li class="web-none">
                             <a href="/randevu-al" class="teklifal-btn "><img

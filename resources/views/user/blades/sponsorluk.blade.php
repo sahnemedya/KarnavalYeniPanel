@@ -172,11 +172,69 @@
                 <h1>{{ $page->inside_title ?? $page->title }}</h1>
 
 
-                @if($page->content != NULL)
-                    {!! $page->content !!}
-                @else
-                    <p><em><strong>@lang('ortakMetinler.guncelleniyor')</strong></em></p>
-                @endif
+                <div class="sponsorluk-sunumu ">
+                    <div class="max-width">
+
+                        <h2>@lang('ortakMetinler.sponsorluk.iletisim_baslik')</h2>
+
+                        <p>@lang('ortakMetinler.sponsorluk.iletisim_aciklama')</p>
+
+                        <div class="iletisim-butonlari">
+                            <a class="iletisim-buton tel" href="tel:+905322978601">
+                                @lang('ortakMetinler.sponsorluk.telefon')
+                            </a>
+
+                            <a class="iletisim-buton mail" href="mailto:sponsorluk@nisandaadanada.com">
+                                @lang('ortakMetinler.sponsorluk.email')
+                            </a>
+
+                            <a class="iletisim-buton wp" href="https://wa.me/+905322978601?text=Bilgi%20almak%20istiyorum">
+                                @lang('ortakMetinler.sponsorluk.whatsapp')
+                            </a>
+                        </div>
+                    </div>
+
+                    <h2>@lang('ortakMetinler.sponsorluk.dosya_2026_baslik')</h2>
+
+                    <div class="sponsorlarimiz-list">
+                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') carnival-sponsorship-file @else karnaval-sponsorluk-dosyasi @endif" target="_blank">
+                            @lang('ortakMetinler.sponsorluk.dosya_2026_buton')
+                        </a>
+                    </div>
+
+                    <h2>@lang('ortakMetinler.sponsorluk.pr_raporu_baslik')</h2>
+
+                    <div class="sponsorlarimiz-list">
+                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') pr-report @else pr-raporu @endif" target="_blank">
+                            @lang('ortakMetinler.sponsorluk.pr_raporu_buton')
+                        </a>
+                    </div>
+
+                    <h2>@lang('ortakMetinler.sponsorluk.tanitim_baslik')</h2>
+
+                    <div class="sponsorlarimiz-list">
+                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') carnival-promotional-video @else karnaval-tanitim-filmi @endif" target="_blank">
+                            @lang('ortakMetinler.sponsorluk.tanitim_buton')
+                        </a>
+                    </div>
+
+                    <h2>@lang('ortakMetinler.sponsorluk.sponsorlar_2025_baslik')</h2>
+
+                    <div class="sponsorlarimiz-list">
+                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') our-official-supporters-and-sponsors-for-2026 @else 2026-yili-resmi-destekci-ve-sponsorlarimiz @endif" target="_blank">
+                            @lang('ortakMetinler.sponsorluk.sponsorlar_2025_buton')
+                        </a>
+                    </div>
+
+                    <h2>@lang('ortakMetinler.sponsorluk.ajanslar_baslik')</h2>
+
+                    <div class="sponsorlarimiz-list">
+                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') authorized-agencies @else yetkili-ajanslar @endif" target="_blank">
+                            @lang('ortakMetinler.sponsorluk.ajanslar_buton')
+                        </a>
+                    </div>
+                </div>
+
 
 
             </div>

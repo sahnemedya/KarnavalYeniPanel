@@ -27,7 +27,7 @@
                         <th>{{$item->hit}}</th>
                         <th>{{ $item->karnavalSezonus?->karnaval_yili ?? 'Tüm Sezonlar' }}</th>
 
-                        <th>{{ $item->referenceTypes?->name ?? 'Tümü' }}</th>
+                        <th>{{ $item->type_id?->name ?? 'Tümü' }}</th>
                         <th>{{$item->name}}</th>
                         <th>
                             @if($item->image())

@@ -2707,7 +2707,7 @@ CREATE TABLE `yetkili_ajanslars` (
 INSERT INTO `yetkili_ajanslars` (`id`, `logo`, `adi`, `telefon`, `telefon2`, `mail`, `mail2`, `link`, `yetki`, `karnaval_sezonu`, `aktif`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (12, 'on-dokuz.jpg', 'On Dokuz', '02163180319', '05322978601', 'feride@ondokuz.org', 'sponsorluk@nisandaadanada.com', NULL, 'Ulusal', 11, 1, '2025-02-02 06:31:54', '2025-02-02 06:44:49', NULL),
 (13, 'paper-n-party.jpg', 'Paper N Party', '05412881231', NULL, 'pnp@nisandaadanada.com', NULL, NULL, 'Bölgesel', 11, 1, '2025-02-02 06:33:15', '2025-02-02 06:44:49', NULL),
-(14, 'sahne-medya.jpg', 'Sahne Medya', '03222621505', '05442621505', 'sahnemedya@nisandaadanada.com', NULL, NULL, 'Bölgesel', 11, 1, '2025-02-02 06:33:53', '2025-02-02 06:44:50', NULL),
+(14, 'sahnemedya.jpg', 'Sahne Medya', '03222621505', '05442621505', 'sahnemedya@nisandaadanada.com', NULL, NULL, 'Bölgesel', 11, 1, '2025-02-02 06:33:53', '2025-02-02 06:44:50', NULL),
 (15, 'sosyal-fabrika.jpg', 'Sosyal Fabrika', '05052452674', NULL, 'sosyalfabrika@nisandaadanada.com', NULL, NULL, 'Bölgesel', 11, 1, '2025-02-02 06:34:47', '2025-02-02 06:44:50', NULL);
 
 --
