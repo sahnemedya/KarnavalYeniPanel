@@ -75,7 +75,7 @@
         </div>
 
         <div class="copyright-right">
-            <a href="https://www.stopmedya.com.tr">Sahne<b>Medya</b></a>
+            <a href="https://www.sahnemedya.com">Sahne<b>Medya</b></a>
         </div>
     </div>
 </footer>
