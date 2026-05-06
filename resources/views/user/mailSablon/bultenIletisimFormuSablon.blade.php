@@ -7,7 +7,7 @@
         <tr>
             <td style="background:#ee7204;color:#FFF;padding:10px;" colspan="2">
                 <h1 style="color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:12pt;margin:0;">
-                    <center>{{$data['kullaniciBirim']}} - Bülten Kayıt Formu | {{env('APP_NAME')}}</center>
+                    <center>Bülten Kayıt Formu | Nisanda Adanada</center>
                 </h1>
             </td>
         </tr>
@@ -50,8 +50,7 @@
             <td style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;width:100px;font-weight:bold;color:#4E4E4E;"
                 align="right">Mesaj:
             </td>
-            <td style="font-size:9pt;background-color:#fff;">{{$data['kullaniciMesaj']}}<br>{{$data['kullaniciTarih']}}
-                --- IP: {{$data['kullaniciIP']}}</td>
+            <td style="font-size:9pt;background-color:#fff;">{{$data['kullaniciTarih']}}--- IP: {{$data['kullaniciIP']}}</td>
         </tr>
         <tr>
             <td colspan="2" style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#f00;">

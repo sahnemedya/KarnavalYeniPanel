@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
 use App\Models\AramaKayit;
+use App\Models\BalkonVitrinBasvuru;
+use App\Models\BultenIletisimFormu;
 use App\Models\ContactForm;
 use App\Models\NumberUsers;
 use App\Models\CheckUpForm;
@@ -14,6 +16,7 @@ use App\Models\MemnuniyetAnketi;
 use App\Models\OneriveSikayetFormu;
 use App\Models\OneStopMemeForm;
 use App\Models\OneStopTiroidForm;
+use App\Models\PortakalliLezzetler;
 use App\Models\RandevuAlForm;
 use App\Models\RobotikCerrahiForm;
 use App\Models\TibbiBirimlerForm;
@@ -124,6 +127,10 @@ class IndexController extends Controller
             // Form İstatistikleri
             $formModels = [
                 'ContactForm' => ContactForm::class,
+                'BalkonVitrinYarisma' => BalkonVitrinBasvuru::class,
+                'HumanResource' => HumanResourceForm::class,
+                'PortakalliLezzetler' => PortakalliLezzetler::class,
+                'BultenİletisimForm' => BultenIletisimFormu::class,
             ];
 
             $formVerileri = [];

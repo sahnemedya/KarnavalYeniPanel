@@ -22,7 +22,7 @@ Route::get('/sayfa-ara', [UIndexController::class, 'aramaGet'])->name('pageSearc
 //Route::post('/iletisim-formu', [UIndexController::class, 'iletisimPost'])->name('iletisimPost');
 Route::post('/iletisim', [UIndexController::class, 'iletisimPost'])->name('iletisimPost');
 Route::post('/bulten-post', [UIndexController::class, 'bultenIletisimPost'])->name('bultenPost');
-Route::post('/protakalli-lezzetler-yarisma-basvuru-post', [UIndexController::class, 'portakalliLezzetlerPost'])->name('portakalliLezzetlerPost');
+Route::post('/portakalli-lezzetler-yarisma-basvuru-post', [UIndexController::class, 'portakalliLezzetlerPost'])->name('portakalliLezzetlerPost');
 Route::post('/balkon-vitrin-yarisma-post', [UIndexController::class, 'yarismaBasvuruPost'])->name('yarismaBasvuruPost');
 Route::post('/insan-kaynaklari-gonder', [UIndexController::class, 'insanKaynaklariPost'])->name('insanKaynaklariPost');
 Route::post('/on-kayit-yap', [UIndexController::class, 'onKayitPost'])->name('onKayitPost');

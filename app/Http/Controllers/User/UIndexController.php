@@ -119,6 +119,7 @@ class UIndexController extends Controller
 
         $mailData = [
             "kullaniciAdSoyad" => $request->adSoyad,
+            "kullaniciBirim" => "İletişim Formu",
             "kullaniciEmail" => $request->email,
             "kullaniciTelefon" => $form->telefon,
             "kullaniciKonu" => $form->konu ?? 'Genel İletişim',
@@ -231,9 +232,9 @@ class UIndexController extends Controller
         if ($bultenFormu->save()) {
             // Abone Tablosuna Kayıt
             if ($request->kvkk == 1) {
-                BultenAbone::firstOrCreate(
+                BultenIletisimFormu::firstOrCreate(
                     ['email' => $request->email],
-                    ['ad_soyad' => $request->adSoyad, 'telefon' => $bultenFormu->telefon]
+                    ['adSoyad' => $request->adSoyad, 'telefon' => $bultenFormu->telefon]
                 );
             }
 
@@ -244,6 +245,7 @@ class UIndexController extends Controller
             $mailData = [
                 "subject" => "Bülten Kayıt Formu | " . "Nisanda Adana'da",
                 "kullaniciAdSoyad" => $request->adSoyad,
+                "kullaniciKonu" => "Bülten Kayıt Formu",
                 "kullaniciEmail" => $request->email,
                 "kullaniciTelefon" => $bultenFormu->telefon,
                 "kullaniciKvkkOnayi" => $request->kvkk ? 'Evet' : 'Hayır',
@@ -270,8 +272,7 @@ class UIndexController extends Controller
             'email' => 'required|email:rfc,dns|max:250',
             'fotograflar' => 'required|array|min:1|max:5',
             'fotograflar.*' => 'image|mimes:jpeg,png,jpg|max:20480',
-            'kvkk_onay' => 'required',
-            'taahhutname_onay' => 'required'
+            'kvkk' => 'required',
         ];
 
         if ($request->tur == 'vitrin') $rules['isletme_adi'] = 'required|max:250';
@@ -313,7 +314,7 @@ class UIndexController extends Controller
             'resit_mi' => $request->has('resit_mi') ? 1 : 0,
             'veli_izin_belgesi' => $veliBelgeYolu,
             'fotograflar' => $yuklenenResimler,
-            'kvkk_onay' => 1,
+            'kvkk' => $request->kvkk ? 1 : 0,
             'ip_adresi' => $request->ip(),
             'user_agent' => $request->userAgent(),
             'is_spam' => $spamResult['suspicious'] ? 1 : 0,
@@ -398,11 +399,19 @@ class UIndexController extends Controller
 
             $mailData = [
                 "subject" => "Portakallı Lezzetler Başvurusu | " . config('app.name'),
-                "kategori" => $request->kategori,
-                "adsoyad" => $request->adsoyad,
-                "yemekAdi" => $request->yemekAdi,
-                "telefon" => $lezzetData->telefon,
-                "mail" => $request->mail,
+                'ad' => $request->adsoyad,
+                'kategori' => $request->kategori,
+                'tc' => $request->tc,
+                'dogum' => $request->dogumtarihi,
+                'adres' => $request->adres,
+                'telefon' => $request->ulkeKodu . ' ' . $request->telefon,
+                'mail' => $request->mail,
+                'meslek' => $request->meslek,
+                'yemekadi' => $request->yemekAdi,
+                'yemekmalzemesi' => $request->yemekMalzemesi,
+                'yemektarifi' => $request->yemekTarifi,
+                'kvkk' => $request->kvkk ? 'Onaylandı' : 'Onaylanmadı',
+                'sartname' => $request->sartname ? 'Onaylandı' : 'Onaylanmadı',
                 "kullaniciIP" => $request->ip(),
                 "kullaniciTarih" => date('d.m.Y')
             ];

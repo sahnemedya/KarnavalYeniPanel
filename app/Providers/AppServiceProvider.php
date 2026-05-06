@@ -389,7 +389,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 //        MAİL KEYS ÇEKME
-        View::composer(['user.blades.iletisim', 'user.blades.insan-kaynaklari', 'user.blades.video', 'user.blades.randevu-al','user.blades.normal-sayfa-iletisim-formu', 'user.index'], function ($view) {
+        View::composer(['user.blades.iletisim', 'user.blades.insan-kaynaklari','user.blades.balkon-vitrin-yarisma','user.blades.portakalli-lezzetler','user.blades.duyurular-detay', 'user.blades.video', 'user.blades.randevu-al','user.blades.normal-sayfa-iletisim-formu', 'user.index'], function ($view) {
             $apiKeys = ApiKeys::first();
             $view->with('apiKeys', $apiKeys);
         });

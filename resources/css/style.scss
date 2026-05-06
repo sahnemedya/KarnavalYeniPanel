@@ -3811,6 +3811,353 @@ b {
                 }
             }
 
+            .container {
+                width: 100%;
+                height: max-content;
+                margin-bottom: 25px;
+                min-height: 200px;
+            }
+
+            .basvuru-bilgi-notu {
+                width: 100%; // Form içindeki flex yapısına uyum için
+                background-color: #fff9f9; // Çok hafif kırmızımsı/sıcak bir arka plan
+                border: 1px solid #fee2e2;
+                border-left: 5px solid #e74c3c; // Önemli olduğunu belirten sol çizgi
+                padding: 20px;
+                margin-bottom: 30px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+                .bilgi-baslik {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    color: #c0392b;
+                    font-size: 1.1rem;
+
+                    i {
+                        font-size: 1.2rem;
+                    }
+
+                    strong {
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+                }
+
+                p {
+                    margin: 0;
+                    color: #4b5563;
+                    line-height: 1.6;
+                    font-size: 0.95rem;
+
+                    .vurgu-red {
+                        display: inline-block;
+                        background: #ffebeb;
+                        color: #d63031;
+                        padding: 2px 6px;
+                        border-radius: 4px;
+                        font-weight: 600;
+                        margin-top: 5px;
+                    }
+                }
+
+                small {
+                    display: block;
+                    padding-top: 10px;
+                    border-top: 1px dashed #f1f1f1;
+                    color: #9ca3af;
+                    font-style: italic;
+                    font-size: 0.85rem;
+                }
+            }
+
+            .form-group.section-bg {
+                margin: 0;
+
+                .section-label {
+                    display: block;
+                    font-weight: 600;
+                    margin-bottom: 12px;
+                    color: #374151;
+                    font-size: 0.95rem;
+                }
+
+                .radio-group {
+                    display: flex;
+                    gap: 15px;
+                    width: 100%;
+
+                    .radio-item {
+                        flex: 1; // Kartların eşit genişlikte olması için
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 15px 20px;
+                        background: #fff;
+                        border: 2px solid #e5e7eb;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: all 0.2s ease-in-out;
+
+                        // Standart radyo butonunu gizle ama erişilebilir tut
+                        input[type="radio"] {
+                            position: absolute;
+                            opacity: 0;
+                            width: 0;
+                            height: 0;
+
+                            // Radyo seçildiğinde kartın stilini değiştir
+                            &:checked + span {
+                                color: #2563eb;
+                                font-weight: 600;
+                            }
+                        }
+
+                        // Kartın metni
+                        span {
+                            font-size: 0.95rem;
+                            color: #6b7280;
+                            transition: color 0.2s;
+                        }
+
+                        // Hover durumu
+                        &:hover {
+                            background: #f9fafb;
+                            border-color: #d1d5db;
+                        }
+
+                        // Seçili (Active) durumu - JavaScript kullanmadan sadece CSS ile
+                        // Not: JS ile seçili karta class eklersen daha da güçlendirebilirsin
+                        &:has(input:checked) {
+                            background: #eff6ff;
+                            border-color: #2563eb;
+                            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+
+                            &::after {
+                                content: '\f058'; // FontAwesome check icon (eğer yüklüyse)
+                                font-family: 'Font Awesome 5 Free';
+                                font-weight: 900;
+                                position: absolute;
+                                top: -10px;
+                                right: -10px;
+                                background: #2563eb;
+                                color: #fff;
+                                width: 22px;
+                                height: 22px;
+                                border-radius: 50%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Mobilde kartları alt alta getir
+            @media (max-width: 600px) {
+                .form-group.section-bg .radio-group {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+            }
+
+            // Fotoğraf Yükleme Alanı
+            .photo-upload-zone {
+                background: #fcfcfc;
+                border: 2px dashed #d1d5db;
+                padding: 30px 20px;
+                border-radius: 12px;
+                text-align: center;
+                transition: all 0.3s ease;
+                margin-top: 10px;
+
+                &:hover {
+                    border-color: #2563eb;
+                    background: #f8fafc;
+                }
+
+                .section-label {
+                    display: block;
+                    font-weight: 700;
+                    color: #374151;
+                    margin-bottom: 15px;
+                    font-size: 1.1rem;
+                }
+
+                .file-input {
+                    background: white;
+                    padding: 10px;
+                    border-radius: 6px;
+                    border: 1px solid #e5e7eb;
+                    width: 100%;
+                    max-width: 350px;
+                    cursor: pointer;
+
+                    &::file-selector-button {
+                        background: #4b5563;
+                        color: white;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 4px;
+                        margin-right: 10px;
+                        cursor: pointer;
+                        transition: background 0.2s;
+
+                        &:hover { background: #1f2937; }
+                    }
+                }
+
+                .helper-text {
+                    display: block;
+                    margin-top: 12px;
+                    color: #6b7280;
+                    font-size: 0.85rem;
+                }
+            }
+
+            // Yaş ve Veli Belgesi Alanı
+            .age-control-wrapper {
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                padding: 20px;
+                border-radius: 12px;
+                margin-top: 10px;
+
+                .checkbox-group {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    input[type="checkbox"] {
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                    }
+
+                    label {
+                        font-weight: 600;
+                        color: #1f2937;
+                        cursor: pointer;
+                        user-select: none;
+                    }
+                }
+
+                .alert-box {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    background: #fffbeb;
+                    border: 1px solid #fde68a;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+
+                    i {
+                        color: #d97706;
+                        font-size: 1.2rem;
+                    }
+
+                    span {
+                        color: #92400e;
+                        font-size: 0.9rem;
+                        line-height: 1.5;
+                    }
+                }
+
+                .input-label {
+                    font-weight: 600;
+                    display: block;
+                    margin-bottom: 8px;
+                    color: #374151;
+                }
+            }
+
+            // KVKK Alanı
+            .kvkk-wrapper {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 10px 5px;
+
+                input[type="checkbox"] {
+                    width: 18px;
+                    height: 18px;
+                    margin-top: 3px;
+                    cursor: pointer;
+                }
+
+                label {
+                    font-size: 0.95rem;
+                    color: #4b5563;
+                    line-height: 1.4;
+
+                    a {
+                        color: #2563eb;
+                        text-decoration: underline;
+                        font-weight: 600;
+
+                        &:hover { color: #1d4ed8; }
+                    }
+                }
+            }
+
+            .balkon-btn {
+                // Temel Yapı
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                padding: 18px 30px;
+                margin-top: 25px;
+
+                // Görsel Tasarım
+                background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+                color: #ffffff;
+                font-size: 1.1rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+
+                // Kenarlık ve Şekil
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+
+                // Etkileşim (Shadow & Transition)
+                box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2);
+                transition: all 0.3s ease; // Keyframes yerine sadece transition kullanıyoruz
+
+                // Hover Durumu (Üzerine Gelince)
+                &:hover {
+                    background: linear-gradient(135deg, #27ae60 0%, #219150 100%);
+                    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+                    transform: translateY(-2px); // Hafif yukarı kalkma efekti
+                }
+
+                // Active Durumu (Tıklanınca)
+                &:active {
+                    transform: translateY(1px); // Tıklama hissi için hafif aşağı inme
+                    box-shadow: 0 2px 10px rgba(39, 174, 96, 0.2);
+                }
+
+                // İkon eklemek istersen hazırlığı
+                i {
+                    font-size: 1.2rem;
+                    transition: transform 0.3s ease;
+                }
+
+                &:hover i {
+                    transform: translateX(5px); // Hover'da ikonun hafif sağa kayması
+                }
+            }
+
             /* ====================================================== */
             /* karnaval için girdiğim kodlar SON                      */
             /* ====================================================== */
@@ -4258,8 +4605,12 @@ b {
         }
 
         .item100 {
+            padding: 14px 25px;
             width: 100%;
-            padding: 14px;
+        }
+
+        .item-100{
+            width: 100%;
         }
 
         /* FOCUS */

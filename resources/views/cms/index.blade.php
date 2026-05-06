@@ -185,19 +185,12 @@
             @foreach($formVerileri as $formIsmi => $veri)
                 @php
                     $basliklar = [
-                        'CheckUpForm' => 'Check Up Toplam Gelen Mailler',
                         'ContactForm' => 'İletişim Toplam Gelen Mailler',
-                        'DoktorunuzaSorunForm' => 'Doktora Sor Toplam Gelen Mailler',
-                        'HealthTourismForm' => 'Sağlık Turizmi Toplam Gelen Mailler',
-                        'HumanResourceForm' => 'İnsan Kaynakları Toplam Gelen Mailler',
-                        'MemnuniyetAnketi' => 'Memnuniyet Anketi Toplam Gelen Mailler',
-                        'RandevuAlForm' => 'Randevu Al Toplam Gelen Mailler',
-                        'TibbiIkinciGorusForm' => 'Tıbbi İkinci Görüş Toplam Gelen Mailler',
-                        'OneriveSikayetFormu' => 'Öneri ve Şikayet Toplam Gelen Mailler',
-                        'OneStopMemeForm' => 'One Stop Meme Toplam Gelen Mailler',
-                        'OneStopTiroidForm' => 'One Stop Tiroid Toplam Gelen Mailler',
-                        'RobotikCerrahiForm' => 'Robotik Cerrahi Toplam Gelen Mailler',
-                        'TibbiBirimlerForm' => 'Tıbbi Birimler Toplam Gelen Mailler',
+                        'BalkonVitrinYarisma' => 'Balkon V. Y. Toplam Gelen Mailler',
+                        'HumanResource' => 'İnsan Kaynakları Toplam Gelen Mailler',
+                        'PortakalliLezzetler' => 'Portakallı Lezzetler Toplam Gelen Mailler',
+                        'BultenİletisimForm' => 'Bülten İletişim Toplam Gelen Mailler',
+
                     ];
 
                     $baslik = $basliklar[$formIsmi] ?? $formIsmi . ' Toplam Gelen Mailler';

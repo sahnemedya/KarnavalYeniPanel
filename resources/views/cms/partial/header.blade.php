@@ -151,24 +151,6 @@
 {{--        </li>--}}
 {{--        @endpermission--}}
 
-        @permission('onam-formlari')
-        {{-- Onam Formları --}}
-        <li class="ust-menu-li {{ request()->routeIs('cms.consent-forms.*') ? 'aktif' : '' }}">
-            <a href="{{route('cms.consent-forms.index')}}">Onam Formları <i class="las la-angle-right"></i></a>
-
-            <ul class="alt-menu">
-                <li class="{{ request()->routeIs('cms.consent-forms.index') ? 'aktif' : '' }}">
-                    <a href="{{route('cms.consent-forms.index')}}">Tümü</a>
-                </li>
-
-                <li class="{{ request()->routeIs('cms.consent-forms.create') ? 'aktif' : '' }}">
-                    <a href="{{route('cms.consent-forms.create')}}">Oluştur</a>
-                </li>
-            </ul>
-
-        </li>
-        @endpermission
-
         @permission('sss')
         {{-- Sıkça Sorulan Sorular --}}
         <li class="ust-menu-li {{ request()->routeIs('cms.faqs.*') ? 'aktif' : '' }}">
@@ -428,15 +410,25 @@
                 <li class="{{ request()->routeIs('cms.forms.iletisimFormu') ? 'aktif' : '' }}">
                     <a href="{{ route('cms.forms.iletisimFormu') }}"> Gelen Mailler</a>
                 </li>
-                {{--                <li class="{{ request()->routeIs('cms.forms.bayilikBasvuruFormu') ? 'aktif' : '' }}">--}}
-                {{--                    <a href="{{ route('cms.forms.bayilikBasvuruFormu') }}">Bayilik Başvuru Formları</a>--}}
-                {{--                </li>--}}
+
+
                 <li class="{{ request()->routeIs('cms.forms.insanKaynaklariFormu') ? 'aktif' : '' }}">
                     <a href="{{ route('cms.forms.insanKaynaklariFormu') }}">İnsan Kaynakları Formları</a>
                 </li>
 
-                <li class="{{ request()->routeIs('cms.forms.randevuAlFormu') ? 'aktif' : '' }}">
-                    <a href="{{ route('cms.forms.randevuAlFormu') }}">Randevu Al</a>
+
+                <li class="{{ request()->routeIs('cms.forms.balkonVitrinBasvurulari') ? 'aktif' : '' }}">
+                    <a href="{{ route('cms.forms.balkonVitrinBasvurulari') }}">Balkon V. Y. Gelen Mailler</a>
+                </li>
+
+
+                <li class="{{ request()->routeIs('cms.forms.bultenFormu') ? 'aktif' : '' }}">
+                    <a href="{{ route('cms.forms.bultenFormu') }}">Bülten Aboneliği Gelen Mailler</a>
+                </li>
+
+
+                <li class="{{ request()->routeIs('cms.forms.portakalliLezzetler') ? 'aktif' : '' }}">
+                    <a href="{{ route('cms.forms.portakalliLezzetler') }}">Portakal Lezzetler Gelen Mailler</a>
                 </li>
 
 

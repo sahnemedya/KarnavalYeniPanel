@@ -3,20 +3,27 @@
     <div class="card">
         <div class="card-header">Formlar</div>
         <div class="card-body">
-            <h1>Gelen Maillerin Formları</h1>
+            <h1>Gelen Balkon Vitrin Yarışma Mailleri Formları</h1>
             <div class="inbox">
                 <div class="mail-list">
                     <ul>
-                        @if($gelenMailler->count()==0)
-                            <li><a href="javascript:void(0)">Henüz Gelen Mail Bulunmamaktadır</a></li>
+                        @if($gelenMailler->count() == 0)
+                            <li><a href="javascript:void(0)">Henüz Gelen Yarışma Başvurusu Bulunmamaktadır</a></li>
                         @endif
                         @foreach($gelenMailler as $mail)
+                            {{-- Okunmadıysa unread class'ı eklenir --}}
                             <li class="@if($mail->markRead == 0) unread @endif" id="mail{{$mail->id}}">
-                                <a href="javascript:void(0)" onclick="getForm({{$mail->id}})">
-                                    <div class="img">{{\Illuminate\Support\Str::limit($mail->adSoyad,1,'')}}</div>
+                                <a href="javascript:void(0)" onclick="getYarismaDetay({{$mail->id}})">
+                                    <div class="img">{{\Illuminate\Support\Str::limit($mail->adSoyad, 1, '')}}</div>
                                     <div class="gonderen-bilgi">
-                                        <div class="gonderen">{{\Illuminate\Support\Str::limit($mail->adSoyad,20,'...')}}</div>
-                                        <div class="aciklama">{{\Illuminate\Support\Str::limit($mail->konu,20,'...')}}</div>
+                                        <div
+                                            class="gonderen">{{\Illuminate\Support\Str::limit($mail->adSoyad, 20, '...')}}</div>
+                                        <div class="aciklama">
+                                        <span
+                                            class="yarisma-tur-badge {{ $mail->tur == 'vitrin' ? 'bg-vitrin' : 'bg-balkon' }}">
+                                            {{ strtoupper($mail->tur) }}
+                                        </span>
+                                        </div>
                                     </div>
                                 </a>
                             </li>
@@ -30,10 +37,12 @@
     </div>
 
 @endsection
-@section("extraJs")
+
+@section('extraJs')
+
     <script>
-        function getForm(mailId) {
-            axios.get(`/cms/forms/get-iletisimmail?id=${mailId}`)
+        function getYarismaDetay(mailId) {
+            axios.get(`/cms/forms/get-bmail?id=${mailId}`)
                 .then(response => {
                     document.getElementById("mailDetail").innerHTML = response.data.durum ?? response.data;
                 })
