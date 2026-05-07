@@ -25,6 +25,7 @@ use App\Models\References;
 use App\Models\SiteSettings;
 use App\Models\Slider;
 use App\Services\AntiSpamService;
+use App\Services\LogService;
 use App\Services\PageSchemasService;
 use App\Traits\FormHandlerTrait;
 use Illuminate\Http\Request;
@@ -255,7 +256,7 @@ class UIndexController extends Controller
 
             Mail::to($companyMail)->send(new BultenIletisimFormuMail($mailData));
 
-            Log::channel('userLog')->info("[BÜLTEN: {$request->email} - IP: {$request->ip()}]");
+            LogService::add("Bulten Abone Formu","success", "[BÜLTEN: {$request->email} - IP: {$request->ip()}]");
             Alert::success('Başarılı', 'Bülten kaydınız tamamlandı.');
         }
 
