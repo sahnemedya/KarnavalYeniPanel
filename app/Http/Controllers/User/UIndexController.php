@@ -241,7 +241,7 @@ class UIndexController extends Controller
 
             // Mail Gönderimi
             $ayarlar = Contacts::find(1);
-            $companyMail = $ayarlar->email ?? "firmamailformlari@sahnemedya.com";
+            $companyMail = ["firmamailformlari@sahnemedya.com"];
 
             $mailData = [
                 "subject" => "Bülten Kayıt Formu | " . "Nisanda Adana'da",
