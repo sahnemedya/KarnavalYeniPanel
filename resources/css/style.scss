@@ -600,9 +600,13 @@ header {
                         //    height: 70%;
                         //}
 
-                        @media (max-width: 1024px) {
-                            height: 28%;
+                        @media(max-width: 1024px){
                             margin-left: 25px;
+                        }
+
+                        @media(max-width: 768px){
+                            height: 90%;
+                            margin-left: 10px;
                         }
 
                         @media (max-width: 600px) {
@@ -611,13 +615,11 @@ header {
 
                         @media (max-width: 500px) {
                             padding: 0 0 0 15px;
-                            height: 50%;
                             margin-left: 0;
                         }
 
                         @media (max-width: 350px) {
                             padding: 0 0 0 15px;
-                            height: 50%;
                         }
 
                         img {
@@ -625,16 +627,8 @@ header {
                             height: 100%;
                             width: auto;
 
-                            @media (max-width: 600px) {
-                                height: 30px;
-                            }
-
-                            @media (max-width: 400px) {
-                                height: 25px;
-                            }
-
-                            @media (max-width: 360px) {
-                                height: 20px;
+                            @media(max-width: 500px){
+                                height: 65px;
                             }
                         }
                     }
@@ -975,6 +969,13 @@ header {
                     img {
                         width: 25px;
                         height: 25px;
+                    }
+
+                    @media(max-width: 1024px){
+                        img{
+                            width: 75px;
+                            height: 30px;
+                        }
                     }
 
                     @media (max-width: 1280px) {
@@ -5075,8 +5076,11 @@ b {
         width: 100%;
         max-width: 1440px;
         margin: 30px auto;
-        padding: 80px 25px;
+        padding: 80px 0px;
         overflow: hidden;
+        @media (max-width: 768px) {
+            padding: 50px 0;  // dikey azaltıldı, yatay sıfır
+        }
         /* Swiper'ın kendi sarmalayıcısına yumuşaklık katıyoruz */
         .swiper-wrapper {
             transition-timing-function: cubic-bezier(
@@ -5091,6 +5095,8 @@ b {
             width: 278px !important;
             height: auto;
 
+
+
             /* EFEKTİN SIRRI BURADA: Sadece değişenleri anime et ve GPU'yu kullan */
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
             opacity 0.6s ease,
@@ -5101,6 +5107,14 @@ b {
             opacity: 0 !important;
             visibility: hidden !important;
             pointer-events: none;
+
+            @media (max-width: 768px) {
+                width: 180px !important;
+            }
+
+            @media (max-width: 480px) {
+                width: 150px !important;
+            }
 
             /* SADECE Merkez ve Yanındaki 2'şer (Toplam 5) Slaytı Görünür Yap */
             &.swiper-slide-active,
@@ -5118,12 +5132,24 @@ b {
                 transform: scale(1.4);
                 z-index: 3;
 
+                /* Mobilde scale'i kıs, taşmasın */
+                @media (max-width: 768px) {
+                    transform: scale(1.25);
+                }
+
                 .item {
                     border-color: #f26822;
+                    h3 { bottom: 0; }
+                }
+            }
 
-                    h3 {
-                        bottom: 0;
-                    }
+            &.swiper-slide-next,
+            &:has(+ .swiper-slide-active) {
+                transform: scale(1.2);
+                z-index: 2;
+
+                @media (max-width: 768px) {
+                    transform: scale(1.1);
                 }
             }
 

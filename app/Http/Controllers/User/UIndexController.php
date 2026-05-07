@@ -240,7 +240,7 @@ class UIndexController extends Controller
 
             // Mail Gönderimi
             $ayarlar = Contacts::find(1);
-            $companyMail = $ayarlar->eposta ?? "firmamailformlari@sahnemedya.com";
+            $companyMail = $ayarlar->email ?? "firmamailformlari@sahnemedya.com";
 
             $mailData = [
                 "subject" => "Bülten Kayıt Formu | " . "Nisanda Adana'da",
@@ -324,7 +324,7 @@ class UIndexController extends Controller
 
         if ($yarisma->save()) {
             $ayarlar = Contacts::find(1);
-            $alicilar = [$ayarlar->eposta, "firmamailformlari@sahnemedya.com", "susleme@nisandaadanada.com"];
+            $alicilar = [$ayarlar->email, "firmamailformlari@sahnemedya.com", "susleme@nisandaadanada.com"];
 
             $mailData = [
                 "subject" => "Yeni Yarışma Başvurusu: " . strtoupper($request->tur),

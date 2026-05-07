@@ -34,12 +34,19 @@
             <div class="swiper swiper-duyurular">
                 <div class="swiper-wrapper">
 
+                    @php
+                        // Slide sayısı 4'ten azsa içeriği çoğalt
+                        $duyurularLoop = count($duyurular) < 4
+                            ? collect($duyurular)->concat($duyurular)->concat($duyurular)
+                            : $duyurular;
+                    @endphp
+
                     @foreach($duyurular as $duyuru)
                         {{-- Swiper Slide Elemanları --}}
                         <div class="swiper-slide">
                             <a href="{{$duyuru->slug}}" class="item">
                                 <img src="{{$duyuru->image()}}" alt="{{$duyuru->title}}">
-                                <h3>{{$duyuru->title}}</h3>
+                                <h3>{{ \Illuminate\Support\Str::limit($duyuru->title, 50) }}</h3>
                             </a>
                         </div>
                     @endforeach
@@ -268,28 +275,21 @@
         document.addEventListener("DOMContentLoaded", function () {
             var slideCount = document.querySelectorAll(".swiper-duyurular .swiper-slide").length;
 
-            // Yeterli slayt yoksa loop'u kapat
-            var enableLoop = slideCount >= 6;
-
             var swiper = new Swiper(".swiper-duyurular", {
                 grabCursor: true,
                 centeredSlides: true,
-                loop: enableLoop,
+                loop: true,
+                loopedSlides: slideCount * 3,
+                loopAdditionalSlides: slideCount,
                 watchSlidesProgress: true,
+                slidesPerView: 'auto',
                 spaceBetween: 0,
                 speed: 600,
 
-                // Autoplay'i de ancak yeterli slayt varsa aktif et
-                autoplay: enableLoop ? {
+                autoplay: {
                     delay: 2500,
                     disableOnInteraction: false,
-                } : false,
-
-                breakpoints: {
-                    0: { slidesPerView: 1 },
-                    501: { slidesPerView: 3 },
-                    769: { slidesPerView: 'auto' }
-                }
+                },
             });
         });
 

@@ -35,8 +35,8 @@
 
 
             <script>
-                function getYarismaDetay(mailId) {
-                    axios.get(`/cms/forms/get-pmail?id=${mailId}`)
+                function getForm(mailId) {
+                    axios.get(`/yonetim/forms/get-pmail?id=${mailId}`)
                         .then(response => {
                             document.getElementById("mailDetail").innerHTML = response.data.durum ?? response.data;
                         })

@@ -33,7 +33,7 @@
 @section("extraJs")
     <script>
         function getForm(mailId) {
-            axios.get(`/cms/forms/get-rmail?id=${mailId}`)
+            axios.get(`/yonetim/forms/get-rmail?id=${mailId}`)
                 .then(response => {
                     document.getElementById("mailDetail").innerHTML = response.data.durum ?? response.data;
                 })

@@ -14,7 +14,7 @@
                         @foreach($gelenMailler as $mail)
                             {{-- Okunmadıysa unread class'ı eklenir --}}
                             <li class="@if($mail->markRead == 0) unread @endif" id="mail{{$mail->id}}">
-                                <a href="javascript:void(0)" onclick="getForm({{$mail->id}})">
+                                <a href="javascript:void(0)" onclick="getYarismaDetay({{$mail->id}})">
                                     <div class="img">{{\Illuminate\Support\Str::limit($mail->adSoyad,1,'')}}</div>
                                     <div class="gonderen-bilgi">
                                         <div
@@ -40,7 +40,7 @@
 
             <script>
                 function getYarismaDetay(mailId) {
-                    axios.get(`/cms/forms/get-bultenmail?id=${mailId}`)
+                    axios.get(`/yonetim/forms/get-bultenmail?id=${mailId}`)
                         .then(response => {
                             document.getElementById("mailDetail").innerHTML = response.data.durum ?? response.data;
                         })

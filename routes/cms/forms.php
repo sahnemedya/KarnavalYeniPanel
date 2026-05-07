@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/forms')->name('forms.')->group(function () {
     # İletişim Formları
     Route::get('/contact-forms', [ContactFormController::class, 'iletisimFormu'])->name('iletisimFormu');
-    Route::get('/get-iletisimmail', [ContactFormController::class, 'getMail'])->name('getImail');
+    Route::get('/get-imail', [ContactFormController::class, 'getMail'])->name('getImail');
 
     Route::get('/balkon-vitrin-basvuru', [BalkonVitrinBasvuruController::class, 'yarismaBasvurulari'])->name('balkonVitrinBasvurulari');
     Route::get('/get-bmail', [BalkonVitrinBasvuruController::class, 'getYarismaDetay'])->name('getBmail');
