@@ -320,8 +320,8 @@ return [
         'tanitim_baslik' => '2025 CARNIVAL PROMOTIONAL FILM',
         'tanitim_buton' => 'CARNIVAL PROMOTIONAL FILM',
 
-        'sponsorlar_2025_baslik' => '2025 Official Supporters and Sponsors',
-        'sponsorlar_2025_buton' => '2025 Official Supporters and Sponsors',
+        'sponsorlar_2025_baslik' => '2026 Official Supporters and Sponsors',
+        'sponsorlar_2025_buton' => '2026 Official Supporters and Sponsors',
 
         'ajanslar_baslik' => 'Authorized Agencies Responsible for National and Regional Sponsorship Sales and Marketing',
         'ajanslar_buton' => 'Authorized Agencies',

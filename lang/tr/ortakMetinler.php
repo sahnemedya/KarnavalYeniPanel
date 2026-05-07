@@ -322,8 +322,8 @@ return [
         'tanitim_baslik' => '2025 KARNAVAL TANITIM FİLMİ',
         'tanitim_buton' => 'KARNAVAL TANITIM FİLMİ',
 
-        'sponsorlar_2025_baslik' => '2025 Resmi Destekçi ve Sponsorlarımız',
-        'sponsorlar_2025_buton' => '2025 Resmi Destekçi ve Sponsorlarımız',
+        'sponsorlar_2025_baslik' => '2026 Resmi Destekçi ve Sponsorlarımız',
+        'sponsorlar_2025_buton' => '2026 Resmi Destekçi ve Sponsorlarımız',
 
         'ajanslar_baslik' => 'Ulusal ve Bölgesel Sponsorluk Satışı ve Pazarlaması\'ndan Sorumlu Yetkili Ajanslar',
         'ajanslar_buton' => 'Yetkili Ajanslar',
