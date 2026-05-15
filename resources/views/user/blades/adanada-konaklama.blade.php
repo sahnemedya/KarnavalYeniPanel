@@ -13,19 +13,104 @@
                 @endif
 
                 <div class="gorulecek-yerler">
+
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/masel-hotel.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.masel_hotel')">
+                            <img src="{{asset('images/user/adana-cevresi/sheraton-grand-adana-hotel.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.sheraton_grand_adana_hotel')">
                         </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.masel_hotel')</h2>
-                        <a href="https://maps.app.goo.gl/H2gsQ6VxWiwyr7fJA" class="yol-tarifi-al" target="_blank">
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.sheraton_grand_adana_hotel')</h2>
+                        <a href="https://maps.app.goo.gl/mncReq8cbLsywwSY9" class="yol-tarifi-al" target="_blank">
                             @lang('ortakMetinler.butonlar.yol_tarifi')
                         </a>
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/turkmen-riverside-hotel.avif"
+                            <img src="{{asset('images/user/adana-cevresi/adana-hiltonsa.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.adana_hiltonsa')">
+                        </figure>
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.adana_hiltonsa')</h2>
+                        <a href="https://maps.app.goo.gl/F4NsUSDdXN8gMzBz5" class="yol-tarifi-al" target="_blank">
+                            @lang('ortakMetinler.butonlar.yol_tarifi')
+                        </a>
+                    </div>
+
+
+                    <div class="yer">
+                        <figure>
+                            <img src="{{asset('images/user/adana-cevresi/divan-adana-hotel.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.divan_adana_hotel')">
+                        </figure>
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.divan_adana_hotel')</h2>
+                        <a href="https://maps.app.goo.gl/9s716RYGrkWV4nqD8" class="yol-tarifi-al" target="_blank">
+                            @lang('ortakMetinler.butonlar.yol_tarifi')
+                        </a>
+                    </div>
+
+
+                    <div class="yer">
+                        <figure>
+                            <img src="{{asset('images/user/adana-cevresi/dedeman-otel.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.dedeman_otel')">
+                        </figure>
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.dedeman_otel')</h2>
+                        <a href="https://maps.app.goo.gl/TeM51BxWN9wp95P6A" class="yol-tarifi-al" target="_blank">
+                            @lang('ortakMetinler.butonlar.yol_tarifi')
+                        </a>
+                    </div>
+
+
+                    <div class="yer">
+                        <figure>
+                            <img src="{{asset('images/user/adana-cevresi/doubletree-by-hilton-adana.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.doubletree_by_hilton_adana')">
+                        </figure>
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.doubletree_by_hilton_adana')</h2>
+                        <a href="https://maps.app.goo.gl/kSMDzaMhzHUuBqK8A" class="yol-tarifi-al" target="_blank">
+                            @lang('ortakMetinler.butonlar.yol_tarifi')
+                        </a>
+                    </div>
+
+
+                    <div class="yer">
+                        <figure>
+                            <img src="{{asset('images/user/adana-cevresi/otel-seyhan.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.otel_seyhan')">
+                        </figure>
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.otel_seyhan')</h2>
+                        <a href="https://maps.app.goo.gl/smTSSipjQ5myACvL6" class="yol-tarifi-al" target="_blank">
+                            @lang('ortakMetinler.butonlar.yol_tarifi')
+                        </a>
+                    </div>
+
+
+                    <div class="yer">
+                        <figure>
+                            <img src="{{asset('images/user/adana-cevresi/ramada-adana-hotel.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.ramada_adana_hotel')">
+                        </figure>
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.ramada_adana_hotel')</h2>
+                        <a href="https://maps.app.goo.gl/WjHX75yQZ2pZ88BJA" class="yol-tarifi-al" target="_blank">
+                            @lang('ortakMetinler.butonlar.yol_tarifi')
+                        </a>
+                    </div>
+
+
+                    <div class="yer">
+                        <figure>
+                            <img src="{{asset('images/user/adana-cevresi/cetinel-tesisleri-hotel.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.cetinel_tesisleri_hotel')">
+                        </figure>
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.cetinel_tesisleri_hotel')</h2>
+                        <a href="https://maps.app.goo.gl/PvRHZ6hA1mnAj9Yz6" class="yol-tarifi-al" target="_blank">
+                            @lang('ortakMetinler.butonlar.yol_tarifi')
+                        </a>
+                    </div>
+
+
+                    <div class="yer">
+                        <figure>
+                            <img src="{{asset('images/user/adana-cevresi/turkmen-riverside-hotel.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_konaklama.turkmen_riverside_hotel')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.turkmen_riverside_hotel')</h2>
@@ -35,81 +120,11 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/cetinel-tesisleri-hotel.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.cetinel_tesisleri_hotel')">
+                            <img src="{{asset('images/user/adana-cevresi/masel-hotel.avif')}}"
+                                 alt="@lang('ortakMetinler.adanada_konaklama.masel_hotel')">
                         </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.cetinel_tesisleri_hotel')</h2>
-                        <a href="https://maps.app.goo.gl/PvRHZ6hA1mnAj9Yz6" class="yol-tarifi-al" target="_blank">
-                            @lang('ortakMetinler.butonlar.yol_tarifi')
-                        </a>
-                    </div>
-                    <div class="yer">
-                        <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/ramada-adana-hotel.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.ramada_adana_hotel')">
-                        </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.ramada_adana_hotel')</h2>
-                        <a href="https://maps.app.goo.gl/WjHX75yQZ2pZ88BJA" class="yol-tarifi-al" target="_blank">
-                            @lang('ortakMetinler.butonlar.yol_tarifi')
-                        </a>
-                    </div>
-                    <div class="yer">
-                        <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/otel-seyhan.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.otel_seyhan')">
-                        </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.otel_seyhan')</h2>
-                        <a href="https://maps.app.goo.gl/smTSSipjQ5myACvL6" class="yol-tarifi-al" target="_blank">
-                            @lang('ortakMetinler.butonlar.yol_tarifi')
-                        </a>
-                    </div>
-                    <div class="yer">
-                        <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/doubletree-by-hilton-adana.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.doubletree_by_hilton_adana')">
-                        </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.doubletree_by_hilton_adana')</h2>
-                        <a href="https://maps.app.goo.gl/kSMDzaMhzHUuBqK8A" class="yol-tarifi-al" target="_blank">
-                            @lang('ortakMetinler.butonlar.yol_tarifi')
-                        </a>
-                    </div>
-                    <div class="yer">
-                        <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/dedeman-otel.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.dedeman_otel')">
-                        </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.dedeman_otel')</h2>
-                        <a href="https://maps.app.goo.gl/TeM51BxWN9wp95P6A" class="yol-tarifi-al" target="_blank">
-                            @lang('ortakMetinler.butonlar.yol_tarifi')
-                        </a>
-                    </div>
-                    <div class="yer">
-                        <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/divan-adana-hotel.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.divan_adana_hotel')">
-                        </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.divan_adana_hotel')</h2>
-                        <a href="https://maps.app.goo.gl/9s716RYGrkWV4nqD8" class="yol-tarifi-al" target="_blank">
-                            @lang('ortakMetinler.butonlar.yol_tarifi')
-                        </a>
-                    </div>
-                    <div class="yer">
-                        <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/adana-hiltonsa.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.adana_hiltonsa')">
-                        </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.adana_hiltonsa')</h2>
-                        <a href="https://maps.app.goo.gl/F4NsUSDdXN8gMzBz5" class="yol-tarifi-al" target="_blank">
-                            @lang('ortakMetinler.butonlar.yol_tarifi')
-                        </a>
-                    </div>
-                    <div class="yer">
-                        <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/sheraton-grand-adana-hotel.avif"
-                                 alt="@lang('ortakMetinler.adanada_konaklama.sheraton_grand_adana_hotel')">
-                        </figure>
-                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.sheraton_grand_adana_hotel')</h2>
-                        <a href="https://maps.app.goo.gl/mncReq8cbLsywwSY9" class="yol-tarifi-al" target="_blank">
+                        <h2 class="baslik">@lang('ortakMetinler.adanada_konaklama.masel_hotel')</h2>
+                        <a href="https://maps.app.goo.gl/H2gsQ6VxWiwyr7fJA" class="yol-tarifi-al" target="_blank">
                             @lang('ortakMetinler.butonlar.yol_tarifi')
                         </a>
                     </div>

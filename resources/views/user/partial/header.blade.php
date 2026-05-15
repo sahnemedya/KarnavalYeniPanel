@@ -110,7 +110,9 @@
                             </div>
                         </li>
 
-                        <li class="header-bulten"><a href="@if(app()->getLocale() == 'en') carnival-bulletin @else karnaval-bulteni @endif">@lang('ortakMetinler.bulten_aboneligi')</a></li>
+{{--                            @if(app()->getLocale() == 'en') carnival-bulletin @else karnaval-bulteni @endif--}}
+
+                        <li class="header-bulten"><a href="/">@lang('ortakMetinler.bulten_aboneligi')</a></li>
                     </ul>
                 </div>
 

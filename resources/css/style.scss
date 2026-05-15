@@ -5790,6 +5790,7 @@ b {
             box-shadow: rgba(0, 0, 0, 0.34) 0px 3px 8px;
 
             figure {
+
                 img {
                     transform: scale(1.05);
                 }
@@ -5804,6 +5805,7 @@ b {
         figure {
             width: 100%;
             overflow: hidden;
+            margin: 0 !important;
 
             img {
                 width: 100%;
@@ -5849,6 +5851,7 @@ b {
         figure {
             flex: 0 0 45%; // Esnek ve sabit genişlik kombinasyonu
             overflow: hidden;
+            margin: 0 !important;
 
             img {
                 width: 100%;
@@ -6060,6 +6063,7 @@ b {
         figure {
             width: 100%;
             overflow: hidden;
+            margin: 0 !important;
 
             img {
                 width: 100%;

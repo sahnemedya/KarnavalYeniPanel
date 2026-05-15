@@ -243,11 +243,11 @@ return [
         'gun_3_aciklama' => 'If you find yourself in Gaziantep, you can visit the Zeugma Mosaic Museum, Bakırcılar Bazaar, and Zincirli Bedesten. If you have enough energy, you can continue to Şanlıurfa and return to Adana the next day. However, we head back to Adana in the afternoon, stopping by Yumurtalık for a seafood break before continuing our journey.',
 
         'gun_4' => 'Day 4',
-        'gun_4_baslik' => 'Anavarza, Karatepe, Aslantaş',
+        'gun_4_baslik' => 'Anavarza-Karatepe-Aslantaş',
         'gun_4_aciklama' => 'In the morning, we take short breaks at Misis and Yılankale, then arrive at the ancient city of Anavarza around noon. In the afternoon, we visit Karatepe-Aslantaş National Park and Open-Air Museum, as well as the ancient city of Kastabala. For dinner, you can choose between two famous southern culinary destinations: Antakya or Gaziantep—both only 90 minutes away from our last stop.',
 
         'gun_5' => 'Day 5',
-        'gun_5_baslik' => 'Pozantı – Kapıkaya – Varda Bridge',
+        'gun_5_baslik' => 'Pozantı-Kapıkaya-Varda Bridge',
         'gun_5_aciklama' => 'We wake up before sunrise. After all, seeing the magnificent Cappadocia from a hot air balloon is a must. You can spend a few more hours exploring Avanos or join a wine tasting session. Then we head south. Around noon, we stop at Pozantı Şekerpınarı for a delicious lamb chop feast near the historic Akköprü. Instead of taking the highway, we follow the Çakıt Valley route, visiting Kapıkaya and the impressive Varda Bridge. By night, we return to Adana.',
 
         'gun_6' => 'Day 6',
@@ -255,7 +255,7 @@ return [
         'gun_6_aciklama' => 'We have breakfast with a sea view at the Yörük tables above Narlıkuyu, then set off for Cappadocia, arriving in about three hours. Formed by volcanic eruptions millions of years ago and shaped by erosion over time, Cappadocia offers breathtaking landscapes. On the way, we visit the Derinkuyu Underground City and Ihlara Valley, followed by the Göreme Open-Air Museum. For accommodation, we recommend staying in one of the charming cave hotels in Göreme.',
 
         'gun_7' => 'Day 7',
-        'gun_7_baslik' => 'Tarsus – Mersin – Narlıkuyu',
+        'gun_7_baslik' => 'Tarsus–Mersin–Narlıkuyu',
         'gun_7_aciklama' => 'Tarsus, larger than many Anatolian cities, is a district of Mersin with a history spanning 8,000 years. It takes its name from the city god Sandon. During the Byzantine period, Tarsus had city walls with three gates: Mountain Gate, Adana Gate, and Sea Gate. These walls were demolished by Ibrahim Pasha of Egypt in 1835, leaving only one gate standing today. Although there have been 13 queens named Cleopatra, the most famous is Cleopatra VII. In ancient times, the Mediterranean reached Tarsus, and Cleopatra Gate served as the Sea Gate. Visitors arriving by ship would enter through this gate. If you visit Tarsus, Cleopatra Gate is a must-see. Additionally, Şahmeran Bath, Grand Mosque, and Tarsus Waterfall are also worth visiting.',
     ],
 
@@ -317,7 +317,7 @@ return [
         'pr_raporu_baslik' => '2025 PR REPORT',
         'pr_raporu_buton' => 'PR REPORT',
 
-        'tanitim_baslik' => '2025 CARNIVAL PROMOTIONAL FILM',
+        'tanitim_baslik' => '2026 CARNIVAL PROMOTIONAL FILM',
         'tanitim_buton' => 'CARNIVAL PROMOTIONAL FILM',
 
         'sponsorlar_2025_baslik' => '2026 Official Supporters and Sponsors',

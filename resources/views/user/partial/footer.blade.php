@@ -20,7 +20,7 @@
             <figure class="footer-logo">
                 <img src="{{asset("images/site/".$siteSetting->footer_logo )}}" alt="">
             </figure>
-            <a class="karnaval-bulteni-btn" href="@lang('ortakMetinler.footer.abonelik_link')">@lang('ortakMetinler.footer.abonelik')</a>
+{{--            <a class="karnaval-bulteni-btn" href="@lang('ortakMetinler.footer.abonelik_link')">@lang('ortakMetinler.footer.abonelik')</a>--}}
         </div>
         <div class="item item2">
             <h2 class="slogan">@lang('ortakMetinler.footer.slogan')</h2>

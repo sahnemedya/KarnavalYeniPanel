@@ -244,7 +244,7 @@ return [
         'gun_3_aciklama' => 'Eğer soluğu Gaziantep’te aldıysanız Gaziantep Mozaik Müzesi, Bakırcılar Çarşısı, Zincirli Bedesten gezebileceğiniz yerler arasında. Enerjiniz çoksa Şanlıurfa’ya geçip Adana’ya ertesi gün dönebilirsiniz. Ancak biz öğleden sonra Adana yolcusuyuz. Çünkü akşamüstü Yumurtalık’ta bir balık molası verip Adana’ya öyle geçeceğiz.',
 
         'gun_4' => 'Gün 4',
-        'gun_4_baslik' => 'Anavarza Karatepe Aslantaş',
+        'gun_4_baslik' => 'Anavarza-Karatepe-Aslantaş',
         'gun_4_aciklama' => 'Sabah Misis ve Yılankale’de kısa birer mola veriyor, öğleye doğru Anavarza Ören Yeri’ne ulaşıyoruz. Öğleden sonra Karatepe-Aslantaş Milli Parkı ve Açık Hava Müzesi’ni ve Kastabala Antik Kenti’ni geziyoruz. Akşam ziyafeti için güneyin birbirinden meşhur iki sofrasından birini seçebilirsiniz. Antakya ya da Gaziantep! Her ikisi de son ziyaret noktamızdan 90 dakika!',
 
         'gun_5' => 'Gün 5',
@@ -319,7 +319,7 @@ return [
         'pr_raporu_baslik' => '2025 PR RAPORU',
         'pr_raporu_buton' => 'PR RAPORU',
 
-        'tanitim_baslik' => '2025 KARNAVAL TANITIM FİLMİ',
+        'tanitim_baslik' => '2026 KARNAVAL TANITIM FİLMİ',
         'tanitim_buton' => 'KARNAVAL TANITIM FİLMİ',
 
         'sponsorlar_2025_baslik' => '2026 Resmi Destekçi ve Sponsorlarımız',

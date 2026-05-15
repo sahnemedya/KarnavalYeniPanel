@@ -194,21 +194,21 @@
                         </div>
                     </div>
 
-                    <h2>@lang('ortakMetinler.sponsorluk.dosya_2026_baslik')</h2>
+{{--                    <h2>@lang('ortakMetinler.sponsorluk.dosya_2026_baslik')</h2>--}}
 
-                    <div class="sponsorlarimiz-list">
-                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') carnival-sponsorship-file @else karnaval-sponsorluk-dosyasi @endif" target="_blank">
-                            @lang('ortakMetinler.sponsorluk.dosya_2026_buton')
-                        </a>
-                    </div>
+{{--                    <div class="sponsorlarimiz-list">--}}
+{{--                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') carnival-sponsorship-file @else karnaval-sponsorluk-dosyasi @endif" target="_blank">--}}
+{{--                            @lang('ortakMetinler.sponsorluk.dosya_2026_buton')--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <h2>@lang('ortakMetinler.sponsorluk.pr_raporu_baslik')</h2>
+{{--                    <h2>@lang('ortakMetinler.sponsorluk.pr_raporu_baslik')</h2>--}}
 
-                    <div class="sponsorlarimiz-list">
-                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') pr-report @else pr-raporu @endif" target="_blank">
-                            @lang('ortakMetinler.sponsorluk.pr_raporu_buton')
-                        </a>
-                    </div>
+{{--                    <div class="sponsorlarimiz-list">--}}
+{{--                        <a class="sponsorlarimiz-buton" href="@if(app()->getLocale() == 'en') pr-report @else pr-raporu @endif" target="_blank">--}}
+{{--                            @lang('ortakMetinler.sponsorluk.pr_raporu_buton')--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
                     <h2>@lang('ortakMetinler.sponsorluk.tanitim_baslik')</h2>
 

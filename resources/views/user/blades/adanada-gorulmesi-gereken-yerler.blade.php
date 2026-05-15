@@ -15,7 +15,7 @@
                 <div class="gorulecek-yerler">
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/tarihi-kent-merkezi-gezisi.avif"
+                            <img src="{{asset('images/user/adana-cevresi/tarihi-kent-merkezi-gezisi.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.tarihi_kent_merkezi')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.tarihi_kent_merkezi')</h2>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/gol-kenari.avif"
+                            <img src="{{asset('images/user/adana-cevresi/gol-kenari.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.gol_kenari')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.gol_kenari')</h2>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/merkez-park.avif"
+                            <img src="{{asset('images/user/adana-cevresi/merkez-park.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.merkez_park')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.merkez_park')</h2>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/amerikan-pazari.avif"
+                            <img src="{{asset('images/user/adana-cevresi/amerikan-pazari.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.amerikan_pazari')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.amerikan_pazari')</h2>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/sabanci-merkez-camii.avif"
+                            <img src="{{asset('images/user/adana-cevresi/sabanci-merkez-camii.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.sabanci_merkez_camii')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.sabanci_merkez_camii')</h2>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/taskopru.avif"
+                            <img src="{{asset('images/user/adana-cevresi/taskopru.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.taskopru')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.taskopru')</h2>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/ulucami.avif"
+                            <img src="{{asset('images/user/adana-cevresi/ulucami.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.ulucami')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.ulucami')</h2>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="yer">
                         <figure>
-                            <img src="https://nisandaadanada.com/images/user/kategoriler/buyuk-saat-kulesi.avif"
+                            <img src="{{asset('images/user/adana-cevresi/buyuk-saat-kulesi.avif')}}"
                                  alt="@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.buyuk_saat_kulesi')">
                         </figure>
                         <h2 class="baslik">@lang('ortakMetinler.adanada_gorulmesi_gereken_yerler.buyuk_saat_kulesi')</h2>
