@@ -37,7 +37,7 @@ return [
     ],
     // Bölüm 2: Karnaval Bilgisi
     'adana_bilgisi' => [
-        'baslik' => 'Adana\'dan Bilgileri',
+        'baslik' => 'Adana\'dan Bilgiler',
         'link' => 'adana-cevresi',
     ],
     // Bölüm 4: Nisan'da Adana'da
