@@ -24,7 +24,7 @@
         </div>
         <div class="item item2">
             <h2 class="slogan">@lang('ortakMetinler.footer.slogan')</h2>
-            <div class="karnaval-tarihi">{{$formatliTarih}}</div>
+{{--            <div class="karnaval-tarihi">{{$formatliTarih}}</div>--}}
             {{--            <div class="karnaval-tarihi">2026’DA GÖRÜŞMEK ÜZERE!</div>--}}
             <div class="yer">@lang('ortakMetinler.footer.yer')</div>
         </div>
@@ -71,7 +71,7 @@
 <footer class="copyright content-space">
     <div class="max-width">
         <div class="copyright-left">
-            <p>Copyright © {{date('Y')}} <b>{{env("APP_NAME")}}.</b> @lang('ortakMetinler.footer.footer_kvkk')</p>
+            <p>Copyright © {{date('Y')}} <b>{{env("APP_NAME")}}.</b></p>
         </div>
 
         <div class="copyright-right">
