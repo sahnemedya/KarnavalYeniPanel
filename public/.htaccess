@@ -84,7 +84,17 @@
     # ----------------------------------------------------------------------
 
       # RewriteRule ^[yonlendirilen_url]$  /[yonlendirilecek_url] [R=301,L] Eğer anasayfaya yönlendirme olacaksa sadece '/' koy
-      RewriteRule ^/neden-emin-serhat-arikan$  /uzm-dt-emin-serhat-arikani-taniyin [R=301,L]
+      RewriteRule ^/karnaval-gazetesi$  / [R=301,L]
+      RewriteRule ^/2025-karnaval-gazetesi$  / [R=301,L]
+      RewriteRule ^/2024-karnaval-gazetesi$  / [R=301,L]
+      RewriteRule ^/karnaval-sponsorluk-dosyasi$  / [R=301,L]
+      RewriteRule ^/2024-surdurulebilirlik-raporlari$  /duyurular [R=301,L]
+      RewriteRule ^/ace-of-mice-en-iyi-kultur-ve-sanat-etkinligi-odulu-portakal-cicegi-karnavali$  /duyurular [R=301,L]
+      RewriteRule ^/karnaval-2025-odulleri$  /duyurular [R=301,L]
+      RewriteRule ^/karnavalin-enerjisini-yakalamaya-hazir-misin$  /duyurular [R=301,L]
+      RewriteRule ^/karnaval-bulteni$  /duyurular [R=301,L]
+      RewriteRule ^/karnaval-programi-yayinda$  /duyurular [R=301,L]
+      RewriteRule ^/uluslararasi-portakal-cicegi-karnavali-tarihi-belli-oldu$  /duyurular [R=301,L]
 
 
     # ----------------------------------------------------------------------
