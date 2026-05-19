@@ -8,18 +8,6 @@
                 <h1>{{ $page->inside_title ?? $page->title }}</h1>
 
 
-                    @if($page->image != NULL)
-                        <figure class="normal"
-                                @if($page->image != NULL) data-src="{{$page->image()}}"
-                                @else
-                                    data-src="{{$page->image()}}"
-                                @endif  data-fancybox="{{$page->title}}">
-
-                            <img src="{{$page->image()}}" alt="{{$page->title}}">
-                        </figure>
-                    @endif
-
-
                 @if($page->content != NULL)
                     {!! $page->content !!}
                 @else

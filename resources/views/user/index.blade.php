@@ -296,13 +296,13 @@
         document.addEventListener("DOMContentLoaded", function () {
             var swiperKarnaval = new Swiper('.swiper-karnaval-bilgileri', {
                 loop: true,
-                spaceBetween: 10, // Owl'daki margin değeri
-                speed: 600, // Geçiş yumuşatıcı hız
-                grabCursor: true, // Fare ile tutma ikonu çıkar
+                spaceBetween: 10,
+                speed: 600,
+                grabCursor: true,
 
                 autoplay: {
-                    delay: 3500, // Ekranda kalma süresi
-                    disableOnInteraction: false, // Dokununca otomatik kayma durmasın
+                    delay: 3500,
+                    disableOnInteraction: false,
                 },
 
                 pagination: {
@@ -310,19 +310,16 @@
                     clickable: true,
                 },
 
-                // Owl Responsive ayarlarının Swiper karşılığı
                 breakpoints: {
-                    0: {
-                        slidesPerView: 1,
-                    },
-                    768: {
-                        slidesPerView: 3,
-                    },
+                    0:    { slidesPerView: 1 },
+                    768:  { slidesPerView: 3 },
                     1024: {
                         slidesPerView: 4,
+                        allowTouchMove: false,  // dokunarak kaydırmayı da kapat
                     },
                     1366: {
-                        slidesPerView: 5,
+                        slidesPerView: 4,
+                        allowTouchMove: false,
                     }
                 }
             });
