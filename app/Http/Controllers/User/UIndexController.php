@@ -501,10 +501,6 @@ class UIndexController extends Controller
             ->orderBy('id', 'asc')
             ->get();
 
-        if ($karnavalBilgiler->count() > 0 && $karnavalBilgiler->count() <= 5) {
-            $karnavalBilgiler = $karnavalBilgiler->concat($karnavalBilgiler);
-        }
-
         // ----------------------------------------------------------
         // ADANADA (artık dile göre doğru kategori ID'lerini kullanıyor)
         // ----------------------------------------------------------

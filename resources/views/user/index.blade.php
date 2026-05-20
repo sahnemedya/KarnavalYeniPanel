@@ -294,8 +294,15 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
+            // En geniş görünümde (1024px+) 4 slide gösteriliyor.
+            // Loop ancak slide sayısı 4'ten fazlaysa anlamlı; değilse pagination
+            // gereksiz yere çoğalır. Az slide'da loop yerine rewind kullanılır.
+            var karnavalSlideCount = document.querySelectorAll('.swiper-karnaval-bilgileri .swiper-slide').length;
+            var karnavalLoop = karnavalSlideCount > 4;
+
             var swiperKarnaval = new Swiper('.swiper-karnaval-bilgileri', {
-                loop: true,
+                loop: karnavalLoop,
+                rewind: !karnavalLoop,
                 spaceBetween: 10,
                 speed: 600,
                 grabCursor: true,
@@ -313,14 +320,8 @@
                 breakpoints: {
                     0:    { slidesPerView: 1 },
                     768:  { slidesPerView: 3 },
-                    1024: {
-                        slidesPerView: 4,
-                        allowTouchMove: false,  // dokunarak kaydırmayı da kapat
-                    },
-                    1366: {
-                        slidesPerView: 4,
-                        allowTouchMove: false,
-                    }
+                    1024: { slidesPerView: 4 },
+                    1366: { slidesPerView: 4 }
                 }
             });
         });
