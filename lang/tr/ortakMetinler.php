@@ -42,7 +42,7 @@ return [
     ],
     // Bölüm 4: Nisan'da Adana'da
     'nisanda' => [
-        'baslik' => 'Nisan\'da Adan\'da',
+        'baslik' => 'Nisan\'da Adana\'da',
         'aciklama' => 'Kısa kollularınızı giyip çıkarsınız sokağa. Adana’nın sıcak, samimi insanlarıyla aynı sokaklarda yürürken, rüzgarın ara ara taşıyıp getirdiği o muhteşem portakal çiçeği kokusu, günün 24 saati bırakmaz peşinizi. Baygın bırakır insanı…',
         'link' => 'portakal-cicegi-karnavali-hakkinda',
     ],
