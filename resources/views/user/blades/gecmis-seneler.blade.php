@@ -24,13 +24,13 @@
                 @endif
 
                 <div class="gecmis-seneler">
-                    @foreach($page->allChildren as $item)
+                    @foreach($page->allChildren->sortByDesc('hit') as $item)
                         <a href="{{$item->slug}}" class="sene">
                             <figure>
-                                @if(($item->image!=NULL))
+                                @if($item->image != NULL)
                                     <img src="{{$item->image()}}" alt="{{$item->title}}">
                                 @else
-                                    <img src="{{asset("images/user/nophoto.jpg")}}" alt="{{$item->title}}">
+                                    <img src="{{asset('images/user/nophoto.jpg')}}" alt="{{$item->title}}">
                                 @endif
                             </figure>
                             <div class="text">
