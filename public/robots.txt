@@ -7,7 +7,7 @@ Disallow: /vendor/
 Allow: /
 
 # Sitemaps
-Sitemap: https://www.sahnemedya.com/sitemap.xml
+Sitemap: https://www.nisandaadanada.com/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1
