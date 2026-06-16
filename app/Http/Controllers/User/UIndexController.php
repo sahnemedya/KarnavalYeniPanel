@@ -20,6 +20,7 @@ use App\Models\FAQ;
 use App\Models\Gallery;
 use App\Models\HumanResourceForm;
 use App\Models\KarnavalSezonu;
+use App\Models\Podcasts;
 use App\Models\PortakalliLezzetler;
 use App\Models\References;
 use App\Models\SiteSettings;
@@ -610,6 +611,8 @@ class UIndexController extends Controller
                     fn($ref) => $ref->type?->localizedName($activeLangId) ?? 'Diğer'
                 );
             });
+
+        $podcasts = Podcasts::where('page_id', $page->id)->get();
         //
         //        $relatedDuyurular = $this->getRelatedDuyurular($page);
 
@@ -634,7 +637,7 @@ class UIndexController extends Controller
 
 
         // Sayfa verilerini view'e gönder (galleries eklendi)
-        return view($bladeFile, compact('page', 'galleries', 'galerisayfa', 'relatedNews', 'sertifikalar', 'contacts', 'randevuHizmet', 'galleryAll', 'galleryOverview', 'sss', 'schemaScriptsHtml', 'sponsorlar'));
+        return view($bladeFile, compact('page', 'galleries', 'galerisayfa', 'relatedNews', 'sertifikalar', 'contacts', 'randevuHizmet', 'galleryAll', 'galleryOverview', 'sss', 'schemaScriptsHtml', 'sponsorlar','podcasts'));
     }
 
     private function getRelatedNews($currentPage, $limit = 3)

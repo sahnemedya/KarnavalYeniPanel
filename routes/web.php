@@ -49,6 +49,7 @@ Route::prefix('yonetim')->name("cms.")->middleware('loginPageAuthControl')->grou
         require __DIR__ . '/cms/pressKit.php';
         require __DIR__ . '/cms/sideMenuElements.php';
         require __DIR__ . '/cms/comments.php';
+        require __DIR__ . '/cms/podcast.php';
 
         Route::prefix('settings')->name("settings.")->group(function () {
             require __DIR__ . '/cms/siteSettings.php';

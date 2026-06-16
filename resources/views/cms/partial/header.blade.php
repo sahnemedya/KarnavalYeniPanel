@@ -181,6 +181,50 @@
         </li>
         @endpermission
 
+        @permission('podcastler')
+        {{-- Podcast Menü --}}
+        <li class="ust-menu-li {{ request()->routeIs('cms.podcast.*') ? 'aktif' : '' }}">
+            <a href="{{ route('cms.podcast.index') }}">
+                Podcastler <i class="las la-angle-right"></i>
+            </a>
+
+            <ul class="alt-menu">
+
+                {{-- 1. LİSTELEME (TR - Varsayılan) --}}
+                <li class="{{ request()->routeIs('cms.podcast.index') && !request('lang_id') ? 'aktif' : '' }}">
+                    <a href="{{ route('cms.podcast.index') }}">
+                        Listele (TR)
+                    </a>
+                </li>
+
+                {{-- 2. DİĞER DİLLER --}}
+                @if(isset($languages))
+                    @foreach($languages as $lang)
+
+                        @if($lang->id == 1)
+                            @continue
+                        @endif
+
+                        <li class="{{ request()->routeIs('cms.podcast.index') && request('lang_id') == $lang->id ? 'aktif' : '' }}">
+                            <a href="{{ route('cms.podcast.index', ['lang_id' => $lang->id]) }}">
+                                Listele ({{ strtoupper($lang->code) }})
+                            </a>
+                        </li>
+
+                    @endforeach
+                @endif
+
+                {{-- OLUŞTUR --}}
+                <li class="{{ request()->routeIs('cms.podcast.create') ? 'aktif' : '' }}">
+                    <a href="{{ route('cms.podcast.create') }}">
+                        Oluştur
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        @endpermission
+
         @permission('kurumsal-kimlik')
         {{--        Certificates --}}
         <li class="ust-menu-li {{ request()->routeIs('cms.corporateIdentity.*') ? 'aktif' : '' }}">

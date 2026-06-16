@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bulten_iletisim_formus', function (Blueprint $table) {
-            $table->text('email')->nullable()->after('telefon');
+            if (!Schema::hasColumn('bulten_iletisim_formus', 'email')) {
+                $table->text('email')->nullable()->after('telefon');
+            }
         });
     }
 

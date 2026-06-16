@@ -9,15 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::table('reference_types', function (Blueprint $table) {
-            $table->foreignId('translation_of')
-                ->nullable()
-                ->after('lang_id')
-                ->constrained('reference_types')
-                ->nullOnDelete();
-        });
+        if (!Schema::hasColumn('reference_types', 'translation_of')) {
+            Schema::table('reference_types', function (Blueprint $table) {
+                $table->unsignedBigInteger('translation_of')->nullable()->after('lang_id');
+            });
+        }
     }
 
     /**

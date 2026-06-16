@@ -73,6 +73,11 @@ class Page extends Model
         return $this->hasMany(FAQ::class);
     }
 
+    public function podcasts()
+    {
+        return $this->hasMany(Podcasts::class);
+    }
+
     public function pageVideos()
     {
         return $this->hasMany(PageVideo::class)

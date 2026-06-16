@@ -27,7 +27,6 @@
                 @endif
 
 
-
                 <div class="extrem">
                     @if($page->ses)
                         <audio controls="" style="width: 100%">
@@ -58,7 +57,8 @@
                     @endif
 
                     @if($page->heyzen)
-                        <iframe allow="clipboard-write" allowfullscreen="allowfullscreen" class="fp-iframe" scrolling="no"
+                        <iframe allow="clipboard-write" allowfullscreen="allowfullscreen" class="fp-iframe"
+                                scrolling="no"
                                 src="{{$page->heyzen}}"
                                 style="border: 1px solid lightgray; width: 100%; height: 400px;"></iframe>
                     @endif
@@ -66,8 +66,33 @@
                 </div>
 
 
+                @if($podcasts->isNotEmpty())
+
+                    @foreach($podcasts as $podcast)
+
+                        @php
+                            $embed = str_replace(
+                                "open.spotify.com",
+                                "open.spotify.com/embed",
+                                $podcast->link
+                            );
+                        @endphp
 
 
+
+                        <iframe
+                            style="border-radius:12px"
+                            src="{{ $embed }}"
+                            width="100%"
+                            height="200"
+                            frameborder="0"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
+
+                    @endforeach
+
+                @endif
 
                 @if($sss->isNotEmpty())
                     <div class="container-faq fade-in">

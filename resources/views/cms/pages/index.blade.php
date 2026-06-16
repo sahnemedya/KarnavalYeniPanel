@@ -95,23 +95,42 @@
                         </th>
                         {{-- İşlemler --}}
                         <th class="islemler">
-                            <a href="{{ route("cms.pages.edit",$item->id) }}"
-                               class="btn bg-primary" title="Düzenle">
+
+                            {{-- Sayfa Düzenle --}}
+                            <a href="{{ route("cms.pages.edit", $item->id) }}"
+                               class="btn bg-primary"
+                               title="Düzenle">
                                 <i class="las la-pen"></i>
                             </a>
+
+                            {{-- FAQ Ekle (eski sistem) --}}
                             <a href="{{ route('cms.faqs.create', ['page_id' => $item->id]) }}"
-                               class="btn bg-warning" title="{{ $item->title }} Sayfasına SSS Ekle">
+                               class="btn bg-warning"
+                               title="{{ $item->title }} Sayfasına SSS Ekle">
                                 <i class="las la-question-circle"></i>
                             </a>
 
-                            <a href="{{ route("cms.gallery.create",$item->id) }}"
-                               class="btn bg-success" title="{{ $item->title }} Sayfasına Galeri Resimleri Ekle">
+                            {{-- PODCAST EKLE (YENİ EKLENEN) --}}
+                            <a href="{{ route('cms.podcast.create', ['page_id' => $item->id]) }}"
+                               class="btn bg-info"
+                               title="{{ $item->title }} Sayfasına Podcast Ekle">
+                                <i class="las la-microphone"></i>
+                            </a>
+
+                            {{-- Galeri --}}
+                            <a href="{{ route("cms.gallery.create", $item->id) }}"
+                               class="btn bg-success"
+                               title="{{ $item->title }} Sayfasına Galeri Resimleri Ekle">
                                 <i class="las la-images"></i>
                             </a>
-                            <a onclick="deleteFunc('{{ route("cms.pages.destroy",$item->id) }}')"
-                               class="btn bg-error" title="Sil">
+
+                            {{-- Sil --}}
+                            <a onclick="deleteFunc('{{ route("cms.pages.destroy", $item->id) }}')"
+                               class="btn bg-error"
+                               title="Sil">
                                 <i class="las la-trash"></i>
                             </a>
+
                         </th>
                     </tr>
                 @endforeach
