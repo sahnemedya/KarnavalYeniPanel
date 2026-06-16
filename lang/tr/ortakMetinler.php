@@ -25,6 +25,7 @@ return [
         'haberi_oku' => 'Haberi Oku',
         'yol_tarifi' => 'Yol Tarifi',
     ],
+    'podcast_baslik' => 'Originnovation Podcast Yayınında Karnaval Sürdürülebilirlik Çalışmaları',
 
     // Bölüm 1: Duyurular TAMAMLANDI
     'duyuru' => [
