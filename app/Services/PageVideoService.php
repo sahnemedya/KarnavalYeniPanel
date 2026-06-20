@@ -252,13 +252,25 @@ class PageVideoService
         $chunkDir = "video-chunks/{$uploadId}";
 
         Storage::disk('local')->makeDirectory($chunkDir);
-        Storage::disk('local')->put("{$chunkDir}/meta.json", json_encode([
+        $metaOk = Storage::disk('local')->put("{$chunkDir}/meta.json", json_encode([
             'filename'   => $request->filename,
             'total_size' => $request->total_size,
             'mime_type'  => $request->mime_type,
             'created_at' => now()->toIso8601String(),
             'received'   => [],
         ]));
+
+        if ($metaOk === false) {
+            LogService::add(
+                "Page Video Chunk Init",
+                "error",
+                "meta.json yazılamadı: storage/app/private/{$chunkDir} (yazma izni/disk dolu?)"
+            );
+            return [
+                "status"  => "error",
+                "message" => "Yükleme oturumu başlatılamadı (storage yazma hatası).",
+            ];
+        }
 
         return [
             "status"     => "success",
@@ -276,19 +288,45 @@ class PageVideoService
             $chunkIndex = (int) $request->input('chunk_index');
             $chunk      = $request->file('chunk');
 
+            // $_FILES boş geliyorsa genellikle POST gövdesi php.ini limitini aşmıştır.
+            // (post_max_size / upload_max_filesize). PHP gövdeyi sessizce düşürür.
             if (! $chunk) {
-                throw new InvalidArgumentException('Chunk dosyası eksik.');
+                $postedBytes = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
+                throw new InvalidArgumentException(
+                    "Chunk dosyası sunucuya ulaşmadı (Content-Length: {$postedBytes} byte). " .
+                    "Genelde PHP post_max_size / upload_max_filesize limit aşımı sebep olur."
+                );
+            }
+
+            if (! $chunk->isValid()) {
+                throw new RuntimeException(
+                    'Chunk upload geçersiz: ' . $chunk->getErrorMessage()
+                );
             }
 
             $chunkDir = "video-chunks/{$uploadId}";
             $this->assertUploadExists($chunkDir);
 
-            // Chunk'ı kaydet
-            Storage::disk('local')->putFileAs(
+            // Chunk'ı kaydet — disk 'throw'=false olduğu için dönüş değerini DOĞRULA.
+            $stored = Storage::disk('local')->putFileAs(
                 $chunkDir,
                 $chunk,
                 "{$chunkIndex}.part"
             );
+
+            if ($stored === false) {
+                throw new RuntimeException(
+                    "Chunk {$chunkIndex} diske yazılamadı (storage/app/private izni veya disk dolu)."
+                );
+            }
+
+            // Yazıldığını ayrıca file_exists düzeyinde de doğrula.
+            // Bu, finalize'da "Chunk N bulunamadı" hatasının kök nedenini ortaya çıkarır.
+            if (! Storage::disk('local')->exists("{$chunkDir}/{$chunkIndex}.part")) {
+                throw new RuntimeException(
+                    "Chunk {$chunkIndex} yazıldı görünüyor ama diskte bulunamadı."
+                );
+            }
 
             // Meta'yı güncelle
             $meta = json_decode(Storage::disk('local')->get("{$chunkDir}/meta.json"), true);
@@ -304,6 +342,11 @@ class PageVideoService
             ];
 
         } catch (\Throwable $e) {
+            LogService::add(
+                "Page Video Chunk Store",
+                "error",
+                "upload_id={$uploadId} chunk=" . $request->input('chunk_index') . " | " . $e->getMessage()
+            );
             return ["status" => "error", "message" => $e->getMessage()];
         }
     }
@@ -374,6 +417,11 @@ class PageVideoService
             ];
 
         } catch (\Throwable $e) {
+            LogService::add(
+                "Page Video Chunk Finalize",
+                "error",
+                "upload_id={$uploadId} | " . $e->getMessage()
+            );
             return ["status" => "error", "message" => $e->getMessage()];
         }
     }
