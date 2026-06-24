@@ -17,6 +17,8 @@ return [
     'foto_galeri' => 'Foto Galeri',
     'bulten_aboneligi' => 'Ücretsiz Bülten Aboneliği',
     'sponsorluk_buton' => 'SPONSORLUK',
+    'podcast_baslik' => 'Originnovation Podcast Yayınında Karnaval Sürdürülebilirlik Çalışmaları',
+
     'butonlar' => [
         'detayli_incele' => 'Detaylı İncele',
         'tumunu_incele' => 'Tümünü İncele',
@@ -25,7 +27,6 @@ return [
         'haberi_oku' => 'Haberi Oku',
         'yol_tarifi' => 'Yol Tarifi',
     ],
-    'podcast_baslik' => 'Originnovation Podcast Yayınında Karnaval Sürdürülebilirlik Çalışmaları',
 
     // Bölüm 1: Duyurular TAMAMLANDI
     'duyuru' => [

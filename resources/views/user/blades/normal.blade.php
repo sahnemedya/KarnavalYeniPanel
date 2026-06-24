@@ -66,7 +66,7 @@
                 </div>
 
                 @if($podcasts->isNotEmpty())
-                    <h2>@lang('podcast_baslik')</h2>
+                    <h2>@lang('ortakMetinler.podcast_baslik')</h2>
 
 
                     @foreach($podcasts as $podcast)
