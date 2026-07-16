@@ -582,7 +582,7 @@ class UIndexController extends Controller
         $contacts = Contacts::all();
         $galleryAll = Gallery::all();
         $sertifikalar = Certificate::where('published', 1)->get();
-        $oduller = Award::where('published', 1)->orderBy('prize_date', 'desc')->get();
+        $oduller = Award::where('published', 1)->orderBy('prize_date', 'asc')->get();
         $galleryOverview = Gallery::with('page')->get();
         $randevuHizmet = Page::where('category_id', 3)->get();
 
