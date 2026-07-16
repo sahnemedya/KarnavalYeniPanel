@@ -3332,6 +3332,83 @@ b {
                 }
             }
 
+            .oduller-liste {
+                display: flex;
+                justify-content: start;
+                align-items: start;
+                gap: 20px;
+                flex-wrap: wrap;
+                width: 100%;
+                margin-top: 30px;
+                margin-bottom: 30px;
+
+                .odul {
+                    max-width: calc((100% - 40px) / 3);
+                    width: 100%;
+                    display: flex;
+                    justify-content: start;
+                    align-items: start;
+                    gap: 0;
+                    flex-direction: column;
+                    background-color: #fff;
+                    box-shadow: rgba(60, 64, 67, 0.4) 0px 1px 2px 0px,
+                    rgba(60, 64, 67, 0.25) 0px 2px 6px 2px;
+                    transition: all 0.3s ease-in-out;
+
+                    figure {
+                        background-color: $turuncu2;
+                        width: 100%;
+                        overflow: hidden;
+                        margin: 0;
+
+                        img {
+                            width: 100%;
+                            float: left;
+                            object-fit: contain;
+                        }
+                    }
+
+                    .text {
+                        padding: 20px 10px;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        max-width: 100% !important;
+                        width: 100%;
+                        text-align: center;
+
+                        h2,
+                        h3 {
+                            font-size: 22px;
+                            line-height: 30px;
+                            color: $yesil2;
+                            width: 100%;
+                            margin-bottom: 6px;
+                        }
+
+                        .tarih {
+                            display: inline-block;
+                            font-family: $metin;
+                            font-size: 15px;
+                            color: $ilkrenk;
+                        }
+                    }
+
+                    &:hover {
+                        transform: translateY(-5px);
+
+                        figure {
+                            background-color: $yesil;
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        max-width: calc((100% - 20px) / 2);
+                    }
+                    @media (max-width: 500px) {
+                        max-width: 100%;
+                    }
+                }
+            }
+
             .galeri-sayfasi {
                 display: flex;
                 justify-content: start;

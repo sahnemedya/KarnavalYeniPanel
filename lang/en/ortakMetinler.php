@@ -25,6 +25,7 @@ return [
         'yol_tarifi' => 'Get Directions',
     ],
     'podcast_baslik' => 'Originnovation Podcast Episode: Carnival Sustainability Initiatives',
+    'oduller' => 'Awards We Have Received',
 
 
     // Bölüm 1: Duyurular TAMAMLANDI

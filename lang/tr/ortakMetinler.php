@@ -18,6 +18,7 @@ return [
     'bulten_aboneligi' => 'Ücretsiz Bülten Aboneliği',
     'sponsorluk_buton' => 'SPONSORLUK',
     'podcast_baslik' => 'Originnovation Podcast Yayınında Karnaval Sürdürülebilirlik Çalışmaları',
+    'oduller' => 'Aldığımız Ödüller',
 
     'butonlar' => [
         'detayli_incele' => 'Detaylı İncele',

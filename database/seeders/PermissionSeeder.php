@@ -181,5 +181,13 @@ class PermissionSeeder extends Seeder
             ]
         );
 
+        Permission::updateOrCreate(
+            ['id' => 23],
+            [
+                "name" => "Ödüller",
+                "label" => "oduller"
+            ]
+        );
+
     }
 }

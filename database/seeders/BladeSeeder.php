@@ -24,6 +24,7 @@ class BladeSeeder extends Seeder
             ['name' => 'Randevu Al', 'file' => 'randevu-al.blade.php', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['name' => 'Listele', 'file' => 'Listele.blade.php', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['name' => 'Menü Listele', 'file' => 'menu-listele.blade.php', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name' => 'Ödüller Sayfası', 'file' => 'oduller.blade.php', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

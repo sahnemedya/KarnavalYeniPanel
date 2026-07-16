@@ -50,6 +50,7 @@ Route::prefix('yonetim')->name("cms.")->middleware('loginPageAuthControl')->grou
         require __DIR__ . '/cms/sideMenuElements.php';
         require __DIR__ . '/cms/comments.php';
         require __DIR__ . '/cms/podcast.php';
+        require __DIR__ . '/cms/awards.php';
 
         Route::prefix('settings')->name("settings.")->group(function () {
             require __DIR__ . '/cms/siteSettings.php';

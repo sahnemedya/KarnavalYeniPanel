@@ -8,6 +8,7 @@ use App\Mail\BultenIletisimFormuMail;
 use App\Mail\ContactFormMail;
 use App\Mail\HumanResourceFormMail;
 use App\Mail\portakalliLezzetlerFormuMail;
+use App\Models\Award;
 use App\Models\BalkonVitrinBasvuru;
 use App\Models\BultenAbone;
 use App\Models\BultenIletisimFormu;
@@ -581,6 +582,7 @@ class UIndexController extends Controller
         $contacts = Contacts::all();
         $galleryAll = Gallery::all();
         $sertifikalar = Certificate::where('published', 1)->get();
+        $oduller = Award::where('published', 1)->orderBy('prize_date', 'desc')->get();
         $galleryOverview = Gallery::with('page')->get();
         $randevuHizmet = Page::where('category_id', 3)->get();
 
@@ -637,7 +639,7 @@ class UIndexController extends Controller
 
 
         // Sayfa verilerini view'e gönder (galleries eklendi)
-        return view($bladeFile, compact('page', 'galleries', 'galerisayfa', 'relatedNews', 'sertifikalar', 'contacts', 'randevuHizmet', 'galleryAll', 'galleryOverview', 'sss', 'schemaScriptsHtml', 'sponsorlar','podcasts'));
+        return view($bladeFile, compact('page', 'galleries', 'galerisayfa', 'relatedNews', 'sertifikalar', 'oduller', 'contacts', 'randevuHizmet', 'galleryAll', 'galleryOverview', 'sss', 'schemaScriptsHtml', 'sponsorlar','podcasts'));
     }
 
     private function getRelatedNews($currentPage, $limit = 3)

@@ -17,6 +17,7 @@ return [
     'press_kit_files_path'=>'press-kit/files',
     'gallery_path'=>'gallery',
     'doctor_path'=>'doctors',
+    'awards_path'=>'oduller',
     "corporate_identity_files_path" => "corporate_identity/files",
     "corporate_identity_images_path" => "corporate_identity/images",
     'consent_forms_path' => 'consent-forms',

@@ -444,6 +444,24 @@
 
         </li>
         @endpermission
+
+        @permission('oduller')
+        {{--        Awards --}}
+        <li class="ust-menu-li {{ request()->routeIs('cms.awards.*') ? 'aktif' : '' }}">
+            <a href="{{route('cms.awards.index')}}">Ödüller <i class="las la-angle-right"></i></a>
+
+            <ul class="alt-menu">
+                <li class="{{ request()->routeIs('cms.awards.index') ? 'aktif' : '' }}">
+                    <a href="{{route('cms.awards.index')}}">Tümü</a>
+                </li>
+
+                <li class="{{ request()->routeIs('cms.awards.create') ? 'aktif' : '' }}">
+                    <a href="{{route('cms.awards.create')}}">Oluştur</a>
+                </li>
+            </ul>
+
+        </li>
+        @endpermission
         @permission('formlar')
         {{--        Formlar --}}
         <li class="ust-menu-li {{ request()->routeIs('cms.forms.*') ? 'aktif' : '' }}">
