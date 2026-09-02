@@ -72,7 +72,7 @@
     <div class="max-width">
         <div class="copyright-left">
             <p>Copyright © {{date('Y')}} <b>{{env("APP_NAME")}}.</b> </p>
-            <a href="https://www.sahnemedya.com"><i>-</i> <b>sahnemedya</b></a>
+            <a href="https://www.sahnemedya.com"> Tasarım <i class="mobil-none">-</i> SEO & GEO (SEO ve GEO) <b>sahnemedya</b></a>
         </div>
     </div>
 </footer>
