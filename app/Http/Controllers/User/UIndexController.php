@@ -484,9 +484,14 @@ class UIndexController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-        // EKLENDİ: Az slayt varsa loop için çoğalt
-        if ($duyurular->count() > 0 && $duyurular->count() <= 5) {
-            $duyurular = $duyurular->concat($duyurular);
+        // Swiper coverflow + loop + slidesPerView:'auto' kombinasyonu için minimum
+        // 10 slide garantisi. Daha azı olduğunda Swiper yeterli klon üretemiyor;
+        // son slide'a geldiğinde sol taraf boş kalıyor ve loop takılıyor.
+        if ($duyurular->count() > 0 && $duyurular->count() < 10) {
+            $orijinalDuyurular = $duyurular;
+            while ($duyurular->count() < 10) {
+                $duyurular = $duyurular->concat($orijinalDuyurular);
+            }
         }
 
         // ----------------------------------------------------------

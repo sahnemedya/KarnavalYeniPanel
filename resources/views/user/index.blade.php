@@ -34,13 +34,7 @@
             <div class="swiper swiper-duyurular">
                 <div class="swiper-wrapper">
 
-                    @php
-                        // Slide sayısı 4'ten azsa içeriği çoğalt
-                        $duyurularLoop = count($duyurular) < 4
-                            ? collect($duyurular)->concat($duyurular)->concat($duyurular)
-                            : $duyurular;
-                    @endphp
-
+                    {{-- Çoğaltma mantığı controller'da yönetiliyor (minimum 10 slide garantisi). --}}
                     @foreach($duyurular as $duyuru)
                         {{-- Swiper Slide Elemanları --}}
                         <div class="swiper-slide">
@@ -273,15 +267,22 @@
             });
         });
         document.addEventListener("DOMContentLoaded", function () {
-            var slideCount = document.querySelectorAll(".swiper-duyurular .swiper-slide").length;
-
+            // Coverflow efekti: Swiper, scale/opacity/z-index işini kendisi hallediyor.
+            // Yanlardaki slide'lar depth parametresiyle geriye itilip küçülür.
+            // CSS tarafında sadece aktif slide için border vurgusu kalır.
             var swiper = new Swiper(".swiper-duyurular", {
+                effect: 'coverflow',
+                coverflowEffect: {
+                    rotate: 0,         // Döndürme yok, sadece derinlik hissi
+                    stretch: 0,        // Slide'lar üst üste binmesin
+                    depth: 180,        // Yanlar ne kadar geri gitsin (büyük = daha küçük görünür)
+                    modifier: 1,
+                    slideShadows: false,
+                },
                 grabCursor: true,
                 centeredSlides: true,
                 loop: true,
-                loopedSlides: slideCount * 3,
-                loopAdditionalSlides: slideCount,
-                watchSlidesProgress: true,
+                loopAdditionalSlides: 3,   // Loop klonlarını artır → son slide'da sol boş görünmesin
                 slidesPerView: 'auto',
                 spaceBetween: 0,
                 speed: 600,
