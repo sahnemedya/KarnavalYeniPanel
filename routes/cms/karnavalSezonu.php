@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('karnaval-sezonu/create',[KarnavalSezonuController::class, 'create'])->name('karnaval-sezonu.create');
+Route::post('karnaval-sezonu/sonraki-yili-ekle',[KarnavalSezonuController::class,"sonrakiYiliEkle"])->name("karnaval-sezonu.sonraki-yili-ekle");
 Route::post('karnaval-sezonu/{id}/activate',[KarnavalSezonuController::class,"activate"])->name("karnaval-sezonu.activate");
 Route::post('karnaval-sezonu/{id}/restore',[KarnavalSezonuController::class,"restore"])->name("karnaval-sezonu.restore");
 Route::get('/karnaval-sezonu/deleted', [KarnavalSezonuController::class, 'deleted'])->name('karnaval-sezonu.deleted');

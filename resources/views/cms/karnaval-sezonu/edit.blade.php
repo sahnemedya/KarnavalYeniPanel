@@ -19,7 +19,7 @@
                     {{-- Formun aslında bir GÜNCELLEME (PUT) işlemi olduğunu Laravel'e bildiren sihirli kod --}}
                     @method('PUT')
                     <label for="hit">Sıralaması:</label>
-                    <input type="number" name="hit" id="hit" placeholder="Sayfa Sıralaması" value="{{$page->hit}}">
+                    <input type="number" name="hit" id="hit" placeholder="Sayfa Sıralaması" value="{{ old('hit', $karnavalSezonlari->hit) }}">
 
                     {{-- 1. DİNAMİK YIL SEÇİCİ --}}
                     <div class="form-group mb-3">

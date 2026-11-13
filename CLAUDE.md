@@ -1,89 +1,102 @@
-# GaziCoskunPanel — Mimari Rehberi
+# KarnavalYeniPanel — Mimari & Tasarım Rehberi
 
-> Bu doküman GaziCoskunPanel projesinin yapısını anlatır. Yeni Laravel CMS projelerinde bu projeden kopyalanan dosyaları doğru bir biçimde değerlendirmek ve aynı pattern'leri sürdürmek için referans olarak kullanılır.
+> **Proje kimliği:** Portakal Çiçeği Karnavalı (Adana) resmi web sitesi + yönetim paneli.
+> **Tür:** Laravel 12 tabanlı çift yüzlü uygulama (ziyaretçi + CMS panel).
+> **Önemli:** Diğer kardeş projeler (GaziCoskun, NupelInsaat vs.) ile aynı iskeleti paylaşır; ancak **bu proje için özel: karnaval sezonu / yıl yönetimi** var — site içeriğinin yıl bazlı sürümlenmesi (referanslar, sayfalar, sponsor dosyaları, sayaç) buna bağlı.
 
 ---
 
-## 1. Genel Bakış
-
-- **Tür:** Laravel tabanlı kurumsal web sitesi + CMS yönetim paneli (iki yüzlü uygulama)
-- **Kullanıcı tipleri:** Ziyaretçi (user), panel yöneticisi (cms)
-- **Dil:** Türkçe varsayılan, çoklu dil desteği (Language modeli + `translation_of` ilişkisi)
-
-## 2. Tech Stack
+## 1. Tech Stack
 
 | Katman | Teknoloji |
 |---|---|
 | Backend | PHP 8.3+, Laravel 12 |
 | DB | MySQL 8+ |
-| Asset pipeline | Vite + SCSS (Dart Sass) |
-| Frontend lib | Swiper 11 (carousel), Fancybox v4 (lightbox), Flatpickr (datepicker), SweetAlert2, Alpine.js, jQuery (kalan minimal kullanım, **yeni kodda kullanma**) |
-| İkon | Line Awesome 1.3, Font Awesome 7 |
-| Editör | CKEditor (sayfa içeriği için) |
+| Asset pipeline | Vite 6 + SCSS (Dart Sass 1.89) |
+| Frontend libs | jQuery 3.7, Owl Carousel (kalıntı), mmenu (kalıntı), Air Datepicker 3.3, Fancybox 5, Flatpickr, Dropzone, DataTables, Notyf, SweetAlert2 |
+| Editör | CKEditor 4 (sayfa içeriği) |
+| İkonlar | Line Awesome 1.3 (`la-*`) |
+| SEO | butschster/meta-tags, spatie/laravel-sitemap, spatie/schema-org |
+| Konum | stevebauman/location |
 
-**Önemli:** Laravel 12 kullandığı için `app/Http/Kernel.php` **yok** — middleware yapılandırması `bootstrap/app.php`'de yapılır.
+> **Not:** Bu proje **henüz** Owl → Swiper ve jQuery → vanilla geçişini yapmamıştır. `resources/js/style.js` içinde aktif olarak `$('#mobilmenu').mmenu(...)` ve `.owl-carousel-slider` init'leri vardır. Yeni slider/menü yazarken, kardeş projelerdeki modernizasyon referans değildir — projenin kendi mevcut stilini takip et, radikal refactor önerilmeden yapılmaz.
+
+**Laravel 12 özel:** `app/Http/Kernel.php` **yok**. Middleware kaydı `bootstrap/app.php` içinde `$middleware->web(append: [...])` ve `$middleware->alias([...])` ile yapılır.
 
 ---
 
-## 3. Klasör Yapısı (Yüksek seviye)
+## 2. Klasör Yapısı (Yüksek seviye)
 
 ```
-GaziCoskunPanel/
+KarnavalYeniPanel/
 ├── app/
-│   ├── Console/Commands/        # Artisan komutları (cron işleri)
+│   ├── Console/Commands/        # ClearAllLogs, GenerateLlmsTxt, MigrateLegacyData
 │   ├── Http/
-│   │   ├── Controllers/Cms/     # Panel controller'ları
-│   │   ├── Controllers/User/    # Ziyaretçi controller'ları
-│   │   └── Middleware/          # Custom middleware (auth, geo, security)
-│   ├── Mail/                    # Mailable sınıfları
-│   ├── Models/                  # Eloquent modeller
-│   ├── Observers/               # Model observer'lar
-│   ├── Providers/               # Servis sağlayıcıları
-│   ├── Services/                # İş mantığı (Controller → Service → Model)
-│   └── Traits/                  # Paylaşılan trait'ler
+│   │   ├── Controllers/Cms/     # Panel controller'ları (~36 adet)
+│   │   ├── Controllers/User/    # Ziyaretçi: UIndexController, ULanguageController
+│   │   ├── Middleware/          # Authenticate, Geo, Language, Login kontrol, CheckPermission
+│   │   └── Requests/            # FormRequest (KarnavalSezonuRequest vs.)
+│   ├── Models/                  # Eloquent (~44 adet)
+│   ├── Observers/               # Blade/Category/Language/Page/Seo/SiteSettings
+│   ├── Providers/AppServiceProvider.php   # View composer'lar burada toplanıyor
+│   ├── Services/                # İş mantığı (~37 adet)
+│   └── Traits/
 ├── bootstrap/app.php            # Middleware + routing config (Laravel 12)
-├── config/                      # services.php, app.php vb.
+├── config/                      # services.php dahil
 ├── database/migrations/         # Tablo şemaları
+├── database/seeders/            # DB seeder'lar
+├── lang/{tr,en,fr}/             # Çeviri dosyaları (ortakMetinler.php vs.)
 ├── resources/
 │   ├── css/
-│   │   ├── app.scss             # Panel (CMS) CSS — Vite girdisi
-│   │   └── style.scss           # Ziyaretçi (user) CSS — Vite girdisi
+│   │   ├── app.scss             # Panel (CMS) — Vite girdisi
+│   │   └── style.scss           # Ziyaretçi — Vite girdisi (~ana tasarım)
 │   ├── js/
-│   │   ├── app.js               # Panel JS — jQuery + sidebar
-│   │   ├── style.js             # Ziyaretçi JS — Vite girdisi (Swiper, Fancybox, Flatpickr init'leri)
-│   │   └── user/script.js       # ⚠ ESKİ jQuery kalıntısı — public/js/user/script.js'in kaynağı, dokunma
-│   ├── views/
-│   │   ├── cms/                 # Panel blade'leri (modüllere göre alt klasör)
-│   │   ├── user/                # Ziyaretçi blade'leri
-│   │   └── errors/              # 401/403/404/419/500/503 hata sayfaları
-│   └── lang/                    # Çeviri dosyaları
+│   │   ├── app.js               # Panel JS
+│   │   ├── style.js             # Ziyaretçi JS (owl/mmenu)
+│   │   └── user/                # Eski kalıntı (ör. script.js varsa)
+│   └── views/
+│       ├── cms/                 # Panel blade'leri (modüle göre alt klasör)
+│       │   ├── karnaval-sezonu/ # Karnaval yıl yönetimi (BU PROJEYE ÖZEL)
+│       │   └── partial/         # layout, header, footer, head, ckeditor...
+│       ├── user/                # Ziyaretçi blade'leri
+│       │   ├── blades/          # Sayfa şablonları (~40 adet: normal, sponsorluk, oduller, galeri, vs.)
+│       │   └── partial/         # master, header, footer, head, mobile-menu, sidemenu
+│       └── errors/              # HTTP hata sayfaları
 ├── routes/
-│   ├── web.php                  # Ana route giriş (cms + user dahil edilir)
-│   ├── auth.php
-│   ├── noAuth.php
-│   ├── cms/                     # Panel route'ları (modüle göre ayrı dosya)
-│   └── user/                    # Ziyaretçi route'ları
+│   ├── web.php                  # Ana giriş — cms + user route'larını include eder
+│   ├── auth.php, noAuth.php
+│   ├── cms/                     # Panel route'ları (modül başına 1 dosya)
+│   │   └── karnavalSezonu.php
+│   └── user/index.php
+├── public/
+│   ├── build/                   # Vite output (deploy'da hazır olmalı)
+│   ├── llms.txt                 # AI arama motorları için üretiliyor
+│   ├── plugins/ckeditor/        # CKEditor 4 (eski, panel'den)
+│   └── js/user/                 # Statik JS kalıntıları
+├── karnavaldb (5).sql           # Son canlı DB dump (referans)
+├── bilgiler.txt                 # Proje kurulum/deploy notları
 ├── vite.config.js
 └── package.json
 ```
 
 ---
 
-## 4. Backend Mimarisi
+## 3. Backend Mimarisi (Service Pattern)
 
-### 4.1 Service katmanı (önemli pattern)
-
-**Tüm iş mantığı `app/Services/` altında bir Service sınıfında.** Controller'lar yalnızca request alır, Service'i çağırır, response döner. Tipik akış:
+### 3.1 Akış
 
 ```
 Request → Controller → Service → Model → DB
                           ↓
-                   array dönüşü
+                   array dönüşü (status / message / data)
                           ↓
-                  Controller → JSON/View
+                  Controller → redirect-with veya JSON
 ```
 
-**Service dönüş konvansiyonu:** Service metodları array döner:
+### 3.2 Service dönüş konvansiyonu
+
+Her service metodu **mutlaka** array döner:
+
 ```php
 return [
     "status"  => "success",       // veya "error"
@@ -92,429 +105,451 @@ return [
 ];
 ```
 
-Controller bu array'i kullanıp `back()->with(...)` veya `response()->json(...)` döner.
+Controller bu array'i `back()->with('status', $r['status'])->with('message', $r['message'])` veya `response()->json($r)` olarak işler.
 
-### 4.2 Mevcut Service'ler (alfabetik özet)
+### 3.3 Mevcut Service'ler
 
-| Service | Sorumluluk |
+**Ortak (Kardeş projelerle aynı):**
+`AntiSpamService`, `ApiKeyService`, `AramaKayitService`, `BladeService`, `CategoryService`, `CertificateService`, `CommonService` (resim/webp/dosya helper'ı), `ContactsService`, `FAQServices`, `GalleryService`, `GeminiService`, `GeoService` (llms.txt üretici), `LanguageService`, `LogService`, `NumberUsersService`, `PageSchemasService`, `PageService`, `PanelMenuSettingService`, `PermissionService`, `PopupService`, `PressKitService`, `ReferenceService`, `RolePermissionService`, `RoleUserService`, `RolesService`, `SeoService`, `SideMenuElementService`, `SiteSettingsService`, `SliderService`, `SocialMediaService`.
+
+**Bu projeye özel / karnaval'a yoğun:**
+`KarnavalSezonuService` — karnaval yılları CRUD + aktif sezon publish toggle (tek sezon aktif prensibi).
+`AwardService` — ödüller (kraliçe adayları vs.)
+`CommentService`, `DoctorService`, `FeatureService`, `PageVideoService`, `PodcastServices`, `ReferenceTypeService`.
+
+### 3.4 Modeller (Karnaval'a Özel)
+
+| Model | Rol |
 |---|---|
-| `ApiKeyService` | API anahtarları/site ayarları (panel'den yönetilen Google/YouTube/reCAPTCHA) |
-| `AntiSpamService` | Form spam koruması |
-| `AramaKayitService` | Site içi arama loglama |
-| `BladeService` | Sayfa şablonları (Blade) yönetimi |
-| `CategoryService` | Kategori CRUD |
-| `CertificateService` | Sertifika yönetimi |
-| `CommonService` | Resim upload, WebP dönüşüm, dosya silme yardımcıları |
-| `ContactsService` | İletişim bilgileri |
-| `ContentQualityService` | Sayfa içerik kalitesi puanlama |
-| `FAQServices` | Sık sorulan sorular |
-| `GalleryService` | Galeri görselleri |
-| `GeminiService` | Google Gemini AI entegrasyonu (içerik üretimi) |
-| `GeoService` | LLMS.txt üretimi + GEO (Generative Engine Optimization) |
-| `GoogleReviewService` | Google Places API yorumlar |
-| `LanguageService` | Dil yönetimi |
-| `LeadScoringService` | Form lead puanlama |
-| `LogService` | Özel log kanalı (DB-based veya log dosyası) |
-| `MediaProcessorService` | Toplu medya işleme |
-| `MonthlyReportService` | Aylık rapor üretimi |
-| `NumberUsersService` | İstatistik/sayaç |
-| `PageSchemasService` | Schema.org JSON-LD yönetimi |
-| `PageService` | Ana sayfa CRUD (Page modeli — site içeriğinin omurgası) |
-| `PageTemplateService` | Sayfa şablonu yönetimi |
-| `PagespeedService` | Google PageSpeed Insights API |
-| `PanelMenuSettingService` | Panel side menu özelleştirme |
-| `PartnersSolutionService` | Çözüm ortakları |
-| `PermissionService` | Yetki yönetimi |
-| `PopupService` | Popup yönetimi |
-| `PressKitService` | Basın kiti |
-| `ReferenceService` | Referanslar |
-| `RolePermissionService` | Rol-yetki ilişkisi |
-| `RoleUserService` | Kullanıcı-rol ilişkisi |
-| `RolesService` | Rol CRUD |
-| `SeoAuditService` | SEO denetimi (Page bazlı sorun tespiti) |
-| `SeoService` | SEO meta CRUD (Seo modeli) |
-| `SideMenuElementService` | Side menu öğeleri + sayfa çevirileri |
-| `SiteHealthService` | Site sağlığı kontrolleri (SSL, header, uptime, 404, mail) |
-| `SiteSettingsService` | Genel site ayarları |
-| `SliderService` | Anasayfa slider yönetimi |
-| `SocialMediaService` | Sosyal medya linkleri |
-| `YoutubeService` | YouTube API'den video senkronizasyonu |
+| `KarnavalSezonu` | **Omurga** — her yılın karnaval bilgisi: `karnaval_yili`, `sezon_baslangici`, `karnaval_tarihi_baslangic`, `karnaval_tarihi_bitis`, `published` (tek aktif), `hit` (sıralama). SoftDeletes vardır. |
+| `References` | Sponsorlar. `sezon_id` ile `KarnavalSezonu`'ya bağlı. Yıl bazlı sponsor listesi. |
+| `Page` | Sayfa. İçinde `sezon_id` FK var — sayfaların yıl-bazlı versiyonlanması için. |
+| `ReferenceType` | Sponsor tipleri (ana, destekçi, medya vs.) |
+| `Slider`, `Popup`, `Gallery`, `PageVideo` | Yıl bazlı içerikler |
+| `BalkonVitrinBasvuru`, `PortakalliLezzetler`, `RandevuAlForm`, `HumanResourceForm`, `ContactForm`, `BultenAbone`, `BultenIletisimFormu`, `MedyadaBiz`, `YetkiliAjanslar` | Karnaval'a özel form & içerik modelleri |
+| `KullaniciGirisTakip`, `KullaniciYonlendirenSayfa`, `GonderilenMail` | Analytics/log |
 
-### 4.3 Modeller
+### 3.5 Controller'lar
 
-Önemli model ilişkileri:
-- `Page` (sayfa) ← omurga model. Bağımlılıklar:
-  - `hasOne(Seo::class, 'page_id')` — SEO meta + GEO alanları (`geo_title`, `geo_description`)
-  - `belongsTo(Category::class)` — kategori
-  - `belongsTo(Language::class, 'lang_id')` — dil
-  - `belongsTo(Page::class, 'parent_page')` — üst sayfa (hiyerarşi)
-  - `belongsTo(Page::class, 'translation_of')` — çeviri kaynak sayfası
-  - `hasMany(Page::class, 'parent_page')` — alt sayfalar
-  - `hasMany(Page::class, 'translation_of')` — diğer dil çevirileri
-  - `belongsTo(Blade::class, 'blade_id')` — sayfa şablonu
-  - `hasOne(PageSchemas::class, 'page_id')` — schema.org JSON-LD
-  - `hasMany(FAQ::class)`, `hasMany(Gallery::class)`
-- `Seo` — Page'e bağlı, `geo_title`/`geo_description` da burada
-- `ApiKeys` — panel'den yönetilen ayarlar (Google Place ID, YouTube Channel ID, vb.)
-
-### 4.4 Controllers (Cms/ altında)
-
-Modüle göre ayrılmış. Her Controller bir `*Service` enjekte eder constructor'da:
+`app/Http/Controllers/Cms/` altında **36** controller. Her biri bir Service'i constructor'da inject eder:
 
 ```php
-class YoutubeVideosController extends Controller
+class KarnavalSezonuController extends Controller
 {
-    protected YoutubeService $youtubeService;
+    protected $karnavalSezonuService;
 
-    public function __construct(YoutubeService $youtubeService)
+    function __construct(KarnavalSezonuService $karnavalSezonuService)
     {
-        $this->youtubeService = $youtubeService;
+        $this->karnavalSezonuService = $karnavalSezonuService;
     }
-    // ...
 }
 ```
 
-### 4.5 Middleware
+### 3.6 Middleware
 
 | Middleware | Görev |
 |---|---|
 | `Authenticate` | Login kontrolü |
-| `LoginPageAuthControl` | Zaten giriş yapmışsa login sayfasına gitme |
-| `CheckPermission` | `permission:slug` alias'ı — yetki kontrolü |
-| `GeoMiddleware` | IP'den ülke tespiti (req'e ekler) |
+| `LoginPageAuthControl` | Zaten giriş yapmışsa login'e gitme |
+| `CheckPermission` (`permission:slug`) | Yetki kontrolü |
+| `GeoMiddleware` | IP → ülke + AI bot tespiti; AI bot'lara `X-Robots-Tag` ekler |
 | `LanguageMiddleware` | Aktif dili `App::setLocale()` ile ayarlar |
-| `LogPageProps` | Sayfa görüntülenme logu |
-| `SecurityHeaders` | HSTS, X-Frame-Options, X-Content-Type-Options, CSP, Referrer-Policy — web grubunda otomatik |
 
-**`bootstrap/app.php` middleware kayıt yeri:**
-```php
-$middleware->web(append: [
-    \App\Http\Middleware\GeoMiddleware::class,
-    \App\Http\Middleware\LanguageMiddleware::class,
-    \App\Http\Middleware\LogPageProps::class,
-    \App\Http\Middleware\SecurityHeaders::class,
-]);
+> **DİKKAT:** `SecurityHeaders` middleware'i (HSTS/CSP) bu projede **YOK**. GaziCoskun pattern'inden farklı. Eğer header sertleştirme gerekirse önce ekibe sor, sonra ekle.
 
-$middleware->alias([
-    'auth' => Authenticate::class,
-    'loginPageAuthControl' => LoginPageAuthControl::class,
-    'permission' => CheckPermission::class,
-    'geo' => GeoMiddleware::class,
-]);
-```
+### 3.7 Route Yapısı
 
-### 4.6 Route yapısı
+**Modüler.** `routes/web.php` → prefix `yonetim`, name `cms.` → `routes/cms/*.php` dosyaları include edilir. Ziyaretçi tarafı `routes/user/index.php` üzerinden `UIndexController`'a bağlı.
 
-**Modüler.** `routes/web.php` ana giriş; `routes/cms/*.php` ve `routes/user/*.php` dosyaları include edilir.
+Route adlandırma: `cms.{module}.{action}` (örn. `cms.karnaval-sezonu.index`, `cms.karnaval-sezonu.activate`).
 
-`routes/cms/` altındaki her modül kendi dosyasında (ör. `routes/cms/videos.php`, `routes/cms/seoAudit.php`).
-
-Route naming: `cms.{module}.{action}` (örn: `cms.videos.sync`, `cms.seo-audit.run`).
+Dil değişimi: `GET /lang/switch/{langId}` → `ULanguageController::switchLanguage`.
+Sitemap: `GET /sitemap.xml` → `UIndexController::sitemap`.
 
 ---
 
-## 5. Frontend Mimarisi
+## 4. Karnaval Sezonu Sistemi (Bu projenin kalbi)
 
-### 5.1 İki ayrı sayfa dili
+### 4.1 Tablo şeması: `karnaval_sezonus`
 
-| Taraf | View klasörü | CSS | JS |
-|---|---|---|---|
-| **Panel (CMS)** | `resources/views/cms/` | `resources/css/app.scss` | `resources/js/app.js` (jQuery + DataTables + Sidebar) |
-| **Ziyaretçi (User)** | `resources/views/user/` | `resources/css/style.scss` | `resources/js/style.js` |
+```sql
+id              PK
+hit             int         -- sıralama
+karnaval_tarihi_baslangic  DATE
+karnaval_tarihi_bitis      DATE
+sezon_baslangici           DATE   -- sezon "başlangıcı" (karnaval tarihinden önce başlayan hazırlık)
+karnaval_yili   STRING(100) -- '2026', '2027' vs. (string tutuluyor)
+published       BOOL        -- aktif sezon (tek satır olmalı)
+timestamps + softDeletes
+```
 
-### 5.2 `resources/js/style.js` (ziyaretçi JS) — TÜM SWİPER/FANCYBOX/FLATPİCKR İNİT'LERİ BURADA
+### 4.2 Aktif sezon prensibi
 
-Vite ile derlenir. Footer'da `@vite(['resources/js/style.js'])` ile yüklenir.
+`KarnavalSezonuService::activate($id)`:
+- Bir sezonu `published=1` yaparken **önce diğer tüm sezonları `published=0`** yapar.
+- Zaten aktifse toggle olarak pasife çeker.
+- Aynı anda birden fazla aktif sezon olamaz.
 
-Mevcut yapı:
-1. **Imports** (en üstte):
-   ```js
-   import flatpickr from 'flatpickr';
-   import { Turkish } from 'flatpickr/dist/l10n/tr.js';
-   import 'flatpickr/dist/flatpickr.min.css';
-   flatpickr.localize(Turkish);
-   ```
-2. **Vanilla JS mobile menu controller** (IIFE) — `mmenu` plugin'i kaldırıldı, vanilla replaced.
-3. **DOMContentLoaded içinde Swiper/Fancybox init'leri:**
-   - `Fancybox.bind('[data-fancybox]')` — global
-   - `.referanslarimiz-swiper` — autoplay, loop
-   - `.hizmetlerimiz-swiper` — desktop 3 / tablet 2 / mobil 1, loop koşullu (slide sayısı yeterli ise)
-   - `.anasayfa-slider-swiper` — hero (Owl'dan Swiper'a geçirildi)
-   - `#datepickerx` — Flatpickr (jQuery UI'dan geçirildi)
-
-**Yeni Swiper/Fancybox/modal init ekleyeceksen yeri burası.** `public/js/user/script.js`'e ekleme — orası eski jQuery kalıntı.
-
-### 5.3 `public/js/user/script.js` — ESKİ KALINTI ⚠
-
-`<script src="{{asset('js/user/script.js')}}">` ile yüklenir (Vite dışı). İçinde vanilla `window.addEventListener('scroll', ...)` sticky header var. Dokunma; yeni kod yazma — `resources/js/style.js`'i kullan.
-
-### 5.4 Vite config
-
-```js
-// vite.config.js
-input: [
-    'resources/css/app.scss',
-    'resources/js/app.js',
-    'resources/css/style.scss',
-    'resources/js/style.js'
-],
-server: {
-    host: '127.0.0.1',           // IPv4 zorlanır (CSP IPv6 [::1] syntax'ını desteklemiyor)
-    hmr: { host: '127.0.0.1' },
+```php
+if ($karnavalSezonu->published == 1) {
+    $karnavalSezonu->update(["published" => 0]);
+} else {
+    KarnavalSezonu::where('id', '!=', $id)->update(['published' => 0]);
+    $karnavalSezonu->update(["published" => 1]);
 }
 ```
 
-### 5.5 Asset yüklenme noktaları (user)
+### 4.3 İlişkiler
 
-| Asset | Nerede |
+- `KarnavalSezonu hasMany References` (`sezon_id` FK)
+- `KarnavalSezonu hasMany Pages` (`sezon_id` FK)
+
+### 4.4 Ziyaretçi tarafında kullanımı
+
+`AppServiceProvider::boot()` içinde `user.partial.footer` view composer'ı:
+
+```php
+$aktifSezon = KarnavalSezonu::where('published', 1)->first();
+if ($aktifSezon) {
+    $formatliTarih = $baslangic->day . ' - ' . $bitis->day . ' ' . $bitis->translatedFormat('F') . ' ' . $bitis->year;
+} else {
+    // Fallback: mevcut yıl + 1 "YIL'DA GÖRÜŞMEK ÜZERE!" mesajı
+}
+```
+
+`UIndexController::sponsorlarimiz` sponsors sayfası, aktif sezon değil de **yıllara göre gruplu** sponsorları gösterir:
+
+```php
+->join('karnaval_sezonus', 'references.sezon_id', '=', 'karnaval_sezonus.id')
+->orderBy('karnaval_sezonus.karnaval_yili', 'desc')
+```
+
+### 4.5 CMS panel ekranları
+
+`resources/views/cms/karnaval-sezonu/`
+- `index.blade.php` — Tüm sezonlar listesi, "Güncel Sezon" switch'i (tek aktif prensibi JS tarafında da görsellenir).
+- `create.blade.php` — Air Datepicker ile 3 tarih + yıl dropdown.
+- `edit.blade.php` — Düzenleme.
+- `deleted.blade.php` — SoftDelete trash.
+
+**Panel menü:** `cms/partial/header.blade.php` içinde `@permission('karnaval-sezonu')` bloğu ile görünür (tüm liste / oluştur / silinenler alt menüsü).
+
+### 4.6 Form validasyonu
+
+`app/Http/Requests/KarnavalSezonuRequest.php`:
+```php
+'karnaval_tarihi_baslangic' => ['required', 'date'],
+'karnaval_tarihi_bitis'     => ['required', 'date', 'after_or_equal:karnaval_tarihi_baslangic'],
+'sezon_baslangici'          => ['required', 'date'],
+'karnaval_yili'             => ['required', 'string', 'max:100'],
+'published'                 => ['nullable', 'boolean'],
+```
+
+### 4.7 Yeni Yıl Ekleme (2027 ve sonrası)
+
+Bu proje için **sadece panele giriş yapıp "Oluştur" menüsünden** yıl eklenebilir. Fakat yılın hızlıca eklenmesi için artisan komut mevcuttur:
+
+```bash
+php artisan karnaval:yeni-sezon            # Mevcut yılın bir sonrasını ekler
+php artisan karnaval:yeni-sezon 2027       # Belirli bir yıl ekler
+php artisan karnaval:yeni-sezon 2027 --aktif   # Eklerken aktif de yapar
+```
+
+Komut tarihleri önceki yıldan +1 yıl ileriye alır, henüz yoksa oluşturur, varsa uyarı verir. Detay: `app/Console/Commands/AddKarnavalSezonu.php`.
+
+---
+
+## 5. SEO + GEO (Generative Engine Optimization)
+
+`pages` ↔ `seos` (1-1). `Seo` modelinde SEO meta + GEO alanları (`geo_title`, `geo_description`).
+
+`GeoService::generateLlmsTxt()` → Google AI bot'ları için `public/llms.txt` üretir. `Page::withGeo()` scope'u `with('seo')` eager-load eder.
+
+`GeoMiddleware`, user-agent'ta `chatgpt-user`, `gptbot`, `claude-web`, `anthropic-ai` görürse yanıta özel header'lar ekler.
+
+---
+
+## 6. API Key Yönetimi
+
+`api_keys` tablosu — panel'den yönetilen tek satırlı ayar. **Her ayar ayrı kolon** (JSON değil).
+
+**Panel'den gelen key'ler (`ApiKeys::first()`):** `youtube_channel_id`, `google_place_id`, `google_places_api_key`, `pagespeed_api_key`, `clarity_project_id`, `google_analytics_id`, `recaptcha_site_key`, `recaptcha_secret_key`.
+
+**`.env`'den gelen key'ler (`config('services.xxx.key')`):** `YOUTUBE_API_KEY`, `GEMINI_API_KEY`, DB & MAIL credentials.
+
+⚠ `config/services.php` içinde tanımlanmamış bir servis için `config()` null döner. Yeni servis eklenince orayı güncelle.
+
+---
+
+## 7. Çoklu Dil Desteği
+
+Mevcut diller: **Türkçe (varsayılan)**, İngilizce, Fransızca.
+
+- `languages` tablosu — aktif dilleri tutar
+- `pages.translation_of` self-FK — ana dil sayfasından çeviri sayfasına
+- `Session::get('uLang')` ile aktif dil cache'lenir
+- `lang/{tr,en,fr}/ortakMetinler.php` — template'teki sabit metinlerin çevirileri
+
+`AppServiceProvider` içinde her view'a `$activeLanguages`, `$currentLang`, `$languages` composer'ı ile enjekte edilir.
+
+---
+
+## 8. Frontend (Ziyaretçi) — Tasarım Dili
+
+### 8.1 İki ayrı asset grubu
+
+| Taraf | View | SCSS | JS |
+|---|---|---|---|
+| **Panel (CMS)** | `resources/views/cms/` | `resources/css/app.scss` | `resources/js/app.js` |
+| **Ziyaretçi** | `resources/views/user/` | `resources/css/style.scss` | `resources/js/style.js` |
+
+Vite config: `laravel-vite-plugin` ile dört girdi (`app.scss`, `app.js`, `style.scss`, `style.js`).
+
+### 8.2 Renk paleti (Ziyaretçi — `style.scss`)
+
+```scss
+// Ana marka renkleri (karnaval kimliği)
+$yesil:     #103d47;   // koyu petrol/deniz yeşili — header font, kutu çerçeve
+$yesil2:    #002731;   // daha koyu — hover / dipler
+$turuncu:   #e28337;   // portakal — primary CTA, vurgu
+$turuncu2:  #f38128;   // alternatif portakal — hover
+
+// Alternatif sarı (eski sponsorluk sayfasında)
+#efa506                 // başlık + "sponsor dosyası" butonları (sponsorluk.blade.php içi)
+#ee7e23                 // ikincil turuncu (owl nav)
+
+// İletişim butonları (sponsorluk.blade.php)
+#03a29c  → .tel
+#156ed6  → .mail
+#1da960  → .wp (whatsapp)
+#ee7e23  → .pr
+
+// Nötr
+$beyaz:     #fbfbfb
+$siyah:     #000000
+$gri:       #767676
+$acikbeyaz: rgba(255,255,255,0.8)
+$antrasit:  rgb(67,67,67)
+
+// Header
+$header-bg:                 #ffffff
+$header-font-color:         #111111
+$header-font-hover:         $turuncu2 (#f38128)
+$header-font-shadow:        rgba(226, 131, 55, 0.2)
+```
+
+**Kullanım kuralları:**
+- Marka kimliği: **koyu petrol yeşili + portakal turuncusu** ikilisi. Bu projede altın/sarı (`#efa506`) **sadece sponsorluk sayfasında** meşru bir kullanım.
+- Portakal (karnaval sembolü) → her CTA, butonlar, hover'lar.
+- Petrol yeşili → başlıklar, çerçeveler, dipnotlar, footer BG.
+- **Kırmızı yasak** (kardeş GaziCoskun projesinin tersine burada kırmızı kullanılmaz).
+
+### 8.3 Tipografi
+
+```scss
+Manrope        → gövde metin, bilgilendirici yazılar ($metin)
+Inter          → başlık, header, iç başlık ($baslik / $headerbaslik / $icbaslik)
+Sour Gummy     → import edildi ama şu anda aktif değil (gelecek için)
+```
+
+Font tanımları `style.scss` başında Google Fonts'tan import.
+
+### 8.4 Layout değişkenleri
+
+```scss
+$max-width:              1440px       // içerik kabuğu
+$main-top-space:         55px
+$main-bottom-space:      65px
+$main-mobil-top-space:   35px
+$main-mobil-bottom-space:35px
+
+.max-width {
+    max-width: $max-width !important;
+    margin: 0 auto;
+    padding: 0 25px;
+    @media (max-width: 768px) { padding: 0 10px; }
+}
+
+.content-space { padding: $main-top-space 0 $main-bottom-space 0; }
+.main-space    { margin-top: $main-top-space; margin-bottom: $main-bottom-space; }
+```
+
+### 8.5 Kırılma noktaları (breakpoint'ler)
+
+```scss
+(max-width: 1440px)    // büyük masaüstü
+(max-width: 1024px)    // küçük masaüstü / tablet landscape
+(max-width: 768px)     // tablet portrait
+(max-width: 500px)     // mobil
+(max-width: 425px)     // küçük mobil
+```
+
+### 8.6 Buton stili (ortak)
+
+- CTA butonları: `background: $turuncu`; `color: #fff`; `transition: all 0.3s ease-in-out`
+- Hover'da BG değişir (çoğunlukla koyulaşır veya `$yesil` olur)
+- Köşe radius: kullanılmıyor (keskin köşeler — karnaval dinamizmi için)
+- Sponsor butonları (`sponsorluk.blade.php`): `background: #efa506` + hover `#1f2a3f`
+
+### 8.7 Transition
+
+Global olarak `* { transition: all 0.5s ease-in-out; }` tanımlı — tüm elementlerde yumuşak geçiş var. Bu bazen beklenmedik yavaşlıklar yaratabilir; kritik performans endişesinde `transition: none` ile override et.
+
+### 8.8 Blade şablonları (sayfa tipi seçici)
+
+`blades` tablosunda kayıtlı şablonlar `resources/views/user/blades/` altında. Her `Page` bir `blade_id` ile şablon seçer. Mevcut şablonlar:
+
+```
+normal                               (standart sayfa)
+normal-menusuz
+sponsorlarimiz / sponsorlarimiz-detay
+sponsorluk
+oduller
+galeri / fotograf-arsivi / video-arsivi
+gazete / gazete-detay
+blog / blog-detay
+duyurular / duyurular-detay
+iletisim / randevu-al / insan-kaynaklari / balkon-vitrin-yarisma / portakalli-lezzetler
+yetkili-ajanslar / basin-odasi
+adanada-* (turizm/gezi sayfaları)
+klinik / tibbi-ikinci-gorus
+surdurulebilirlik-raporlari / surdurulebilirlik-videolari
+gecmis-seneler / sertifikalar / podcast / orman-detay
+```
+
+Her sayfa Blade şablonu, `user.partial.master` layout'unu extend eder (head + content + footer).
+
+---
+
+## 9. CMS Panel — Tasarım
+
+Panel ayrı SCSS (`app.scss`) ve ayrı layout (`cms.partial.layout`). Kardeş projelerle aynı pattern:
+
+- Line Awesome ikonları (`la-pen`, `la-trash`, `la-recycle`...)
+- DataTables ile listeleme
+- Air Datepicker / Flatpickr ile tarih
+- CKEditor 4 ile zengin metin
+- Notyf ile toast bildirim
+- Switch (`<label class="switch"><input type="checkbox"><span class="switch-slider"></span></label>`) ile toggle
+- Buton sınıfları: `btn bg-primary` (düzenle), `btn bg-error` (sil), `btn bg-warning` (geri yükle)
+
+---
+
+## 10. Sayfa Oluşturma Akışı (Yeni bir sayfa / modül eklerken)
+
+> Sırası: **Model → Services → Controllers → View → Route** (bilgiler.txt notu)
+
+1. **Migration** → `database/migrations/YYYY_MM_DD_create_xxx_table.php`
+2. **Model** → `app/Models/Xxx.php` (fillable, relations, casts; `SoftDeletes` kullan)
+3. **Service** → `app/Services/XxxService.php` (array return konvansiyonu + LogService)
+4. **FormRequest** (gerekirse) → `app/Http/Requests/XxxRequest.php`
+5. **Controller** → `app/Http/Controllers/Cms/XxxController.php` (Service inject)
+6. **Route** → `routes/cms/xxx.php` + `routes/web.php`'ye include ekle
+7. **View** → `resources/views/cms/xxx/{index,create,edit,deleted}.blade.php`
+8. **Permission** → `permissions` tablosuna slug ekle (seeder veya manuel); menüyü `cms/partial/header.blade.php`'de `@permission('xxx')` ile sar
+9. **Panel menüsü** → `cms/partial/header.blade.php`'ye link ekle
+10. **(İsteğe bağlı)** `User` tarafı eklenecekse `routes/user/index.php` + `UIndexController` metodu + `user/blades/*.blade.php`
+
+---
+
+## 11. Konvansiyonlar
+
+### 11.1 Dil
+- **Kod:** İngilizce (sınıf/değişken/method)
+- **Mesaj / log / blade:** Türkçe
+- **Yorum:** Türkçe (çoğunluk) veya İngilizce
+
+### 11.2 LogService kullanımı
+```php
+LogService::add("Modül Action", "success", "Mesaj");
+LogService::add("Modül Action Error", "error", "Hata: " . $e->getMessage());
+```
+
+### 11.3 Route adlandırma
+`cms.{module}.{action}` — snake-case'li modül adı de olabilir (`karnaval-sezonu`).
+
+### 11.4 View klasör adı
+`snake_case_klasor` veya `kebab-case` (örn. `karnaval-sezonu`, `references`, `human_resource` karışık — mevcut yapıya uy).
+
+### 11.5 Permission slug'ı
+Modül adıyla aynı (örn. `karnaval-sezonu`). `@permission('karnaval-sezonu')` ile kullan.
+
+---
+
+## 12. Özel Artisan Komutları
+
+| Komut | Görev |
 |---|---|
-| Vite (style.scss + style.js) | `resources/views/user/partial/footer.blade.php` → `@vite(['resources/js/style.js'])` |
-| Swiper CDN | footer.blade.php (CDN ile) |
-| Fancybox v4 CDN | footer.blade.php (CDN ile) |
-| Line Awesome / Font Awesome | head.blade.php |
-| Owl Carousel | ❌ KALDIRILDI |
-| jQuery, jQuery UI | ❌ KALDIRILDI |
+| `php artisan logs:clear-all` | `cdr.log` ve `laravel.log` dosyalarını temizler (ClearAllLogs) |
+| `php artisan karnaval:yeni-sezon [yil] [--aktif]` | Yeni karnaval sezonu ekler (bu projeye özel) |
+| `php artisan` komutu — GenerateLlmsTxt | `llms.txt` üretir |
+| `php artisan` komutu — MigrateLegacyData | Eski verilerin taşınması (bir kerelik) |
 
 ---
 
-## 6. Önemli Pattern'ler
+## 13. Sık Karşılaşılan Tuzaklar
 
-### 6.1 SEO + GEO
+1. **Marka renkleri:** Petrol yeşili (`#103d47`, `#002731`) + portakal (`#e28337`, `#f38128`). Kırmızı YASAK, altın/sarı sadece sponsorluk sayfasında.
 
-`pages` tablosu site içeriğin omurgası. SEO meta + GEO (Generative Engine Optimization, yapay zekâ optimizasyonu) için ayrı `seos` tablosu:
+2. **jQuery ve Owl burada hâlâ aktif:** `resources/js/style.js` içinde `$('#mobilmenu').mmenu(...)` ve `.owl-carousel-slider` var. Kardeş projelerdeki Swiper geçişi burada yapılmadı — mevcut stili bozacak refactor önerilmeden yapılmaz.
 
-```sql
-seos (
-  id, page_id (FK), title, description,
-  geo_title, geo_description,        -- GEO/AEO için
-  canonical (FK, default = page_id), -- self-canonical
-  timestamps
-)
-```
+3. **`config()` vs `env()`:** Kod içinde **asla** `env()` çağırma — sadece `config/*.php`. Prod'da `config:cache` sonrası `env()` null döner.
 
-Form'larda standart SEO bloku (create/edit blade'lerinde):
-- `seo_title`, `geo_title` (input)
-- `seo_description`, `geo_description` (textarea)
-- Canonical genelde gerek yok (Service `saveSeo()` otomatik self-canonical atar — boş gelirse `$pageId` kullanır)
-
-**Page modelinde `withGeo` scope'u:** `Page::withGeo()` → `with('seo')` eager-load için kullanılır.
-
-### 6.2 API Key Yönetimi
-
-**Yapı:** `api_keys` tablosu — panel'den yönetilen tek satırlı ayar tablosu (key='main' tek kayıt). **JSON yerine her ayar ayrı kolon** (NupelInsaat pattern'ine geçildi, GaziCoskun'da hâlâ JSON `settings` olabilir):
-
-```php
-// Yeni pattern (önerilen)
-$table->string('youtube_channel_id')->nullable();
-$table->string('google_place_id')->nullable();
-$table->string('google_places_api_key')->nullable();
-$table->string('pagespeed_api_key')->nullable();
-$table->string('google_analytics_id')->nullable();
-$table->string('clarity_project_id')->nullable();
-$table->string('recaptcha_site_key')->nullable();
-$table->string('recaptcha_secret_key')->nullable();
-```
-
-**Hangi key panel'de, hangisi .env'de:**
-- **Panel'de (DB):** `youtube_channel_id`, `google_place_id`, `google_places_api_key`, `pagespeed_api_key`, `clarity_project_id`, `google_analytics_id`, `recaptcha_*`
-- **`.env`'de:** `YOUTUBE_API_KEY`, `GEMINI_API_KEY` (henüz panel'e taşınmadı), DB credentials, MAIL_*
-
-**Service'ten erişim:**
-```php
-$apiKey = ApiKeys::first()?->pagespeed_api_key;       // DB'den
-$ytKey  = config('services.youtube.key');             // .env'den (config/services.php aracılığıyla)
-```
-
-⚠ `config('services.xxx.key')` çağırıyorsan `config/services.php`'de **mutlaka** o servisi tanımla:
-```php
-'youtube' => ['key' => env('YOUTUBE_API_KEY')],
-```
-Aksi takdirde sessizce null döner ve "log'da hata yok ama API çalışmıyor" durumu yaşanır.
-
-### 6.3 Sayfa Şablonu (Blade) Sistemi
-
-`blades` tablosu — admin'in seçebileceği şablon listesi. Her Page bir `blade_id` ile bir şablona bağlı. Şablon dosyaları `resources/views/user/blades/` altında. Page render edilirken kendi blade'i extends edilir.
-
-### 6.4 Çoklu Dil Çevirileri
-
-`pages.translation_of` self-foreign key. Ana dil sayfası (örn. Türkçe) `translation_of = NULL`. Çevirileri `translation_of = ana_page_id`.
-
-Çeviri sayfası oluşturma: `SideMenuElementController::createLanguage()` + `SideMenuElementService::createLanguage()` → mevcut bir sayfanın çevirisini oluşturur (kategori/üst sayfa/blade kaynaktan kopyalanır, içerik boş başlar).
-
-### 6.5 GEO (LLMS.txt) Üretimi
-
-`GeoService` Google'ın AI tarama protokolü için `llms.txt` üretir. `Page::withGeo()` scope'unu kullanır (SEO ile birlikte eager load).
-
-### 6.6 Site Sağlığı
-
-`SiteHealthService::runAll()` 7 kontrol yapar:
-- SSL (parse_url config('app.url')'den scheme okur — APP_URL https:// olmalı)
-- Security Headers (kendi sitesine self-request — SecurityHeaders middleware'i ile gelen header'ları çeker)
-- Uptime (cron'la beslenen `site_health_pings` tablosu)
-- robots.txt, sitemap.xml (HEAD request)
-- 404 logları (`site_404_logs`)
-- Mail config (`config('mail.default') != 'log'` mı)
-
-Sonuç `site_health_snapshots` tablosuna kaydedilir, panel'de gösterilir.
-
-### 6.7 Form yapısı — standart pattern
-
-CMS create/edit blade'lerinde tipik yapı:
-
-```blade
-<form action="{{ route('cms.module.store') }}" method="post" enctype="multipart/form-data">
-    @csrf
-
-    @if($errors->any())
-        <div class="alert alert-danger">...</div>
-    @endif
-
-    <div class="grid-form">
-        <div class="form-group">
-            <label for="title"><i class="las la-heading"></i> Başlık</label>
-            <input type="text" name="title" value="{{ old('title') }}">
-        </div>
-        {{-- ... --}}
-
-        {{-- SEO/GEO bloğu (eğer Page bağlıysa) --}}
-    </div>
-
-    <div class="form-actions">
-        <a href="..." class="btn-cancel">İPTAL</a>
-        <button type="submit" class="btn-save">KAYDET</button>
-    </div>
-</form>
-```
-
----
-
-## 7. Güvenlik
-
-### 7.1 SecurityHeaders middleware (`app/Http/Middleware/SecurityHeaders.php`)
-
-- HSTS (sadece `$request->isSecure()` ise)
-- X-Frame-Options: SAMEORIGIN
-- X-Content-Type-Options: nosniff
-- Referrer-Policy: strict-origin-when-cross-origin
-- Content-Security-Policy: proje CDN'leri + Vite dev loopback (`http://localhost:*`, `http://127.0.0.1:*`) whitelist
-
-**CSP genişletme:** Yeni bir CDN/inline pattern eklenince `SecurityHeaders.php`'deki ilgili directive'e ekle (script-src, style-src, connect-src, frame-src).
-
-### 7.2 Permission sistemi
-
-`role_users` → kullanıcı-rol; `role_permissions` → rol-yetki. Route'larda middleware:
-```php
-Route::middleware(['auth', 'permission:videos.manage'])->group(function () { ... });
-```
-
----
-
-## 8. Konvansiyonlar
-
-### 8.1 Dil
-
-- **Kod:** İngilizce (sınıf/değişken/method adları)
-- **Mesajlar:** Türkçe (LogService::add, flash mesajlar, exception text, blade)
-- **Yorum:** Türkçe veya İngilizce — proje genelinde karışık ama Türkçe çoğunlukta
-
-### 8.2 Service dönüş
-
-```php
-return ["status" => "success", "message" => "..."];
-return ["status" => "error",   "message" => "..."];
-```
-
-### 8.3 LogService kullanımı
-
-```php
-LogService::add("Module Action", "success", "Mesaj");
-LogService::add("Module Action Error", "error", "Hata: " . $exception->getMessage());
-```
-
-### 8.4 Route adlandırma
-
-`cms.{module}.{action}` — örn:
-- `cms.videos.index`, `cms.videos.sync`, `cms.videos.toggle-status`
-- `cms.seo-audit.run`, `cms.seo-audit.resolve`
-
-### 8.5 Migration adlandırma
-
-`YYYY_MM_DD_HHMMSS_action_table.php` — Laravel default.
-
-### 8.6 View klasörü adı
-
-`snake_case_klasör` (örn. `seo_audit`, `google_reviews`, `site_health`).
-
----
-
-## 9. Sık Karşılaşılan Tuzaklar
-
-1. **Brand renkler:** Bu projede kırmızı (`#cb0b00`, `#da291c`) + mavi (`#5177aa`, `#007bc4`, `#04577e`) kullanılır. **Altın/sarı (`#aa8128` vs.) YASAK** — eski şablon kalıntısı. Yeni component'lerde kullanma.
-
-2. **Owl Carousel & jQuery:** Projeden kaldırıldı. Yeni slider için Swiper kullan (`resources/js/style.js`'e init ekle). jQuery sözdiziminden kaçın.
-
-3. **`config()` vs `env()`:** Kod içinde **asla** `env()` çağırma — sadece `config/*.php` dosyalarında. Prod'da `config:cache` ile `env()` çağrıları null döner.
-
-4. **`config/services.php`** her dış servis API key'i için tanım gerek:
+4. **`config/services.php` tanımı:** Her dış servis API key'i için servis tanımla:
    ```php
-   'youtube' => ['key' => env('YOUTUBE_API_KEY')],
+   'youtube'   => ['key' => env('YOUTUBE_API_KEY')],
    'pagespeed' => ['api_key' => env('PAGESPEED_API_KEY')],
    ```
 
-5. **APP_URL canlıda https:// olmalı.** Aksi takdirde `request()->isSecure()` false döner, SiteHealth "HTTPS aktif değil" der.
+5. **Karnaval sezonu `published` tekliği:** Birden fazla sezonu aktif yapma. `KarnavalSezonuService::activate()` zaten tek aktif prensibini uygular; manuel DB düzenlerken dikkat.
 
-6. **APP_ENV ve APP_DEBUG canlıda:** `production` ve `false`. Hiçbir koşulda canlıda `APP_DEBUG=true` bırakma — `.env` değerleri ekrana sızar.
+6. **`karnaval_yili` tipi string:** `karnaval_yili` sütunu `varchar(100)`. Integer karşılaştırmasında `(int) $item->karnaval_yili` kullan.
 
-7. **public/build/ deploy gereksinimi:** `npm run build` çıktısı `public/build/` klasörüdür. Canlıda yoksa Vite manifest hatası alırsın. `.gitignore`'a dikkat — bu klasör commit edilmiyorsa ayrıca deploy et.
+7. **Air Datepicker tarih formatı:** Görsel alan `dd MMMM yyyy` (örn. `05 Mart 2026`), backend'e giden gizli input `yyyy-MM-dd`. `altField` ve `altFieldDateFormat` doğru ayarlı olmalı — tersi olursa DATE kolonuna yanlış değer gider.
 
-8. **CSP IPv6:** Vite dev server `localhost`'u `[::1]`'e resolve edebilir; CSP `[::1]` syntax'ını desteklemez. `vite.config.js`'te `server.host: '127.0.0.1'` zorla.
+8. **`APP_URL`:** Canlıda `https://` ile başlamalı. Localhost'ta `http://localhost` veya `http://127.0.0.1:8000`.
 
-9. **Migration `Schema::table` vs `Schema::create`:** Dosya adı `create_X_table` ise `Schema::create` kullan; `add_Y_to_X_table` ise `Schema::table`. Karıştırınca "table doesn't exist" hatası alırsın.
+9. **`APP_ENV` / `APP_DEBUG`:** Canlıda **kesinlikle** `production` / `false`. Aksi halde .env sızar.
 
-10. **Page silme cascade:** `Page` silinince ilişkili `Seo`, `Gallery`, `FAQ`, `PageSchemas` kayıtları cascade ile silinmeli. Foreign key constraint kurulu mu kontrol et.
+10. **`public/build/` deploy:** `npm run build` sonrası oluşan `public/build/` canlıda var olmalı. Vite manifest hatası = `npm run build` eksik.
+
+11. **`storage:link`:** Resim upload'ları `storage/app/public` altına düşer; `public/storage` sembolik link olmadan görüntülenmez. İlk deploy sonrası `php artisan storage:link` çalıştır.
+
+12. **Edit formunda `$page` referansı:** `cms/karnaval-sezonu/edit.blade.php` 22. satırda `{{$page->hit}}` kullanılmış ama controller `$karnavalSezonlari` veriyor. Fırsat bulunca `{{$karnavalSezonlari->hit}}` olarak düzelt (var olan hata).
+
+13. **Türkçe karakter + `translatedFormat`:** Carbon locale footer composer'ında `tr`/`en`/`fr` olarak ayarlanıyor. Yeni dil eklerken `AppServiceProvider::boot()` içindeki `match` bloğunu güncelle.
+
+14. **CKEditor 4 eski:** `public/plugins/ckeditor/` altında yerel kurulu (CKEditor 5 değil). Yeni sayfa editörü eklenince aynı CDN pattern'ini kullan.
 
 ---
 
-## 10. Kritik Dosyalar (Hızlı referans)
+## 14. Kritik Dosyalar (Hızlı referans)
 
 | Dosya | İçerik |
 |---|---|
 | `bootstrap/app.php` | Middleware + routing config (Laravel 12) |
-| `config/services.php` | Dış servis API key tanımları |
-| `vite.config.js` | Vite girdi dosyaları + dev server config |
-| `resources/css/style.scss` | Ziyaretçi CSS (en büyük dosya, modüller dahil) |
-| `resources/css/app.scss` | Panel CSS |
-| `resources/js/style.js` | Ziyaretçi JS — Swiper/Fancybox/Flatpickr init'leri |
-| `resources/views/user/partial/master.blade.php` | Ziyaretçi layout (head + content + footer) |
-| `resources/views/user/partial/header.blade.php` | Ziyaretçi header (logo, menü, sosyal medya) |
-| `resources/views/user/partial/mobile-menu.blade.php` | Mobile menu (vanilla JS controller) |
+| `routes/web.php` | Ana route girişi — cms ve user route'ları include eder |
+| `app/Providers/AppServiceProvider.php` | Tüm view composer'lar (dil, menü, footer, API key'ler) |
+| `app/Models/KarnavalSezonu.php` | Karnaval yıl modeli (bu projenin kalbi) |
+| `app/Services/KarnavalSezonuService.php` | Karnaval sezon CRUD + activate toggle |
+| `app/Http/Requests/KarnavalSezonuRequest.php` | Karnaval sezon validasyon |
+| `app/Console/Commands/AddKarnavalSezonu.php` | **Yeni:** Hızlı yıl ekleme komutu |
+| `resources/css/style.scss` | Ziyaretçi ana SCSS (tüm marka renkleri + tipografi burada) |
+| `resources/css/app.scss` | Panel SCSS |
+| `resources/js/style.js` | Ziyaretçi JS (owl + mmenu) |
+| `resources/views/user/partial/master.blade.php` | Ziyaretçi layout |
 | `resources/views/cms/partial/layout.blade.php` | Panel layout |
-| `app/Models/Page.php` | Ana içerik modeli — tüm sayfa türleri buradan türetilir |
-| `app/Services/PageService.php` | Page CRUD + form işleme |
-| `app/Services/SeoService.php` | SEO meta CRUD |
-| `app/Http/Middleware/SecurityHeaders.php` | HSTS/CSP/X-Frame vs. header'lar |
+| `resources/views/cms/partial/header.blade.php` | Panel menüsü (üst nav) |
+| `database/migrations/2025_05_10_164414_create_karnaval_sezonus_table.php` | Karnaval sezon tablo şeması |
 
 ---
 
-## 11. Yeni Bir CMS Modülü Eklerken
+## 15. AI Asistanı için Notlar
 
-1. **Migration** — `database/migrations/YYYY_MM_DD_create_xxx_table.php`
-2. **Model** — `app/Models/Xxx.php` (relations + fillable + casts)
-3. **Service** — `app/Services/XxxService.php` (CRUD + iş mantığı, array return)
-4. **Controller** — `app/Http/Controllers/Cms/XxxController.php` (Service inject, ince katman)
-5. **Route** — `routes/cms/xxx.php` + `routes/web.php`'ye include ekle
-6. **View** — `resources/views/cms/xxx/{index,create,edit}.blade.php`
-7. **Permission** — `permissions` tablosuna yeni izin satırları (cms.xxx.view, .create, .edit, .delete)
-8. **Panel menüsü** — `cms/partial/sidebar.blade.php` veya `PanelMenuSetting` tablosuna ekle
-
----
-
-## 12. AI Asistanı için Notlar
-
-- **Memory dosyalarına saygı göster:** Bu projenin `.claude/` veya `memory/` klasöründe rol/feedback dosyaları olabilir.
-- **Yıkıcı işlemler öncesi onay iste:** migrate, deploy, dosya silme, DB write.
-- **Brand renkleri ve altın yasağına dikkat et.** Yeni component'lerde kırmızı+mavi kullan.
+- **Yıkıcı işlem öncesi onay iste:** migrate, deploy, dosya silme, DB write.
+- **Marka renklerine saygı:** Petrol yeşili + portakal. Kırmızı yok, altın sadece sponsorluk sayfasında.
 - **`config()` ile API key oku, `env()` ile değil.**
-- **Vite dev server restart gerektiren durumlar:** `vite.config.js` değişikliği, yeni `import` eklenmesi (yeni npm paketi).
-- **Hangi script.js?** Yeni JS init için **`resources/js/style.js`**. `public/js/user/script.js`'e dokunma.
-- **CSP override:** Yeni CDN eklenince `SecurityHeaders.php`'deki ilgili directive'e ekle, yoksa "violates CSP" hatası alınır.
+- **jQuery / Owl / mmenu burada hâlâ aktif** — "modernize edeyim" diye kardeş projelerin Swiper geçişini uygulama.
+- **Karnaval sezonu `published` tekliği** — sadece tek sezon aktif olabilir, bu kural manuel DB edit'lerde de korunmalı.
+- **Memory dosyalarına saygı göster:** Proje `memory/` klasöründe rol/feedback dosyaları olabilir.
+- **Yeni yıl eklenecekse:** `php artisan karnaval:yeni-sezon` komutunu kullan, elle SQL dokundurma.

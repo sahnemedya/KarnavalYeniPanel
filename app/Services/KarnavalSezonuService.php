@@ -185,4 +185,96 @@ class KarnavalSezonuService
             return ["status" => $status, "message" => $message];
         }
     }
+
+    /**
+     * Sonraki yılın karnaval sezonunu hızlıca oluşturur.
+     *
+     * Son kayıtlı sezondan +1 yıla ait tarihleri türetir (karnaval kalıbı
+     * değişmez varsayımıyla). Panelde "Hızlı Sonraki Yıl Ekle" butonu
+     * ya da artisan komutu (karnaval:yeni-sezon) tarafından çağrılır.
+     *
+     * @param  int|null  $hedefYil   Belirli bir yıl ekleneceği zaman geçilir, yoksa son+1
+     * @param  bool      $aktifYap   true ise diğer sezonlar pasife çekilip bu aktif edilir
+     * @return array     ['status' => ..., 'message' => ..., 'data' => KarnavalSezonu?]
+     */
+    public function sonrakiYiliEkle(?int $hedefYil = null, bool $aktifYap = false): array
+    {
+        $status = "success";
+
+        try {
+            $sonSezon = KarnavalSezonu::orderBy('karnaval_yili', 'desc')->first();
+
+            if (!$hedefYil) {
+                $hedefYil = $sonSezon
+                    ? ((int) $sonSezon->karnaval_yili) + 1
+                    : (\Carbon\Carbon::now()->year + 1);
+            }
+
+            if ($hedefYil < 2000 || $hedefYil > 2100) {
+                return ["status" => "error", "message" => "Geçersiz yıl: {$hedefYil}"];
+            }
+
+            // Mevcut mu? (soft-delete dahil)
+            $mevcut = KarnavalSezonu::withTrashed()
+                ->where('karnaval_yili', (string) $hedefYil)
+                ->first();
+
+            if ($mevcut) {
+                return [
+                    "status"  => "warning",
+                    "message" => "'{$hedefYil}' yılı zaten kayıtlı" . ($mevcut->trashed() ? ' (silinmiş).' : '.'),
+                ];
+            }
+
+            // Son sezondan +1 yıl ileriye alarak tarihleri türet
+            if ($sonSezon) {
+                $baslangic = \Carbon\Carbon::parse($sonSezon->karnaval_tarihi_baslangic)->addYear()->format('Y-m-d');
+                $bitis     = \Carbon\Carbon::parse($sonSezon->karnaval_tarihi_bitis)->addYear()->format('Y-m-d');
+                $sezonBas  = \Carbon\Carbon::parse($sonSezon->sezon_baslangici)->addYear()->format('Y-m-d');
+                $hit       = (int) ($sonSezon->hit ?? 0) + 2;
+            } else {
+                $baslangic = \Carbon\Carbon::create($hedefYil, 4, 1)->format('Y-m-d');
+                $bitis     = \Carbon\Carbon::create($hedefYil, 4, 7)->format('Y-m-d');
+                $sezonBas  = \Carbon\Carbon::create($hedefYil - 1, 10, 1)->format('Y-m-d');
+                $hit       = 2;
+            }
+
+            $yeni = KarnavalSezonu::create([
+                'hit'                       => $hit,
+                'karnaval_yili'             => (string) $hedefYil,
+                'sezon_baslangici'          => $sezonBas,
+                'karnaval_tarihi_baslangic' => $baslangic,
+                'karnaval_tarihi_bitis'     => $bitis,
+                'published'                 => false,
+            ]);
+
+            if ($aktifYap) {
+                KarnavalSezonu::where('id', '!=', $yeni->id)->update(['published' => 0]);
+                $yeni->update(['published' => true]);
+            }
+
+            LogService::add(
+                "Karnaval Sezonu Sonraki Yıl Ekle",
+                $status,
+                "{$hedefYil} sezonu eklendi (id: {$yeni->id})" . ($aktifYap ? ' + aktif' : '')
+            );
+
+            return [
+                "status"  => $status,
+                "message" => "'{$hedefYil}' karnaval sezonu oluşturuldu. Tarihleri gözden geçirmeyi unutma.",
+                "data"    => $yeni,
+            ];
+
+        } catch (\Throwable $exception) {
+            LogService::add(
+                "Karnaval Sezonu Sonraki Yıl Ekle Error",
+                "error",
+                $exception->getMessage()
+            );
+            return [
+                "status"  => "error",
+                "message" => "Sonraki yıl eklenemedi: " . $exception->getMessage(),
+            ];
+        }
+    }
 }

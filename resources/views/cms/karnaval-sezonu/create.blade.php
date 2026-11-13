@@ -18,8 +18,9 @@
 
                     <label for="karnaval_yili" class="form-label font-weight-bold">Karnaval Sezonu:</label>
                     <select name="karnaval_yili" id="karnaval_yili" class="form-control">
-                        @for ($yil = now()->year; $yil >= 2000; $yil--)
-                            <option value="{{ $yil }}" {{ old('karnaval_yili', now()->year) == $yil ? 'selected' : '' }}>
+                        {{-- Varsayılan seçim: mevcut yıl + 1 (yeni sezon ekleniyor çünkü) --}}
+                        @for ($yil = now()->year + 1; $yil >= 2000; $yil--)
+                            <option value="{{ $yil }}" {{ old('karnaval_yili', now()->year + 1) == $yil ? 'selected' : '' }}>
                                 {{ $yil }}
                             </option>
                         @endfor

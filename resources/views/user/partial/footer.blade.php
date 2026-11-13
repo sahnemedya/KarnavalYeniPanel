@@ -24,8 +24,9 @@
         </div>
         <div class="item item2">
             <h2 class="slogan">@lang('ortakMetinler.footer.slogan')</h2>
-{{--            <div class="karnaval-tarihi">{{$formatliTarih}}</div>--}}
-            {{--            <div class="karnaval-tarihi">2026’DA GÖRÜŞMEK ÜZERE!</div>--}}
+            @if(!empty($formatliTarih))
+                <div class="karnaval-tarihi">{{ $formatliTarih }}</div>
+            @endif
             <div class="yer">@lang('ortakMetinler.footer.yer')</div>
         </div>
         <div class="item item3">

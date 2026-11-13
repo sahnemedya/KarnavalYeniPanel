@@ -1,15 +1,24 @@
 @extends("cms.partial.layout")
 @section("content")
     <div class="card">
-        <div class="card-header">
-            Karnaval Sezonu
-            {{-- Eğer TR dışında bir dil seçiliyse başlıkta belirt --}}
-            @if(request('lang_id') && request('lang_id') != 1)
-                @php
-                    $currentLang = $languages->where('id', request('lang_id'))->first();
-                @endphp
-                (Dil: {{ strtoupper($currentLang->code ?? '') }})
-            @endif
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>
+                Karnaval Sezonu
+                {{-- Eğer TR dışında bir dil seçiliyse başlıkta belirt --}}
+                @if(request('lang_id') && request('lang_id') != 1)
+                    @php
+                        $currentLang = $languages->where('id', request('lang_id'))->first();
+                    @endphp
+                    (Dil: {{ strtoupper($currentLang->code ?? '') }})
+                @endif
+            </span>
+            <button type="button"
+                    id="sonrakiYiliEkleBtn"
+                    class="btn bg-primary"
+                    title="Son kayıtlı sezondan bir sonraki yılı, tarihlerini otomatik hesaplayarak ekler."
+                    onclick="sonrakiYiliEkle()">
+                <i class="las la-plus-circle"></i> Sonraki Yılı Hızlı Ekle
+            </button>
         </div>
         <div class="card-body">
             <table id="datatable" data-page-length="-1" class="display stripe table-responsive-sm table-responsive-md" style="width:100%">
@@ -132,6 +141,43 @@
                     notyf.error("Bir hata oluştu, lütfen sayfayı yenileyin.");
                     // Hata durumunda butonu görsel olarak eski haline al
                     element.checked = !targetState;
+                });
+        }
+
+        function sonrakiYiliEkle() {
+            const btn = document.getElementById('sonrakiYiliEkleBtn');
+            if (!btn || btn.disabled) return;
+
+            if (!confirm('Son kayıtlı sezondan bir sonraki yılı, tarihlerini otomatik hesaplayarak eklemek istiyor musun?')) {
+                return;
+            }
+
+            btn.disabled = true;
+            const orjinalMetin = btn.innerHTML;
+            btn.innerHTML = '<i class="las la-spinner la-spin"></i> Ekleniyor...';
+
+            axios.post('{{ route("cms.karnaval-sezonu.sonraki-yili-ekle") }}', {}, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                }
+            })
+                .then(response => {
+                    btn.disabled = false;
+                    btn.innerHTML = orjinalMetin;
+
+                    if (response.data.status === 'success') {
+                        notyf.success(response.data.message);
+                        setTimeout(() => window.location.reload(), 1200);
+                    } else if (response.data.status === 'warning') {
+                        notyf.open({ type: 'warning', message: response.data.message });
+                    } else {
+                        notyf.error(response.data.message);
+                    }
+                })
+                .catch(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = orjinalMetin;
+                    notyf.error('Sonraki yıl eklenirken bir hata oluştu.');
                 });
         }
 

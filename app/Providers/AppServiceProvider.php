@@ -358,8 +358,9 @@ class AppServiceProvider extends ServiceProvider
                 $baslangic = Carbon::parse($aktifSezon->karnaval_tarihi_baslangic);
                 $bitis = Carbon::parse($aktifSezon->karnaval_tarihi_bitis);
 
-                // translatedFormat('F') artık Session'daki dile göre çalışacak
-                $formatliTarih = $baslangic->day . ' - ' . $bitis->day . ' ' . $bitis->translatedFormat('F') . ' ' . $bitis->year;
+                // Format: "7 - 11 Nisan" (yıl GÖSTERİLMEZ — sadece gün + ay).
+                // translatedFormat('F') Session'daki dile göre ay adını çevirir.
+                $formatliTarih = $baslangic->day . ' - ' . $bitis->day . ' ' . $bitis->translatedFormat('F');
             } else {
                 // 2. Aktif sezon yoksa: Mevcut yıla +1 ekliyoruz
                 $nextYear = Carbon::now()->addYear()->year;

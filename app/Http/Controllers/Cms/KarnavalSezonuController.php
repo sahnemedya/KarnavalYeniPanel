@@ -103,4 +103,22 @@ class KarnavalSezonuController extends Controller
             'message' => $result['message']
         ]);
     }
+
+    /**
+     * "Sonraki Yılı Hızlı Ekle" butonu için endpoint.
+     * Son kayıtlı sezondan +1 yılı, tarihleriyle birlikte oluşturur.
+     */
+    public function sonrakiYiliEkle(Request $request): JsonResponse
+    {
+        $yil     = $request->integer('yil') ?: null;
+        $aktifYap = (bool) $request->boolean('aktif');
+
+        $result = $this->karnavalSezonuService->sonrakiYiliEkle($yil, $aktifYap);
+
+        return response()->json([
+            'status'  => $result['status'],
+            'message' => $result['message'],
+            'data'    => $result['data'] ?? null,
+        ]);
+    }
 }
